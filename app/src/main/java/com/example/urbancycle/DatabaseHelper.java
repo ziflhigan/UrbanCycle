@@ -123,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // UserRoutes table
         String CREATE_TABLE_USERROUTES = "CREATE TABLE " + TABLE_USER_ROUTES + "("
-                + COLUMN_USER_ROUTE_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_USER_ROUTE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USER_ID + " INTEGER,"
                 + COLUMN_ROUTE_ID + " INTEGER,"
                 + "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + TABLE_USERS + "(" + COLUMN_USER_ID + "),"
@@ -471,5 +471,3 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 }
-
-
