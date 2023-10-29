@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:backgroundTint="#B949DC4E"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="50dp">
 
