@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
+import android.content.pm.LauncherApps;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -64,6 +65,12 @@ public class DatabaseTest {
         Assert.assertEquals(email, cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_EMAIL)));
 
         cursor.close();
+    }
+    @Test
+    public void test() {
+        long rewardID = dbHelper.addRewards("Shoes","cheap",3,4);
+        System.out.println(dbHelper.getRewardById(rewardID));
+
     }
 
     // Similarly, add more test methods for other CRUD operations and tables...

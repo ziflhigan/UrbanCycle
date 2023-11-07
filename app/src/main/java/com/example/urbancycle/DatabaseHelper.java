@@ -275,7 +275,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Retrieve a reward by its ID
-    public Cursor getRewardById(int rewardId) {
+    public Cursor getRewardById(long rewardId) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.query(TABLE_REWARDS, null, COLUMN_REWARD_ID + "=?",
                 new String[] { String.valueOf(rewardId) }, null, null, null);
