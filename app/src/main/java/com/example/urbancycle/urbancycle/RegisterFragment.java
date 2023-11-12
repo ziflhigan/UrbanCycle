@@ -25,11 +25,21 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
     private EditText userNameEditText, firstNameEditText, lastNameEditText, emailEditText, passwordEditText;
     private Connection databaseConnection;
-
+    private Button backButton;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        backButton = view.findViewById(R.id.BtnBackRegister);
+        backButton.setOnClickListener(v->{
+
+            if (getFragmentManager() != null) {
+                getFragmentManager().popBackStack();
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -92,6 +102,7 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, new LoginFragment())
+                .addToBackStack(null)
                 .commit();
     }
 
