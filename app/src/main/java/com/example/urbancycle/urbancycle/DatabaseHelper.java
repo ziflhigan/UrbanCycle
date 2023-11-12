@@ -1,4 +1,8 @@
-package com.example.urbancycle;
+package com.example.urbancycle.urbancycle;
+
+/**
+ * Ignore This SQLite class, no longer use
+ */
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -134,6 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Handle database upgrade if required
+
     }
 
     /**
@@ -153,7 +158,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_CARBON_SAVINGS, 0);
         values.put(COLUMN_POINTS, 0);
 
-        long id = db.insert(TABLE_USERS, null, values);
+        long id = db.
+                insert(TABLE_USERS, null, values);
         db.close();
         return id;
     }

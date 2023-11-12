@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
-import android.content.pm.LauncherApps;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -13,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import androidx.test.platform.app.InstrumentationRegistry;
+
+import com.example.urbancycle.urbancycle.DatabaseHelper;
 
 public class DatabaseTest {
 

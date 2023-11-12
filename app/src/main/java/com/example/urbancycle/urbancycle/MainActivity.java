@@ -1,4 +1,4 @@
-package com.example.urbancycle;
+package com.example.urbancycle.urbancycle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
+import com.example.urbancycle.R;
 import com.example.urbancycle.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
