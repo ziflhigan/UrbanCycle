@@ -23,6 +23,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_PASSWORD = "Password";
     public static final String COLUMN_CARBON_SAVINGS = "CarbonSavings";
     public static final String COLUMN_POINTS = "Points";
+    //for Savings history
+    public static final String TABLE_SAVINGS_HISTORY="SavingHistory";
+    public static final String COLUMN_SAVING_ID= "SavingID";
+    private static final String COLUMN_USER_ID_FK = "User_id_fk";
+    private static final String COLUMN_TIME = "Time";
+    private static final String COLUMN_DAILY_SAVING= "DailySaving";
+    private static final String COLUMN_TOTAL_SAVING = "Total_saving";
+
 
     // for Routes table
     public static final String TABLE_ROUTES = "Routes";
@@ -75,7 +83,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_PASSWORD + " TEXT,"
                 + COLUMN_CARBON_SAVINGS + " REAL,"
                 + COLUMN_POINTS + " INTEGER" + ")";
+
         db.execSQL(CREATE_TABLE_USERS);
+        //for Saving history
+        String CREATE_TABLE_SAVINGS_HISTORY = "CREATE TABLE " + TABLE_SAVINGS_HISTORY + " ("
+                + COLUMN_SAVING_ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"+
+        COLUMN_USER_ID_FK + " INTEGER," +
+                COLUMN_DATE + " TEXT," +
+                COLUMN_TIME + " TEXT," +
+                COLUMN_DAILY_SAVING + " REAL," +
+                COLUMN_TOTAL_SAVING + " REAL," +
+                "FOREIGN KEY(" + COLUMN_USER_ID_FK + ") REFERENCES " +
+                TABLE_USERS + "(" + COLUMN_USER_ID + ")" +
+                ")";
+
+        db.execSQL(CREATE_TABLE_SAVINGS_HISTORY);
 
         // Routes table
         String CREATE_TABLE_ROUTES = "CREATE TABLE " + TABLE_ROUTES + "("
@@ -476,4 +498,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public long getRouteTime() {
+        return 0;
+    }
 }

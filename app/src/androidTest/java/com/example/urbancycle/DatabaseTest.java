@@ -73,7 +73,9 @@ public class DatabaseTest {
         System.out.println(dbHelper.getRewardById(rewardID));
 
     }
-
+public void getHistory(){
+        long Time =dbHelper.getRouteTime();
+}
     // Similarly, add more test methods for other CRUD operations and tables...
 }
 
