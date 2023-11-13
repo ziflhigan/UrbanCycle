@@ -70,6 +70,7 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
     @Override
     public void onConnectionFailure() {
+        // To Do: Handle the case when cannot connect database, either let user check Internet Connection, or saying the database server is under maintenance
         showToast("Failed to connect to database");
     }
 
@@ -93,6 +94,8 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
     @Override
     public void onRegistrationComplete(boolean success) {
         if (success) {
+            String message = "Registration Successful!";
+            Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             navigateToLoginFragment();
         } else {
             // Handle registration failure
@@ -142,7 +145,8 @@ class InsertUserDataTask extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.setString(2, firstName);
             preparedStatement.setString(3, lastName);
             preparedStatement.setString(4, email);
-            preparedStatement.setString(5, password); // Ideally, hash the password before storing
+            // To DO: Hash the password
+            preparedStatement.setString(5, password);
 
             int result = preparedStatement.executeUpdate();
             return result > 0;

@@ -35,8 +35,9 @@ public class MainActivity_Authentication extends AppCompatActivity{
 
         login.setOnClickListener(view ->{
 
-            login.setVisibility(View.GONE); // Hide the login button
-            Register.setVisibility(View.GONE); // Hide the register button
+            // Hide the components
+            login.setVisibility(View.GONE);
+            Register.setVisibility(View.GONE);
             Icon.setVisibility(View.GONE);
 
             AppTitle.setVisibility(View.GONE);
