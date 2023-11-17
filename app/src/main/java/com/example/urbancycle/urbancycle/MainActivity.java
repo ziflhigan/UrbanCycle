@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.example.urbancycle.R;
 import com.example.urbancycle.databinding.ActivityMainBinding;
+import com.example.urbancycle.urbancycle.SupportAndFeedback.SupportFragment;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -10,8 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.urbancycle.R;
-
-import java.sql.Connection;
+import com.example.urbancycle.urbancycle.Authentication.LoginFragment;
+import com.example.urbancycle.urbancycle.Authentication.RegisterFragment;
 
 public class MainActivity_Authentication extends AppCompatActivity{
 
