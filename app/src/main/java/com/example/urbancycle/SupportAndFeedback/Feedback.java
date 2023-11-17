@@ -60,6 +60,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     public void sendFeedback() {
         if (databaseConnection != null) {
             String FeedbackText = feedback.getText().toString().trim();
+
             new InsertUserFeedback(databaseConnection, FeedbackText, (InsertUserFeedback.OnFeedbackInsertCompleteListener) this).execute();
         } else {
             Toast.makeText(getContext(),"database disconnected",Toast.LENGTH_LONG).show();

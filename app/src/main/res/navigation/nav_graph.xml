@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/map">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.example.urbancycle.Maps.MapsFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_maps" />
+
+    <fragment
+        android:id="@+id/community"
+        android:name="com.example.urbancycle.Community.CommunityFragment"
+        android:label="Community"
+        tools:layout="@layout/fragment_community" />
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.urbancycle.Profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/support"
+        android:name="com.example.urbancycle.SupportAndFeedback.SupportFragment"
+        android:label="Support"
+        tools:layout="@layout/fragment_support">
+
+        <action
+            android:id="@+id/action_supportFragment_to_feedbackFragment"
+            app:destination="@id/Dfeedback" />
+        <action
+            android:id="@+id/action_supportFragment_to_faqFragment"
+            app:destination="@id/DFAQ" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/reward"
+        android:name="com.example.urbancycle.Rewards.RewardFragment"
+        android:label="Rewards"
+        tools:layout="@layout/fragment_reward" />
+
+    <fragment
+        android:id="@+id/DFAQ"
+        android:name="com.example.urbancycle.SupportAndFeedback.FAQ"
+        android:label="fragment_faq"
+        tools:layout="@layout/fragment_faq" />
+
+    <fragment
+        android:id="@+id/Dfeedback"
+        android:name="com.example.urbancycle.SupportAndFeedback.Feedback"
+        android:label="fragment_feedback"
+        tools:layout="@layout/fragment_feedback" />
+
+</navigation>

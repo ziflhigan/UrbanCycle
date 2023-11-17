@@ -7,7 +7,7 @@
     tools:context=".SupportAndFeedback.SupportFragment" >
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/TVSupport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
@@ -26,7 +26,7 @@
         android:text="Feedback"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/TVSupport" />
 
     <Button
         android:id="@+id/FAQB"

@@ -1,58 +1,33 @@
 package com.example.urbancycle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 
-import com.example.urbancycle.Community.CommunityFragment;
-import com.example.urbancycle.Profile.ProfileFragment;
 import com.example.urbancycle.databinding.ActivityMainBinding;
-import com.example.urbancycle.SupportAndFeedback.SupportFragment;
-import com.example.urbancycle.Maps.MapsFragment;
-import com.example.urbancycle.Rewards.RewardFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new MapsFragment());
-        binding.bottomNavigationView.setBackground(null);
-        binding.bottomNavigationView.setSelectedItemId(R.id.map);
+        // Setting up the NavController
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+        // Setting up AppBarConfiguration
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.map, R.id.community, R.id.profile, R.id.support, R.id.reward)
+                .build();
 
-
-            int id = item.getItemId();
-            if (id == R.id.map){
-                replaceFragment(new MapsFragment());
-            } else if (id == R.id.community) {
-                replaceFragment(new CommunityFragment());
-            } else if (id == R.id.profile) {
-                replaceFragment(new ProfileFragment());
-            } else if (id == R.id.support) {
-                replaceFragment(new SupportFragment());
-            } else if (id == R.id.reward) {
-                replaceFragment(new RewardFragment());
-            }
-
-            return true;
-        });
-    }
-
-    private void replaceFragment(Fragment fragment){
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
-        fragmentTransaction.commit();
+        // Setting up the BottomNavigationView with NavController
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
     }
 }
