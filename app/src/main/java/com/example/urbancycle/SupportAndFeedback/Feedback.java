@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.Database.UserInfoManager;
@@ -19,7 +20,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConnectionListener{
+public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, InsertUserFeedback.OnFeedbackInsertCompleteListener{
     private Connection databaseConnection;
     private EditText feedback;
 
@@ -52,17 +53,16 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
         };
     }
 
-    public void sendFeedback(){
-        if (databaseConnection != null){
-
-            String Feedback = feedback.getText().toString().trim();
-            new InsertUserFeedback(databaseConnection, Feedback);
-        }
-        else{
+    public void sendFeedback() {
+        if (databaseConnection != null) {
+            String FeedbackText = feedback.getText().toString().trim();
+            new InsertUserFeedback(databaseConnection, FeedbackText, (InsertUserFeedback.OnFeedbackInsertCompleteListener) this).execute();
+        } else {
             // Handle the case when database connection unsuccessful
+            // Show error message
         }
-
     }
+
 
     @Override
     public void onConnectionSuccess(Connection connection) {
@@ -71,7 +71,19 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
 
     @Override
     public void onConnectionFailure() {
+        // Display error message
+    }
 
+    @Override
+    public void onFeedbackInsertComplete(boolean success) {
+
+        if (success) {
+            Toast.makeText(getActivity(), "Feedback received", Toast.LENGTH_SHORT).show();
+            feedback.setText(""); // Clear the EditText field
+        } else {
+            // Handle insertion failure
+            // Show error message
+        }
     }
 }
 
@@ -80,20 +92,24 @@ class InsertUserFeedback extends AsyncTask<Void, Void, Boolean> {
     private final Connection connection;
     private final String Feedback;
 
-    public interface OnRegistrationCompleteListener {
-        void onRegistrationComplete(boolean success);
+    private OnFeedbackInsertCompleteListener listener;
+
+    public interface OnFeedbackInsertCompleteListener {
+        void onFeedbackInsertComplete(boolean success);
     }
-    public InsertUserFeedback(Connection connection,String Feedback) {
+    public InsertUserFeedback(Connection connection,String Feedback, OnFeedbackInsertCompleteListener listener) {
         this.connection = connection;
         this.Feedback = Feedback;
+        this.listener = listener;
     }
 
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            String insertQuery = "INSERT INTO Feedback WHERE Email = ? ";
+            String insertQuery = "INSERT INTO Feedback (Email, FeedbackText) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, UserEmail);
+            preparedStatement.setString(2, Feedback);
 
             int result = preparedStatement.executeUpdate();
             return result > 0;
@@ -105,5 +121,8 @@ class InsertUserFeedback extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean success) {
+        if (listener != null) {
+            listener.onFeedbackInsertComplete(success);
+        }
     }
 }
