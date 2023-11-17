@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.urbancycle.urbancycle.DatabaseHelper;
+import com.example.urbancycle.Database.DatabaseHelper;
 
 public class DatabaseTest {
 

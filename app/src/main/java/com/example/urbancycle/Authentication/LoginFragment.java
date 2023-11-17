@@ -1,7 +1,6 @@
-package com.example.urbancycle.urbancycle.Authentication;
+package com.example.urbancycle.Authentication;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -19,8 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.urbancycle.R;
-import com.example.urbancycle.urbancycle.ConnectToDatabase;
-import com.example.urbancycle.urbancycle.MainActivity;
+import com.example.urbancycle.Database.ConnectToDatabase;
+import com.example.urbancycle.MainActivity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

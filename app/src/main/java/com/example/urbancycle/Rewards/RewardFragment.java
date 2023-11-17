@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle;
+package com.example.urbancycle.Rewards;
 
 import android.os.Bundle;
 

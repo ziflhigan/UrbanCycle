@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/layer_list"
 
-    tools:context=".ProfileFragment">
+    tools:context=".Profile.ProfileFragment">
 
     <ImageView
         android:id="@+id/imageView3"

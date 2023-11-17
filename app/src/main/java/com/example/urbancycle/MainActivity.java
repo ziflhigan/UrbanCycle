@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle;
+package com.example.urbancycle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,9 +7,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.urbancycle.R;
+import com.example.urbancycle.Community.CommunityFragment;
+import com.example.urbancycle.Profile.ProfileFragment;
 import com.example.urbancycle.databinding.ActivityMainBinding;
-import com.example.urbancycle.urbancycle.SupportAndFeedback.SupportFragment;
+import com.example.urbancycle.SupportAndFeedback.SupportFragment;
+import com.example.urbancycle.Maps.MapsFragment;
+import com.example.urbancycle.Rewards.RewardFragment;
 
 public class MainActivity extends AppCompatActivity {
 

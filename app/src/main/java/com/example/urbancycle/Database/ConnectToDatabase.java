@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle;
+package com.example.urbancycle.Database;
 
 import android.os.AsyncTask;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle;
+package com.example.urbancycle.Maps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

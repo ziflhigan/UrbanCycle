@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle;
+package com.example.urbancycle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.urbancycle.R;
-import com.example.urbancycle.urbancycle.Authentication.LoginFragment;
-import com.example.urbancycle.urbancycle.Authentication.RegisterFragment;
+import com.example.urbancycle.Authentication.LoginFragment;
+import com.example.urbancycle.Authentication.RegisterFragment;
 
 public class MainActivity_Authentication extends AppCompatActivity{
 

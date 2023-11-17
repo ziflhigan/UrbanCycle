@@ -5,7 +5,7 @@
     android:id="@+id/Authentication"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".urbancycle.MainActivity_Authentication">
+    tools:context=".MainActivity_Authentication">
 
 
     <RelativeLayout

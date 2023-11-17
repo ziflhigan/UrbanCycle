@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle.Authentication;
+package com.example.urbancycle.Authentication;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.urbancycle.R;
-import com.example.urbancycle.urbancycle.ConnectToDatabase;
+import com.example.urbancycle.Database.ConnectToDatabase;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

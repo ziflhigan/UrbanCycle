@@ -1,4 +1,4 @@
-package com.example.urbancycle.urbancycle;
+package com.example.urbancycle.Database;
 
 /**
  * Ignore This SQLite class, no longer use
