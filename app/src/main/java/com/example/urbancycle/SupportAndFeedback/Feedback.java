@@ -48,7 +48,11 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
             @Override
             public void onClick(View v) {
                 feedback = view.findViewById(R.id.feedbackET);
-
+                if(feedback.getText() == null)
+                    Toast.makeText(getContext(),"please input your feedback",Toast.LENGTH_LONG).show();
+                else{
+                    sendFeedback();
+                }
             }
         };
     }
@@ -58,8 +62,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
             String FeedbackText = feedback.getText().toString().trim();
             new InsertUserFeedback(databaseConnection, FeedbackText, (InsertUserFeedback.OnFeedbackInsertCompleteListener) this).execute();
         } else {
-            // Handle the case when database connection unsuccessful
-            // Show error message
+            Toast.makeText(getContext(),"database disconnected",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -71,18 +74,16 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
 
     @Override
     public void onConnectionFailure() {
-        // Display error message
+        Toast.makeText(getContext(),"database disconnected",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onFeedbackInsertComplete(boolean success) {
-
         if (success) {
             Toast.makeText(getActivity(), "Feedback received", Toast.LENGTH_SHORT).show();
             feedback.setText(""); // Clear the EditText field
         } else {
-            // Handle insertion failure
-            // Show error message
+            Toast.makeText(getContext(),"submit failed",Toast.LENGTH_LONG).show();
         }
     }
 }
