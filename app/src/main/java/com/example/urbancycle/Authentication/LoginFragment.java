@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.urbancycle.Database.UserInfoManager;
 import com.example.urbancycle.R;
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.MainActivity;
@@ -86,7 +87,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
             // Verify user credentials
             new VerifyUserCredentialsTask(databaseConnection, email, password, new VerifyUserCredentialsTask.LoginListener() {
                 @Override
-                public void onLoginSuccess() {
+                public void onLoginSuccess(String userName, String userEmail) {
                     // Handle login success: navigate to MainActivity
                     showToast("Login Successful, hold on...");
                     navigateToMainActivity();
@@ -104,6 +105,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
             showToast("Database connection is not established. Please try again.");
         }
     }
+
 
     private void navigateToMainActivity() {
         // Logic to navigate to MainActivity
@@ -158,7 +160,7 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
     private LoginListener listener;
 
     public interface LoginListener {
-        void onLoginSuccess();
+        void onLoginSuccess(String userName, String userEmail);
         void onLoginFailure();
     }
 
@@ -172,13 +174,27 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            String query = "SELECT * FROM Users WHERE Email = ? AND Password = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
+            // Verify credentials
+            String verifyQuery = "SELECT * FROM Users WHERE Email = ? AND Password = ?";
+            PreparedStatement verifyStmt = connection.prepareStatement(verifyQuery);
+            verifyStmt.setString(1, email);
+            verifyStmt.setString(2, password);
+            ResultSet resultSet = verifyStmt.executeQuery();
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next(); // If the user exists, returns true
+            if (resultSet.next()) {
+                // Fetch user details
+                String fetchDetailsQuery = "SELECT UserName, Email FROM Users WHERE Email = ?";
+                PreparedStatement detailsStmt = connection.prepareStatement(fetchDetailsQuery);
+                detailsStmt.setString(1, email);
+                ResultSet userDetailsResultSet = detailsStmt.executeQuery();
+
+                if (userDetailsResultSet.next()) {
+                    UserInfoManager.getInstance().setEmail(email);
+                    UserInfoManager.getInstance().setUserName(userDetailsResultSet.getString("UserName"));
+                    return true;
+                }
+            }
+            return false;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -188,7 +204,7 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean success) {
         if (success) {
-            listener.onLoginSuccess();
+            listener.onLoginSuccess(UserInfoManager.getInstance().getUserName(), UserInfoManager.getInstance().getEmail());
         } else {
             listener.onLoginFailure();
         }
