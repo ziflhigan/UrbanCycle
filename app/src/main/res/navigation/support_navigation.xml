@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/support_navigation"
+    app:startDestination="@id/supportFragment">
+
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.example.urbancycle.urbancycle.SupportFragment"
+        android:label="fragment_support"
+        tools:layout="@layout/fragment_support" />
+    <fragment
+        android:id="@+id/FAQ"
+        android:name="com.example.urbancycle.SupportAndFeedback.FAQ"
+        android:label="fragment_faq"
+        tools:layout="@layout/fragment_faq" />
+    <fragment
+        android:id="@+id/feedback"
+        android:name="com.example.urbancycle.SupportAndFeedback.Feedback"
+        android:label="fragment_feedback"
+        tools:layout="@layout/fragment_feedback" />
+</navigation>
