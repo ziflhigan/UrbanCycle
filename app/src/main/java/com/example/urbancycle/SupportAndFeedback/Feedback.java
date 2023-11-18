@@ -48,13 +48,16 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
             @Override
             public void onClick(View v) {
                 feedback = view.findViewById(R.id.feedbackET);
-                if(feedback.getText() == null)
+                if(InsertUserFeedback.UserEmail==null)
+                    Toast.makeText(getActivity(), "please login", Toast.LENGTH_SHORT).show();
+                else if(feedback.getText() == null)
                     Toast.makeText(getContext(),"please input your feedback",Toast.LENGTH_LONG).show();
                 else{
                     sendFeedback();
                 }
             }
         };
+        submit.setOnClickListener(onSubmit);
     }
 
     public void sendFeedback() {
@@ -63,7 +66,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
 
             new InsertUserFeedback(databaseConnection, FeedbackText, (InsertUserFeedback.OnFeedbackInsertCompleteListener) this).execute();
         } else {
-            Toast.makeText(getContext(),"database disconnected",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"database disconnected 1",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -75,7 +78,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
 
     @Override
     public void onConnectionFailure() {
-        Toast.makeText(getContext(),"database disconnected",Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"database disconnected 3",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -90,7 +93,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
 }
 
 class InsertUserFeedback extends AsyncTask<Void, Void, Boolean> {
-    private final String UserEmail = UserInfoManager.getInstance().getEmail();
+    static String UserEmail = UserInfoManager.getInstance().getEmail();
     private final Connection connection;
     private final String Feedback;
 
