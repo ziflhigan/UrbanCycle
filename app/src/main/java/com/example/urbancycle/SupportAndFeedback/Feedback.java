@@ -67,10 +67,10 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
         }
     }
 
-
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
+        Toast.makeText(getContext(),"database connected",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -108,7 +108,7 @@ class InsertUserFeedback extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            String insertQuery = "INSERT INTO Feedback (Email, FeedbackText) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO Feedback (Email, Comment) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, UserEmail);
             preparedStatement.setString(2, Feedback);
