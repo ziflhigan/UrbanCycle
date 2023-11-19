@@ -7,22 +7,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.urbancycle.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FAQ#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FAQ extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -30,15 +25,6 @@ public class FAQ extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FAQ.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FAQ newInstance(String param1, String param2) {
         FAQ fragment = new FAQ();
         Bundle args = new Bundle();
@@ -62,5 +48,43 @@ public class FAQ extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_faq, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view,Bundle savedInstanceState){
+        final int[] i = {0};
+        String[]faqs={"What is Urban Cycle?\nIt is a good app.",
+                "How do I download Urban Cycle?\nYou can download it from our website.",
+                "Is Urban Cycle available for both iOS and Android?\nIt is only available for Android."};
+        Button next=view.findViewById(R.id.nextB);
+        Button back=view.findViewById(R.id.backB);
+        TextView faq=view.findViewById(R.id.FAQTV);
+        faq.setText(faqs[i[0]]);
+        View.OnClickListener onNext=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((i[0]+1)<faqs.length){
+                    i[0]++;
+                    faq.setText(faqs[i[0]]);
+                }else{
+                    i[0]=0;
+                    faq.setText(faqs[i[0]]);
+                }
+            }
+        };
+        next.setOnClickListener(onNext);
+        View.OnClickListener onBack=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if((i[0]-1)<0){
+                    i[0]=faqs.length-1;
+                    faq.setText(faqs[i[0]]);
+                }else{
+                    i[0]--;
+                    faq.setText(faqs[i[0]]);
+                }
+            }
+        };
+        back.setOnClickListener(onBack);
     }
 }
