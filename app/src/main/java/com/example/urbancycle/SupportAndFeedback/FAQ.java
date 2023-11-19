@@ -53,9 +53,9 @@ public class FAQ extends Fragment {
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         final int[] i = {0};
-        String[]faqs={"What is Urban Cycle?\nIt is a good app.",
-                "How do I download Urban Cycle?\nYou can download it from our website.",
-                "Is Urban Cycle available for both iOS and Android?\nIt is only available for Android."};
+        String[]faqs={"What is Urban Cycle?\n\nIt is a good app.",
+                "How do I download Urban Cycle?\n\nYou can download it from our website.",
+                "Is Urban Cycle available for both iOS and Android?\n\nIt is only available for Android."};
         Button next=view.findViewById(R.id.nextB);
         Button back=view.findViewById(R.id.backB);
         TextView faq=view.findViewById(R.id.FAQTV);
