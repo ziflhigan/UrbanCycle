@@ -25,4 +25,5 @@
     <string name="plain_text_user_name">User Name</string>
     <string name="Password">Enter Password</string>
     <string name="Button_Sign_Up">Sign Up</string>
+    <string name="back">Back</string>
 </resources>

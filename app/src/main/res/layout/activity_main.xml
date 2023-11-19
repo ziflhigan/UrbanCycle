@@ -34,4 +34,14 @@
             app:menu="@menu/bottom_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDirections"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_directions"
+        android:onClick="onFabDirectionsClicked"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="center|bottom"
+        android:layout_marginBottom="750dp" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
