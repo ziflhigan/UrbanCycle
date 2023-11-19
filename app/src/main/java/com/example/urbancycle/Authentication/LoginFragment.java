@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbancycle.Database.UserInfoManager;
@@ -22,6 +24,7 @@ import com.example.urbancycle.R;
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.MainActivity;
 
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,6 +35,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     private EditText emailEditText, passwordEditText;
     private Button loginButton, backButton;
     private Connection databaseConnection;
+    private TextView forgotPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +64,18 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
         loginButton = view.findViewById(R.id.SignIn);
         loginButton.setOnClickListener(v -> loginUser());
 
+        // Initialize forgot Password Text View
+        forgotPassword = view.findViewById(R.id.TVForgotPassword);
+        forgotPassword.setOnClickListener(View ->{
+
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, new ForgotPasswordFragment())
+                    .addToBackStack(null)
+                    .commit();
+
+        });
+
         // Establish a database connection
         new ConnectToDatabase(this).execute();
 
@@ -70,6 +86,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
+        showToast("Database connection successful");
     }
 
     @Override
@@ -122,7 +139,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     }
 
     private void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -174,23 +191,21 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            // Verify credentials
-            String verifyQuery = "SELECT * FROM Users WHERE Email = ? AND Password = ?";
+            // Check if the user with this email exists
+            String verifyQuery = "SELECT Password FROM Users WHERE Email = ?";
             PreparedStatement verifyStmt = connection.prepareStatement(verifyQuery);
             verifyStmt.setString(1, email);
-            verifyStmt.setString(2, password);
             ResultSet resultSet = verifyStmt.executeQuery();
 
             if (resultSet.next()) {
-                // Fetch user details
-                String fetchDetailsQuery = "SELECT UserName, Email FROM Users WHERE Email = ?";
-                PreparedStatement detailsStmt = connection.prepareStatement(fetchDetailsQuery);
-                detailsStmt.setString(1, email);
-                ResultSet userDetailsResultSet = detailsStmt.executeQuery();
+                // Fetch stored password hash from the database
+                String storedHash = resultSet.getString("Password");
 
-                if (userDetailsResultSet.next()) {
+                // Use BCrypt to compare passwords
+                if (BCrypt.checkpw(password, storedHash)) {
+                    // User authenticated successfully
                     UserInfoManager.getInstance().setEmail(email);
-                    UserInfoManager.getInstance().setUserName(userDetailsResultSet.getString("UserName"));
+                    UserInfoManager.getInstance().setUserName(fetchUserName(email)); // Implement fetchUserName to get the username
                     return true;
                 }
             }
@@ -199,6 +214,24 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private String fetchUserName(String email) throws SQLException {
+        String userName = null;
+        // SQL query to fetch the user's name based on email
+        String fetchNameQuery = "SELECT UserName FROM Users WHERE Email = ?";
+        PreparedStatement nameStmt = connection.prepareStatement(fetchNameQuery);
+        nameStmt.setString(1, email);
+        ResultSet nameResultSet = nameStmt.executeQuery();
+
+        // Check if a record was found
+        if (nameResultSet.next()) {
+            userName = nameResultSet.getString("UserName");
+        }
+
+        nameStmt.close();
+        nameResultSet.close();
+        return userName;
     }
 
     @Override

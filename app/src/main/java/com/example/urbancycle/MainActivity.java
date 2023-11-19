@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setting up the BottomNavigationView with NavController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController);
+
         // Initialize FloatingActionButton and set initial visibility
         View fabDirections = findViewById(R.id.fabDirections);
         fabDirections.setVisibility(View.GONE); // Initially hidden

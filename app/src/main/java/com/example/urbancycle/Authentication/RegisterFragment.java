@@ -8,6 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.urbancycle.R;
 import com.example.urbancycle.Database.ConnectToDatabase;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -56,10 +61,18 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
         // Initialize SignUp Button
         Button signUpButton = view.findViewById(R.id.BtnSignUp);
-        signUpButton.setOnClickListener(v -> registerUser());
+        signUpButton.setOnClickListener(View -> {
+
+                if (validEmailAddressPattern(emailEditText))
+                    registerUser();
+            }
+        );
 
         // Establish a database connection
         new ConnectToDatabase(this).execute();
+
+        // To clear the errors when user try to type again
+        setupTextWatchers();
     }
 
     @Override
@@ -84,9 +97,11 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
 
+            // Hash the password
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
             // Insert user data into database
-            // This should be done in a separate AsyncTask to avoid network operations on the main thread
-            new InsertUserDataTask(databaseConnection, userName, firstName, lastName, email, password, (InsertUserDataTask.OnRegistrationCompleteListener) this).execute();
+            new InsertUserDataTask(databaseConnection, userName, firstName, lastName, email, hashedPassword, (InsertUserDataTask.OnRegistrationCompleteListener) this).execute();
         } else {
             // Handle the case where the database connection is not established
         }
@@ -114,6 +129,43 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
         }
+    }
+
+    private void setupTextWatchers() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not needed for this implementation
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Clear the error when the user starts typing
+                emailEditText.setError(null);
+                passwordEditText.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Not needed for this implementation
+            }
+        };
+
+        emailEditText.addTextChangedListener(textWatcher);
+        passwordEditText.addTextChangedListener(textWatcher);
+    }
+
+    private boolean validEmailAddressPattern(EditText emailEditText){
+
+        String emailInput = emailEditText.getText().toString();
+
+        if (!emailInput.isEmpty()&& Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
+
+            showToast("Email Validated Successfully!");
+            return true;
+        }
+        emailEditText.setError("Invalid Email Input!");
+        return false;
     }
 
 }
@@ -146,7 +198,6 @@ class InsertUserDataTask extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.setString(2, firstName);
             preparedStatement.setString(3, lastName);
             preparedStatement.setString(4, email);
-            // To DO: Hash the password
             preparedStatement.setString(5, password);
 
             int result = preparedStatement.executeUpdate();

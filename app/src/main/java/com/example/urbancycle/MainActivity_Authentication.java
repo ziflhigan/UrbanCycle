@@ -17,30 +17,23 @@ public class MainActivity_Authentication extends AppCompatActivity{
 
     private Button login;
     private Button Register;
-    private ImageView Icon;
-    private RelativeLayout Wave1, Wave2;
-    private TextView AppTitle;
+    RelativeLayout background;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_authentication);
 
-        Icon = findViewById(R.id.UrbanCycleImage);
-        Wave1 = findViewById(R.id.Wave1);
-        Wave2 = findViewById(R.id.Wave2);
-        AppTitle = findViewById(R.id.AppTitle);
-
         login = findViewById(R.id.Login);
         Register = findViewById(R.id.Register);
+
+        background = findViewById(R.id.IVBackground);
 
         login.setOnClickListener(view ->{
 
             // Hide the components
             login.setVisibility(View.GONE);
             Register.setVisibility(View.GONE);
-            Icon.setVisibility(View.GONE);
-
-            AppTitle.setVisibility(View.GONE);
+            background.setVisibility(View.GONE);
 
             getSupportFragmentManager()
                     .beginTransaction()
@@ -53,10 +46,7 @@ public class MainActivity_Authentication extends AppCompatActivity{
 
             login.setVisibility(View.GONE); // Hide the login button
             Register.setVisibility(View.GONE); // Hide the register button
-            Icon.setVisibility(View.GONE);
-            Wave1.setVisibility(View.GONE);
-            Wave2.setVisibility(View.GONE);
-            AppTitle.setVisibility(View.GONE);
+            background.setVisibility(View.GONE);
 
             getSupportFragmentManager()
                     .beginTransaction()
@@ -79,10 +69,7 @@ public class MainActivity_Authentication extends AppCompatActivity{
 
         login.setVisibility(View.VISIBLE);
         Register.setVisibility(View.VISIBLE);
-        Icon.setVisibility(View.VISIBLE);
-        Wave1.setVisibility(View.VISIBLE);
-        Wave2.setVisibility(View.VISIBLE);
-        AppTitle.setVisibility(View.VISIBLE);
+        background.setVisibility(View.VISIBLE);
 
     }
 
