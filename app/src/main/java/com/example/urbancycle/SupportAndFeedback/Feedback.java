@@ -24,10 +24,6 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     private Connection databaseConnection;
     private EditText feedback;
 
-    public Feedback() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,13 +40,15 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
         Button submit=view.findViewById(R.id.submitB);
+        new ConnectToDatabase(this).execute();
+
         View.OnClickListener onSubmit=new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 feedback = view.findViewById(R.id.feedbackET);
                 if(InsertUserFeedback.UserEmail==null)
                     Toast.makeText(getActivity(), "please login", Toast.LENGTH_SHORT).show();
-                else if(feedback.getText() == null)
+                else if(feedback.getText().toString().equals(""))
                     Toast.makeText(getContext(),"please input your feedback",Toast.LENGTH_LONG).show();
                 else{
                     sendFeedback();
@@ -73,7 +71,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        Toast.makeText(getContext(),"database connected",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"database connected",Toast.LENGTH_LONG).show();
     }
 
     @Override
