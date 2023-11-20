@@ -33,27 +33,6 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
     private EditText userNameEditText, firstNameEditText, lastNameEditText, emailEditText, passwordEditText;
     private Connection databaseConnection;
 
-    // Implement the listener interface of the class CheckEmailRegisteredTask
-    // I have figure out 2 ways to implement the listener interface defined in other class, this is the second way
-    private final CheckEmailRegisteredTask.EmailCheckListener emailCheckListener = new CheckEmailRegisteredTask.EmailCheckListener() {
-        @Override
-        public void onEmailChecked(boolean isRegistered) {
-            if (isRegistered) {
-                showToast("Email already registered.");
-            } else {
-
-                // Verify whether valid user name
-
-
-                // Verify whether strong password or not
-
-
-                // Proceed with registration
-                registerUser();
-            }
-        }
-    };
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -84,7 +63,9 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         // Initialize SignUp Button
         Button signUpButton = view.findViewById(R.id.BtnSignUp);
         signUpButton.setOnClickListener(View -> {
-                checkEmailBeforeRegister(emailEditText);
+
+            if (isValidEmailAddressPattern(emailEditText))
+                registerUser();
             }
         );
 
@@ -133,14 +114,14 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
      */
     @Override
     public void onRegistrationComplete(boolean success) {
-        if (success) {
-            String message = "Registration Successful!";
-            Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-            navigateToLoginFragment();
+        if (!success) {
+            emailEditText.setError("Email Already Exist!");
         } else {
-            // Handle registration failure
+            showToast("Registration Successful!");
+            navigateToLoginFragment();
         }
     }
+
     private void navigateToLoginFragment() {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -192,18 +173,6 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         return false;
     }
 
-    private void checkEmailBeforeRegister(EditText emailEditText) {
-        String email = emailEditText.getText().toString().trim();
-
-        // Validate email
-        if (!isValidEmailAddressPattern(emailEditText)) {
-            return;
-        }
-
-        // Check if email is already registered
-        new CheckEmailRegisteredTask(databaseConnection, emailCheckListener).execute(email);
-    }
-
     private boolean isValidUserName (EditText userNameEditText){
 
         return true;
@@ -244,55 +213,16 @@ class InsertUserDataTask extends AsyncTask<Void, Void, Boolean> {
             int result = preparedStatement.executeUpdate();
             return result > 0;
         } catch (SQLException e) {
+            if (e.getSQLState().startsWith("23")) { // Check if it's a constraint violation
+                return false; // Indicates email already registered
+            }
             e.printStackTrace();
-            return false;
+            return null; // Indicates a different SQL error
         }
     }
 
     @Override
     protected void onPostExecute(Boolean success) {
         listener.onRegistrationComplete(success);
-    }
-}
-
-/**
- * This class will query the database with the input email address
- * If the database returns a row, the boolean that it will pass is true, which means email already in use
- * Otherwise false
- */
-class CheckEmailRegisteredTask extends AsyncTask<String, Void, Boolean> {
-    private Connection connection;
-    private EmailCheckListener listener;
-
-    public interface EmailCheckListener {
-        void onEmailChecked(boolean isRegistered);
-    }
-
-    public CheckEmailRegisteredTask(Connection connection, EmailCheckListener listener) {
-        this.connection = connection;
-        this.listener = listener;
-    }
-
-    @Override
-    protected Boolean doInBackground(String... params) {
-        String email = params[0];
-        try {
-            String checkQuery = "SELECT * FROM Users WHERE Email = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(checkQuery);
-            preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                return resultSet.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    protected void onPostExecute(Boolean isRegistered) {
-        listener.onEmailChecked(isRegistered);
     }
 }
