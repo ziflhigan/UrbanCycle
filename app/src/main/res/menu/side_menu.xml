@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/TopDestination" >
+        <item
+            android:id = "@+id/support"
+            android:title="@string/support_icon"
+            android:icon="@drawable/support_24_regular"/>
+
+        <item
+            android:id = "@+id/reward"
+            android:title="@string/rewards_icon"
+            android:icon="@drawable/reward_icon"/>
+
+        <item
+            android:id = "@+id/map"
+            android:title="@string/map_icon"
+            android:icon="@drawable/baseline_map_24"/>
+        <item
+            android:id = "@+id/community"
+            android:title="@string/community_icon"
+            android:icon="@drawable/community_icon"/>
+
+        <item
+            android:id = "@+id/profile"
+            android:title="@string/profile_icon"
+            android:icon="@drawable/profile"/>
+    </group>
+
+    <group android:id="@+id/SecondaryDestination" >
+
+        <item
+            android:id="@+id/DFAQ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="FAQ" />
+        <item
+            android:id="@+id/Dfeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Feedback" />
+    </group>
+</menu>

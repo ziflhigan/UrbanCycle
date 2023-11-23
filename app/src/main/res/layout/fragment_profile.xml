@@ -5,15 +5,13 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layer_list"
-
     tools:context=".Profile.ProfileFragment">
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="113dp"
         android:layout_height="106dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="296dp"
         android:src="@drawable/profi"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,10 +29,10 @@
 
     <TextView
         android:id="@+id/Welcom"
-        android:layout_width="222dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_width="128dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="cursive"
         android:text="Welcom to UrbanCycle"
         android:textSize="24sp"
@@ -45,8 +43,8 @@
         android:id="@+id/UsernameDisp"
         android:layout_width="72dp"
         android:layout_height="36dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="224dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="208dp"
         android:fontFamily="cursive"
         android:text="Name "
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"

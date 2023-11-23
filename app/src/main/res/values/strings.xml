@@ -29,4 +29,6 @@
     <string name="input_email_add">Please Enter Email Address...</string>
     <string name="back_button">Back</string>
     <string name="reset_button">Reset</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>

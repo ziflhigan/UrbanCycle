@@ -51,13 +51,13 @@
     <fragment
         android:id="@+id/DFAQ"
         android:name="com.example.urbancycle.SupportAndFeedback.FAQ"
-        android:label="fragment_faq"
+        android:label="FAQ"
         tools:layout="@layout/fragment_faq" />
 
     <fragment
         android:id="@+id/Dfeedback"
         android:name="com.example.urbancycle.SupportAndFeedback.Feedback"
-        android:label="fragment_feedback"
+        android:label="Feedback"
         tools:layout="@layout/fragment_feedback" />
 
     <fragment
