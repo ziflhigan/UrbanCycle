@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.sql.Connection;
@@ -32,6 +33,19 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
         RetrieveRewardsInformation.RewardsDataListener, RetrieveUserPoints.UserPointsListener {
 
     private double userPoints;
+
+    private String userName=UserInfoManager.getInstance().getUserName();
+
+    //Define all TextView ArrayList
+    ArrayList<TextView> RnameList = new ArrayList<>();
+    ArrayList<TextView> RdescriptionList = new ArrayList<>();
+    ArrayList<TextView> RnumberLeftList = new ArrayList<>();
+    ArrayList<TextView> RpointRequiredList = new ArrayList<>();
+    ArrayList<Button> RButton = new ArrayList<>();
+    TextView RuserName;
+    TextView RuserPoint;
+
+
     private Connection connection;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +60,20 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
         super.onViewCreated(view, savedInstanceState);
 
         // @Qiao, This is where you will use 'view' to initialize the items, i.e., texts, buttons, etc...
+
+        //Link all TextView
+        for (int i = 1; i <= 5; i++) {
+            RdescriptionList.add(view.findViewById(getResources().getIdentifier("RDescription" + i, "id", requireActivity().getPackageName())));
+            RnameList.add(view.findViewById(getResources().getIdentifier("RName" + i, "id", requireActivity().getPackageName())));
+            RnumberLeftList.add(view.findViewById(getResources().getIdentifier("RNumbersLeft" + i, "id", requireActivity().getPackageName())));
+            RpointRequiredList.add(view.findViewById(getResources().getIdentifier("RPointRequired" + i, "id", requireActivity().getPackageName())));
+            RButton.add(view.findViewById(getResources().getIdentifier("RButton" + i, "id", requireActivity().getPackageName())));
+        }
+        RuserName = view.findViewById(R.id.RUserName);
+        RuserPoint = view.findViewById(R.id.RUserPoint);
+
+        //change Username
+        RuserName.setText(userName);
 
         // Initialize database connection
         new ConnectToDatabase(this).execute();
@@ -68,6 +96,12 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     @Override
     public void onRewardsDataRetrieved(List<Integer> IDs, List<String> names, List<String> descriptions,
                                        List<Double> pointsRequired, List<Integer> numbersLeft) {
+        for (int j=0;j<IDs.size();j++){
+            RnameList.get(j).setText(names.get(j));
+            RdescriptionList.get(j).setText(descriptions.get(j));
+            RpointRequiredList.get(j).setText(pointsRequired.get(j).toString());
+            RnumberLeftList.get(j).setText(numbersLeft.get(j));
+        }
         // Handle the retrieved data, e.g., display in a list or UI component
         // Maybe you can also handle the actions when user has clicked the button 'retrieve' here as well, then you will need to call another two classes
 
@@ -100,6 +134,7 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     public void onUserPointsRetrieved(double points) {
         // Handle the retrieved points (e.g., store them, compare with reward points, etc.)
         userPoints = points;
+        RuserPoint.setText(String.valueOf(userPoints));
     }
 
     @Override
