@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_supportFragment_to_faqFragment"
             app:destination="@id/DFAQ" />
+        <action
+            android:id="@+id/action_support_to_rating"
+            app:destination="@id/Drating" />
 
     </fragment>
 
@@ -64,6 +67,11 @@
         android:id="@+id/directionsFragment"
         android:name="com.example.urbancycle.Maps.DirectionsFragment"
         android:label="directions_fragment_label" />
+    <fragment
+        android:id="@+id/Drating"
+        android:name="com.example.urbancycle.SupportAndFeedback.Rating"
+        android:label="Rating"
+        tools:layout="@layout/fragment_rating" />
 
 
 </navigation>
