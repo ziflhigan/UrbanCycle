@@ -5,14 +5,23 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_waves"
     tools:context=".Profile.ProfileFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="113dp"
         android:layout_height="106dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="296dp"
+        android:background="@android:color/transparent"
         android:src="@drawable/profi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,17 +30,17 @@
         android:id="@+id/imageView6"
         android:layout_width="100dp"
         android:layout_height="69dp"
-        android:layout_marginStart="312dp"
-        android:layout_marginTop="660dp"
+        android:layout_marginStart="308dp"
+        android:layout_marginTop="772dp"
         android:src="@drawable/brand"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Welcom"
-        android:layout_width="128dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="195dp"
+        android:layout_height="97dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="cursive"
         android:text="Welcom to UrbanCycle"
@@ -43,8 +52,8 @@
         android:id="@+id/UsernameDisp"
         android:layout_width="72dp"
         android:layout_height="36dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="208dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="188dp"
         android:fontFamily="cursive"
         android:text="Name "
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
@@ -55,14 +64,75 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="78dp"
-        android:layout_height="88dp"
+        android:id="@+id/History"
+        android:layout_width="116dp"
+        android:layout_height="117dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="460dp"
+        android:layout_marginBottom="380dp"
+        android:background="@android:color/transparent"
         android:contentDescription="Saving history"
         android:src="@drawable/history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="36dp"
+        android:text="History"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/History" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="66dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="188dp"
+        android:text="Setting"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Setting" />
+
+    <ImageButton
+        android:id="@+id/Setting"
+        android:layout_width="120dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="504dp"
+        android:layout_marginEnd="140dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Setting"
+        android:src="@drawable/set"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/Preference"
+        android:layout_width="319dp"
+        android:layout_height="297dp"
+        android:layout_marginEnd="188dp"
+        android:layout_marginBottom="272dp"
+        android:src="@drawable/prefe"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="144dp"
+        android:text="Your prefer"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

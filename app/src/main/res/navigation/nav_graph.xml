@@ -25,7 +25,17 @@
         android:id="@+id/profile"
         android:name="com.example.urbancycle.Profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_to_history"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_profile_to_preference"
+            app:destination="@id/preferenceFragment" />
+        <action
+            android:id="@+id/action_profile_to_setting"
+            app:destination="@id/settingFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/support"
@@ -72,6 +82,32 @@
         android:name="com.example.urbancycle.SupportAndFeedback.Rating"
         android:label="Rating"
         tools:layout="@layout/fragment_rating" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.urbancycle.Profile.HistoryFragment"
+        android:label="HistoryFragment" />
+    <fragment
+        android:id="@+id/preferenceFragment"
+        android:name="com.example.urbancycle.Profile.PreferenceFragment"
+        android:label="fragment_preference"
+        tools:layout="@layout/fragment_preference" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.urbancycle.Profile.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_support"
+            app:destination="@id/support" />
+        <action
+            android:id="@+id/action_settingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.urbancycle.Authentication.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 
 
 </navigation>
