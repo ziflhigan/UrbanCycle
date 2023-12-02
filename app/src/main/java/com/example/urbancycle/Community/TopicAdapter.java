@@ -53,7 +53,6 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
         Topic currentTopic = topicList.get(position);
         holder.topicButton.setBackgroundColor(Color.parseColor(currentTopic.getColor()));
 
-        // Handle button click
         holder.topicButton.setOnClickListener(v -> {
             if (onTopicClickListener != null) {
                 onTopicClickListener.onTopicClick(position);
