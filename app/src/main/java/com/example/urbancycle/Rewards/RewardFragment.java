@@ -321,4 +321,3 @@ class UpdateNumbersLeft extends AsyncTask<Void, Void, Boolean> {
         }
     }
 }
-
