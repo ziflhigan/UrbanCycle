@@ -1,5 +1,6 @@
 package com.example.urbancycle.SupportAndFeedback;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -47,9 +48,9 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
             public void onClick(View v) {
                 feedback = view.findViewById(R.id.feedbackET);
                 if(InsertUserFeedback.UserEmail==null)
-                    Toast.makeText(getActivity(), "please login", Toast.LENGTH_SHORT).show();
+                    showToast("Please login");
                 else if(feedback.getText().toString().equals(""))
-                    Toast.makeText(getContext(),"please input your feedback",Toast.LENGTH_LONG).show();
+                    showToast("Please write feedback!");
                 else{
                     sendFeedback();
                 }
@@ -63,28 +64,37 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
             String FeedbackText = feedback.getText().toString().trim();
             new InsertUserFeedback(databaseConnection, FeedbackText, (InsertUserFeedback.OnFeedbackInsertCompleteListener) this).execute();
         } else {
-            Toast.makeText(getContext(),"database disconnected 1",Toast.LENGTH_LONG).show();
+            showToast("Database Disconnected!");
         }
     }
 
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        Toast.makeText(getContext(),"database connected",Toast.LENGTH_LONG).show();
+        showToast("Database Connected");
+    }
+
+    private void showToast(String message) {
+        if (isAdded()) { // Check if Fragment is currently added to its Activity
+            Context context = getActivity();
+            if (context != null) {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
     public void onConnectionFailure() {
-        Toast.makeText(getContext(),"database disconnected 3",Toast.LENGTH_LONG).show();
+        showToast("Database Disconnected");
     }
 
     @Override
     public void onFeedbackInsertComplete(boolean success) {
         if (success) {
-            Toast.makeText(getActivity(), "Feedback received", Toast.LENGTH_SHORT).show();
+            showToast("Feedback Received!");
             feedback.setText(""); // Clear the EditText field
         } else {
-            Toast.makeText(getContext(),"submit failed",Toast.LENGTH_LONG).show();
+            showToast("Submit Failed!");
         }
     }
 }
