@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="412dp"
         android:layout_height="106dp"
         android:layout_marginTop="144dp"
@@ -14,32 +15,32 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/button_forum"
             android:layout_width="78dp"
             android:layout_height="90dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_square"
             android:radius='50dp'
-            android:text="Plants" />
+            android:text="Forum Board" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/button_tips"
             android:layout_width="78dp"
             android:layout_height="90dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_square"
-            android:text="3Rs" />
+            android:text="Eco Tips" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/button_events"
             android:layout_width="78dp"
             android:layout_height="90dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_square"
-            android:text="Lifestyle" />
+            android:text="Events" />
 
     </LinearLayout>
 
@@ -47,56 +48,53 @@
         android:id="@+id/imageView12"
         android:layout_width="165dp"
         android:layout_height="150dp"
-        android:layout_marginEnd="172dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="208dp"
         android:src="@drawable/green_sprout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/TVEcoTipsTitle"
-        android:layout_width="140dp"
-        android:layout_height="71dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="84dp"
+        android:layout_width="196dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="56dp"
         android:fontFamily="cursive"
-        android:text="EcoTips"
-        android:textColor="#FEBA89"
+        android:text="Community"
+        android:textColor="#2196F3"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:layout_width="415dp"
-        android:layout_height="468dp"
+        android:id="@+id/relativeLayout"
+        android:layout_width="413dp"
+        android:layout_height="358dp"
         android:layout_marginTop="263dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <!-- Your panels go here -->
-
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <!--            android:background="@drawable/rounded_rectangle">-->
 
-            <!-- Add your text panels here -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Example text panel -->
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Your text goes here"
+                    android:text="Tips 1"
                     android:textColor="#000000"
                     android:textSize="16sp" />
 
-                <!-- Add more text panels as needed -->
 
             </LinearLayout>
         </ScrollView>

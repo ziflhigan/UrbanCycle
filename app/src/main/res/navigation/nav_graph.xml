@@ -19,7 +19,11 @@
         android:id="@+id/community"
         android:name="com.example.urbancycle.Community.CommunityFragment"
         android:label="Community"
-        tools:layout="@layout/fragment_community" />
+        tools:layout="@layout/fragment_community" >
+        <action
+            android:id="@+id/action_community_to_eventFragment"
+            app:destination="@id/DestEvent" />
+    </fragment>
 
     <fragment
         android:id="@+id/profile"
@@ -108,6 +112,11 @@
         android:name="com.example.urbancycle.Authentication.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/DestEvent"
+        android:name="com.example.urbancycle.Community.EventFragment"
+        android:label="fragment_event"
+        tools:layout="@layout/fragment_event" />
 
 
 </navigation>
