@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".Rewards.RewardFragment">
 
     <!-- I have modified this line: android:layout_marginTop="56dp" to leave space for the top action bar -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greenRectangle"
+        tools:src="@drawable/bg_waves" />
 
     <View
         android:id="@+id/greenRectangle"
@@ -37,7 +44,7 @@
         android:layout_marginTop="76dp"
         android:layout_marginEnd="8dp"
         android:text="RUserPoint"
-        app:layout_constraintEnd_toStartOf="@+id/imageView6"
+        app:layout_constraintEnd_toStartOf="@+id/TreeCoin"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +57,7 @@
         app:layout_constraintGuide_end="80dp" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/TreeCoin"
         android:layout_width="47dp"
         android:layout_height="35dp"
         android:layout_marginStart="96dp"
@@ -61,7 +68,7 @@
 
     <ScrollView
         android:layout_width="410dp"
-        android:layout_height="600dp"
+        android:layout_height="545dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greenRectangle">
 
@@ -82,6 +89,8 @@
 
                 <TextView
                     android:id="@+id/RDescription1"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RDescription1" />
@@ -99,7 +108,7 @@
 
                 <Button
                     android:id="@+id/RButton1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Redeem1" />
 
@@ -122,9 +131,12 @@
 
                 <TextView
                     android:id="@+id/RDescription2"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RDescription2" />
+
             </TableRow>
 
             <TableRow
@@ -147,6 +159,7 @@
                     android:id="@+id/RNumbersLeft2"
                     android:padding="3dip"
                     android:text="RNumbersLeft2" />
+
             </TableRow>
 
             <TableRow
@@ -162,6 +175,8 @@
 
                 <TextView
                     android:id="@+id/RDescription3"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RDescription3" />
@@ -202,9 +217,12 @@
 
                 <TextView
                     android:id="@+id/RDescription4"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RDescription4" />
+
             </TableRow>
 
             <TableRow
@@ -242,6 +260,8 @@
 
                 <TextView
                     android:id="@+id/RDescription5"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RDescription5" />
@@ -267,27 +287,6 @@
                     android:id="@+id/RNumbersLeft5"
                     android:padding="3dip"
                     android:text="RNumbersLeft5" />
-            </TableRow>
-            <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/Rtheme2">
-                <Button
-                    android:id="@+id/RNextPageButtom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RNextPageButtom" />
-
-                <TextView
-                    android:id="@+id/RPageNumber"
-                    android:padding="3dip"
-                    android:text="RPageNumber" />
-
-                <Button
-                    android:id="@+id/RLastPageButtom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RLastPageButtom" />
             </TableRow>
 
 

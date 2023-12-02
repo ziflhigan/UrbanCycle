@@ -66,7 +66,7 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
             RdescriptionList.add(view.findViewById(getResources().getIdentifier("RDescription" + i, "id", requireActivity().getPackageName())));
             RnameList.add(view.findViewById(getResources().getIdentifier("RName" + i, "id", requireActivity().getPackageName())));
             RnumberLeftList.add(view.findViewById(getResources().getIdentifier("RNumbersLeft" + i, "id", requireActivity().getPackageName())));
-            RpointRequiredList.add(view.findViewById(getResources().getIdentifier("RPointRequired" + i, "id", requireActivity().getPackageName())));
+            RpointRequiredList.add(view.findViewById(getResources().getIdentifier("RPointsRequired" + i, "id", requireActivity().getPackageName())));
             RButton.add(view.findViewById(getResources().getIdentifier("RButton" + i, "id", requireActivity().getPackageName())));
         }
         RuserName = view.findViewById(R.id.RUserName);
@@ -96,33 +96,43 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     @Override
     public void onRewardsDataRetrieved(List<Integer> IDs, List<String> names, List<String> descriptions,
                                        List<Double> pointsRequired, List<Integer> numbersLeft) {
-        for (int j=0;j<IDs.size();j++){
-            RnameList.get(j).setText(names.get(j));
-            RdescriptionList.get(j).setText(descriptions.get(j));
-            RpointRequiredList.get(j).setText(pointsRequired.get(j).toString());
-            RnumberLeftList.get(j).setText(numbersLeft.get(j));
-        }
-        // Handle the retrieved data, e.g., display in a list or UI component
-        // Maybe you can also handle the actions when user has clicked the button 'retrieve' here as well, then you will need to call another two classes
-
-        // Assuming we have a button for redeeming rewards
-
-        // For example, let's say the user clicks to redeem the first reward
-        // By the way, you need to handle the checking for whether user has enough points or not, by using the class 'RetrieveUserPoints'
         new RetrieveUserPoints(connection, this).execute(); // This is used to retrieve the user points, and I have stored the result in the variable 'userPoints'
 
-        int rewardId = 1;
-        int currentNumbersLeft = numbersLeft.get(rewardId - 1); // Adjust index as necessary, since index in the ArrayList starts from zero
-        int newNumbersLeft = currentNumbersLeft - 1; // Also remember to add Edge check, ensure it is not negative
+        for (int j=0;j<5;j++){
+            RnameList.get(j).setText(names.get(j));
+            RdescriptionList.get(j).setText(descriptions.get(j));
+            RpointRequiredList.get(j).setText("Price: "+ String.valueOf(pointsRequired.get(j)));
+            RnumberLeftList.get(j).setText(String.valueOf(numbersLeft.get(j) + " Units"));
+        }
+        int i;
+        //what happen when button is clicked
+        for (i = 0; i < RButton.size(); i++) {
+            final int rewardId = i + 1;
+            final int currentNumbersLeft = numbersLeft.get(rewardId - 1);
+            final double currentUserpointRequired = pointsRequired.get(rewardId - 1);
+            final double newUserPoints = userPoints - pointsRequired.get(rewardId - 1);
+            RButton.get(rewardId-1).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentNumbersLeft > 0) {
+                        if (userPoints >= currentUserpointRequired && currentNumbersLeft > 0){
+                            showToast("You just redeem one" + names.get(rewardId - 1));
+                            new UpdateNumbersLeft(connection, rewardId, currentNumbersLeft - 1).execute();
+                            numbersLeft.set(rewardId - 1,currentNumbersLeft - 1);
+                            RnumberLeftList.get(rewardId-1).setText(String.valueOf((currentNumbersLeft - 1) + " Units"));
 
-        // After successfully redeemed
-        // Update the NumbersLeft in the database
-        new UpdateNumbersLeft(connection, rewardId, newNumbersLeft).execute();
-
-        // Update the UserPoints in the database
-        double newUserPoints = userPoints - pointsRequired.get(rewardId-1);
-        new UpdateUserPoints(connection, userPoints);
-
+                            new UpdateUserPoints(connection, newUserPoints);
+                            userPoints=newUserPoints;
+                            RuserPoint.setText(String.valueOf(userPoints));
+                        }
+                        else
+                        {showToast("You need " + currentNumbersLeft + " points to redeem"+ names.get(rewardId-1));}
+                    }
+                else
+                {showToast("Sorry!" + names.get(rewardId-1) + "is out of stock");}
+            }
+            });
+        }
     }
 
     @Override
@@ -256,12 +266,12 @@ class RetrieveUserPoints extends AsyncTask<Void, Void, Boolean> {
  */
 class UpdateUserPoints extends AsyncTask<Void, Void, Boolean> {
     private final Connection connection;
-    private double userPoints;
+    private double newUserPoints;
     private final String userEmail = UserInfoManager.getInstance().getEmail();
 
-    public UpdateUserPoints(Connection connection, double userPoints) {
+    public UpdateUserPoints(Connection connection, double newUserPoints) {
         this.connection = connection;
-        this.userPoints = userPoints;
+        this.newUserPoints = newUserPoints;
     }
 
     @Override
@@ -269,7 +279,7 @@ class UpdateUserPoints extends AsyncTask<Void, Void, Boolean> {
         try {
             String query = "UPDATE Users SET PointsEarned = ? WHERE Email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setDouble(1,  userPoints);
+            preparedStatement.setDouble(1, newUserPoints);
             preparedStatement.setString(2, userEmail);
 
             int updatedRows = preparedStatement.executeUpdate();
@@ -295,6 +305,7 @@ class UpdateNumbersLeft extends AsyncTask<Void, Void, Boolean> {
         this.rewardId = rewardId;
         this.newNumbersLeft = newNumbersLeft;
     }
+
 
     @Override
     protected Boolean doInBackground(Void... voids) {
