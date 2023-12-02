@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+
+        android:key="key_image_preference"
+        android:title="Select Image"
+        android:summary="Tap to select a new profile picture"
+        android:icon="@drawable/custom_icon"
+        android:layout="@layout/custom_preference_layout"
+        android:layout_marginTop="16dp" />
+
+    <!-- Add other preferences as needed -->
+
+</PreferenceScreen>
