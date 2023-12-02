@@ -39,7 +39,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
 
     @Override
     public void onViewCreated(View view,Bundle savedInstanceState){
-        Button submit=view.findViewById(R.id.submitB);
+        Button submit=view.findViewById(R.id.SubmitFeedbackB);
         new ConnectToDatabase(this).execute();
 
         View.OnClickListener onSubmit=new View.OnClickListener() {
@@ -61,7 +61,6 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     public void sendFeedback() {
         if (databaseConnection != null) {
             String FeedbackText = feedback.getText().toString().trim();
-
             new InsertUserFeedback(databaseConnection, FeedbackText, (InsertUserFeedback.OnFeedbackInsertCompleteListener) this).execute();
         } else {
             Toast.makeText(getContext(),"database disconnected 1",Toast.LENGTH_LONG).show();
@@ -71,7 +70,7 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        //Toast.makeText(getContext(),"database connected",Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"database connected",Toast.LENGTH_LONG).show();
     }
 
     @Override

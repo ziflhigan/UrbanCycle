@@ -33,4 +33,4 @@ public class RewardFragment extends Fragment {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }
-//My brain can't handle that database, so I will complete everything otherthan database first.
+//My brain can't handle that database, so I will complete everything other than database first.
