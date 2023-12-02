@@ -31,4 +31,9 @@
     <string name="reset_button">Reset</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string-array name="location">
+        <item>Kuala Lumpur</item>
+        <item>Johor Bahru</item>
+        <item>Penang</item>
+    </string-array>
 </resources>
