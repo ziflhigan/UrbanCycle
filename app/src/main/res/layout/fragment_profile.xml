@@ -5,8 +5,16 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_waves"
     tools:context=".Profile.ProfileFragment">
+
+    <RelativeLayout
+        android:id="@+id/BgRegister"
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="@drawable/bg_waves"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"

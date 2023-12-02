@@ -4,16 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile.SettingFragment"
-    android:background="@drawable/bg_waves">
+    tools:context=".Profile.SettingFragment">
+
+    <RelativeLayout
+        android:id="@+id/BgRegister"
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="@drawable/bg_waves"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="113dp"
         android:layout_height="47dp"
-        android:layout_marginStart="132dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="72dp"
         android:fontFamily="serif"
         android:text="Setting"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -21,7 +29,6 @@
         android:typeface="sans"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <Button
         android:id="@+id/Support"
