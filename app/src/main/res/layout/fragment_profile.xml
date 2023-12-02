@@ -19,7 +19,7 @@
         android:id="@+id/imageView3"
         android:layout_width="113dp"
         android:layout_height="106dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="296dp"
         android:background="@android:color/transparent"
         android:src="@drawable/profi"
