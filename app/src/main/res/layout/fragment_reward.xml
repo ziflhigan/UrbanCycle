@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="80dp" />
+        app:layout_constraintGuide_end="125dp" />
 
     <ImageView
         android:id="@+id/TreeCoin"
@@ -68,7 +68,7 @@
 
     <ScrollView
         android:layout_width="410dp"
-        android:layout_height="545dp"
+        android:layout_height="500dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greenRectangle">
 
@@ -83,6 +83,7 @@
 
                 <TextView
                     android:id="@+id/RName1"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName1" />
@@ -125,6 +126,7 @@
 
                 <TextView
                     android:id="@+id/RName2"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName2" />
@@ -169,6 +171,7 @@
 
                 <TextView
                     android:id="@+id/RName3"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName3" />
@@ -211,6 +214,7 @@
 
                 <TextView
                     android:id="@+id/RName4"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName4" />
@@ -254,6 +258,7 @@
 
                 <TextView
                     android:id="@+id/RName5"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName5" />

@@ -113,25 +113,24 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
         //what happen when button is clicked
         for (i = 0; i < RButton.size(); i++) {
             final int rewardId = i + 1;
-            final int currentNumbersLeft = numbersLeft.get(rewardId - 1);
             final double currentUserpointRequired = pointsRequired.get(rewardId - 1);
-            final double newUserPoints = userPoints - pointsRequired.get(rewardId - 1);
             RButton.get(rewardId-1).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentNumbersLeft > 0) {
-                        if (userPoints >= currentUserpointRequired && currentNumbersLeft > 0){
+                    if (numbersLeft.get(rewardId - 1) > 0) {
+                        if (userPoints >= currentUserpointRequired){
                             showToast("You just redeem one" + names.get(rewardId - 1));
-                            new UpdateNumbersLeft(connection, rewardId, currentNumbersLeft - 1).execute();
-                            numbersLeft.set(rewardId - 1,currentNumbersLeft - 1);
-                            RnumberLeftList.get(rewardId-1).setText(String.valueOf((currentNumbersLeft - 1) + " Units"));
+                            new UpdateNumbersLeft(connection, rewardId, numbersLeft.get(rewardId - 1) - 1).execute();
+                            int newNumbersLeft=numbersLeft.get(rewardId - 1) - 1;
+                            numbersLeft.set(rewardId - 1,newNumbersLeft);
+                            RnumberLeftList.get(rewardId-1).setText(String.valueOf(numbersLeft.get(rewardId - 1) + " Units"));
 
-                            new UpdateUserPoints(connection, newUserPoints);
-                            userPoints=newUserPoints;
+                            userPoints=userPoints-currentUserpointRequired;
+                            new UpdateUserPoints(connection, userPoints,getContext()).execute();
                             RuserPoint.setText(String.valueOf(userPoints));
                         }
                         else
-                        {showToast("You need " + currentNumbersLeft + " points to redeem"+ names.get(rewardId-1));}
+                        {showToast("You need " + currentUserpointRequired + " points to redeem"+ names.get(rewardId-1));}
                     }
                 else
                 {showToast("Sorry!" + names.get(rewardId-1) + "is out of stock");}
@@ -269,18 +268,20 @@ class RetrieveUserPoints extends AsyncTask<Void, Void, Boolean> {
 /**
  * Update the user points after he has redeemed the reward successfully
  */
-class UpdateUserPoints extends AsyncTask<Void, Void, Boolean> {
+class UpdateUserPoints extends AsyncTask<Void, Void, String> {
     private final Connection connection;
     private double newUserPoints;
     private final String userEmail = UserInfoManager.getInstance().getEmail();
+    private Context context;
 
-    public UpdateUserPoints(Connection connection, double newUserPoints) {
+    public UpdateUserPoints(Connection connection, double newUserPoints, Context context) {
         this.connection = connection;
         this.newUserPoints = newUserPoints;
+        this.context = context;
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
+    protected String doInBackground(Void... voids) {
         try {
             String query = "UPDATE Users SET PointsEarned = ? WHERE Email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -288,10 +289,21 @@ class UpdateUserPoints extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.setString(2, userEmail);
 
             int updatedRows = preparedStatement.executeUpdate();
-            return updatedRows > 0;
+            if (updatedRows > 0) {
+                return "Success"; // Successful update
+            } else {
+                return "No rows affected."; // No rows were updated
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return e.getMessage(); // Returning the SQL exception message
+        }
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        if (!result.equals("Success")) {
+            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
         }
     }
 }
