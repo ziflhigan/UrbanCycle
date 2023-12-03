@@ -3,9 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_waves"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Profile.PreferenceFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:id="@+id/BgRegister"
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="@drawable/bg_waves"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </FrameLayout>

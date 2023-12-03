@@ -40,5 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:title="Feedback" />
+        <item
+            android:id="@+id/Drating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Rating" />
     </group>
 </menu>

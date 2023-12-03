@@ -9,6 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/BgRegister"
+        android:layout_marginTop="55dp"
         android:layout_width="match_parent"
         android:layout_height="420dp"
         android:background="@drawable/bg_waves"
@@ -40,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/feedbackB" />
 
     <Button
-        android:id="@+id/ratingB"
+        android:id="@+id/SubmitRatingB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="125dp"

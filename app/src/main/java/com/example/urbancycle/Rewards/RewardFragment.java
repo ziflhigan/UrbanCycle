@@ -1,5 +1,6 @@
 package com.example.urbancycle.Rewards;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -45,7 +46,6 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     TextView RuserName;
     TextView RuserPoint;
 
-
     private Connection connection;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +80,12 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     }
 
     private void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        if (isAdded()) { // Check if Fragment is currently added to its Activity
+            Context context = getActivity();
+            if (context != null) {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -331,4 +336,3 @@ class UpdateNumbersLeft extends AsyncTask<Void, Void, Boolean> {
         }
     }
 }
-

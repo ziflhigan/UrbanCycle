@@ -27,7 +27,7 @@ public class SupportFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button feedbackButton = view.findViewById(R.id.feedbackB);
         Button faqButton = view.findViewById(R.id.FAQB);
-        Button ratingButton =view.findViewById(R.id.ratingB);
+        Button ratingButton =view.findViewById(R.id.SubmitRatingB);
 
         feedbackButton.setOnClickListener(new View.OnClickListener() {
             @Override
