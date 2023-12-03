@@ -108,25 +108,24 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
         //what happen when button is clicked
         for (i = 0; i < RButton.size(); i++) {
             final int rewardId = i + 1;
-            final int currentNumbersLeft = numbersLeft.get(rewardId - 1);
             final double currentUserpointRequired = pointsRequired.get(rewardId - 1);
-            final double newUserPoints = userPoints - pointsRequired.get(rewardId - 1);
             RButton.get(rewardId-1).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentNumbersLeft > 0) {
-                        if (userPoints >= currentUserpointRequired && currentNumbersLeft > 0){
+                    if (numbersLeft.get(rewardId - 1) > 0) {
+                        if (userPoints >= currentUserpointRequired){
                             showToast("You just redeem one" + names.get(rewardId - 1));
-                            new UpdateNumbersLeft(connection, rewardId, currentNumbersLeft - 1).execute();
-                            numbersLeft.set(rewardId - 1,currentNumbersLeft - 1);
-                            RnumberLeftList.get(rewardId-1).setText(String.valueOf((currentNumbersLeft - 1) + " Units"));
+                            new UpdateNumbersLeft(connection, rewardId, numbersLeft.get(rewardId - 1) - 1).execute();
+                            int newNumbersLeft=numbersLeft.get(rewardId - 1) - 1;
+                            numbersLeft.set(rewardId - 1,newNumbersLeft);
+                            RnumberLeftList.get(rewardId-1).setText(String.valueOf(numbersLeft.get(rewardId - 1) + " Units"));
 
-                            new UpdateUserPoints(connection, newUserPoints);
-                            userPoints=newUserPoints;
+                            userPoints=userPoints-currentUserpointRequired;
+                            new UpdateUserPoints(connection, userPoints);
                             RuserPoint.setText(String.valueOf(userPoints));
                         }
                         else
-                        {showToast("You need " + currentNumbersLeft + " points to redeem"+ names.get(rewardId-1));}
+                        {showToast("You need " + currentUserpointRequired + " points to redeem"+ names.get(rewardId-1));}
                     }
                 else
                 {showToast("Sorry!" + names.get(rewardId-1) + "is out of stock");}

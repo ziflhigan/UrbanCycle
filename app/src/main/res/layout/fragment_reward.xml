@@ -83,6 +83,7 @@
 
                 <TextView
                     android:id="@+id/RName1"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName1" />
@@ -125,6 +126,7 @@
 
                 <TextView
                     android:id="@+id/RName2"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName2" />
@@ -169,6 +171,7 @@
 
                 <TextView
                     android:id="@+id/RName3"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName3" />
@@ -211,6 +214,7 @@
 
                 <TextView
                     android:id="@+id/RName4"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName4" />
@@ -254,6 +258,7 @@
 
                 <TextView
                     android:id="@+id/RName5"
+                    android:layout_width="20dp"
                     android:gravity="right"
                     android:padding="3dip"
                     android:text="RName5" />
