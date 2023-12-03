@@ -126,7 +126,7 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
                             RnumberLeftList.get(rewardId-1).setText(String.valueOf(numbersLeft.get(rewardId - 1) + " Units"));
 
                             userPoints=userPoints-currentUserpointRequired;
-                            new UpdateUserPoints(connection, userPoints);
+                            new UpdateUserPoints(connection, userPoints,getContext()).execute();
                             RuserPoint.setText(String.valueOf(userPoints));
                         }
                         else
@@ -268,18 +268,20 @@ class RetrieveUserPoints extends AsyncTask<Void, Void, Boolean> {
 /**
  * Update the user points after he has redeemed the reward successfully
  */
-class UpdateUserPoints extends AsyncTask<Void, Void, Boolean> {
+class UpdateUserPoints extends AsyncTask<Void, Void, String> {
     private final Connection connection;
     private double newUserPoints;
     private final String userEmail = UserInfoManager.getInstance().getEmail();
+    private Context context;
 
-    public UpdateUserPoints(Connection connection, double newUserPoints) {
+    public UpdateUserPoints(Connection connection, double newUserPoints, Context context) {
         this.connection = connection;
         this.newUserPoints = newUserPoints;
+        this.context = context;
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
+    protected String doInBackground(Void... voids) {
         try {
             String query = "UPDATE Users SET PointsEarned = ? WHERE Email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -287,10 +289,21 @@ class UpdateUserPoints extends AsyncTask<Void, Void, Boolean> {
             preparedStatement.setString(2, userEmail);
 
             int updatedRows = preparedStatement.executeUpdate();
-            return updatedRows > 0;
+            if (updatedRows > 0) {
+                return "Success"; // Successful update
+            } else {
+                return "No rows affected."; // No rows were updated
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return e.getMessage(); // Returning the SQL exception message
+        }
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        if (!result.equals("Success")) {
+            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
         }
     }
 }
