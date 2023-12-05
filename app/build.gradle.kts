@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.urbancycle"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -56,4 +56,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("mysql:mysql-connector-java:5.1.49")
     implementation ("org.mindrot:jbcrypt:0.4")
+    implementation ("com.sun.mail:android-mail:1.6.2")
+    implementation ("com.sun.mail:android-activation:1.6.2")
 }
