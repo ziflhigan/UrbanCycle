@@ -20,6 +20,7 @@ import java.sql.Connection;
 
  */
 public class HistoryFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener{
+
     private Connection connection;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
