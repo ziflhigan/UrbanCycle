@@ -91,7 +91,7 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.connection = connection;
-        showToast("Database Connection Successful!");
+        //showToast("Database Connection Successful!");
         new RetrieveRewardsInformation(connection, this).execute();
     }
 
@@ -106,7 +106,7 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
         for (int j=0;j<5;j++){
             RnameList.get(j).setText(names.get(j));
             RdescriptionList.get(j).setText(descriptions.get(j));
-            RpointRequiredList.get(j).setText("Price: "+ String.valueOf(pointsRequired.get(j)));
+            RpointRequiredList.get(j).setText("Points: "+ String.valueOf(pointsRequired.get(j)));
             RnumberLeftList.get(j).setText(String.valueOf(numbersLeft.get(j) + " Units"));
         }
         int i;
@@ -132,9 +132,9 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
                         else
                         {showToast("You need " + currentUserpointRequired + " points to redeem"+ names.get(rewardId-1));}
                     }
-                else
-                {showToast("Sorry!" + names.get(rewardId-1) + "is out of stock");}
-            }
+                    else
+                    {showToast("Sorry!" + names.get(rewardId-1) + "is out of stock");}
+                }
             });
         }
     }

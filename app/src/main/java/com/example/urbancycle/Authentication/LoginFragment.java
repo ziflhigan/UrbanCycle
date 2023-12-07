@@ -1,5 +1,6 @@
 package com.example.urbancycle.Authentication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -86,7 +87,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        showToast("Database connection successful");
+//        showToast("Database connection successful");
     }
 
     @Override
@@ -139,7 +140,9 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     }
 
     private void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
+        }
     }
 
     /**

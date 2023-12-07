@@ -16,8 +16,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import android.Manifest;
+import androidx.core.content.ContextCompat;
+import android.content.pm.PackageManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import android.location.Location;
+
 
 public class MapsFragment extends Fragment {
+    private FusedLocationProviderClient fusedLocationClient;
+    private static final int YOUR_REQUEST_CODE = 100; // This can be any integer unique to this fragment
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -32,12 +42,35 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng kualaLumpur = new LatLng(3.1390, 101.6869);  // Coordinates for Kuala Lumpur
-            googleMap.addMarker(new MarkerOptions().position(kualaLumpur).title("Marker in Kuala Lumpur"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kualaLumpur, 10));  // Adjusting the zoom level to 10
+            if (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                // Permission is already granted
+                googleMap.setMyLocationEnabled(true);
+
+                // Get the last known location and move the camera to the user's current location
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 15));
+                                }
+                            }
+                        });
+            } else {
+                // Permission is not granted, so request it
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        YOUR_REQUEST_CODE); // Replace YOUR_REQUEST_CODE with an actual request code constant
+            }
         }
     };
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Initialize the FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -53,6 +86,21 @@ public class MapsFragment extends Fragment {
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == YOUR_REQUEST_CODE) { // Replace with your actual request code
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // The map fragment may need to be re-instantiated or the map needs to be notified that the permission is granted
+                SupportMapFragment mapFragment =
+                        (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+                if (mapFragment != null) {
+                    mapFragment.getMapAsync(callback);
+                }
+            } else {
+                // Permission was denied. Disable the functionality that depends on this permission.
+            }
         }
     }
 }
