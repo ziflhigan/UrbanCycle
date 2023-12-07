@@ -9,69 +9,77 @@
     <!-- Map Fragment -->
 
 
+    <!-- Horizontal guideline to define map height -->
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <!-- Horizontal guideline to define map height -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" /> <!-- Adjusted to 60% of the screen height -->
+        app:layout_constraintGuide_percent="0.59" /> <!-- Adjusted to 60% of the screen height -->
 
     <!-- Origin Input Field -->
-    <EditText
-        android:id="@+id/originInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter start location"
-        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
 
     <!-- Destination Input Field -->
-    <EditText
-        android:id="@+id/destinationInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter destination"
-        app:layout_constraintTop_toBottomOf="@id/originInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
 
     <!-- Transportation Mode Buttons -->
     <!-- Walking Button -->
-    <Button
-        android:id="@+id/walkingButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Walk"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/destinationInput"
-        app:layout_constraintEnd_toStartOf="@id/cyclingButton"
-        android:layout_marginTop="8dp"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
     <!-- Cycling Button -->
 
     <!-- Public Transport Button -->
 
+    <EditText
+        android:id="@+id/originInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:hint="Enter start location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal" />
+
+    <EditText
+        android:id="@+id/destinationInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Enter destination"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/originInput" />
+    <Button
+        android:id="@+id/walkingButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Walk"
+        app:layout_constraintEnd_toStartOf="@id/cyclingButton"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/destinationInput" />
+
+    <!-- Start Route Button -->
+
     <Button
         android:id="@+id/cyclingButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="Cycle"
         app:layout_constraintEnd_toStartOf="@id/transportButton"
         app:layout_constraintStart_toEndOf="@id/walkingButton"
@@ -81,30 +89,30 @@
         android:id="@+id/transportButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="Transit"
-        app:layout_constraintStart_toEndOf="@id/cyclingButton"
-        app:layout_constraintTop_toBottomOf="@id/destinationInput"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Start Route Button -->
+        app:layout_constraintStart_toEndOf="@id/cyclingButton"
+        app:layout_constraintTop_toBottomOf="@id/destinationInput" />
 
     <Button
         android:id="@+id/startRouteButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="8dp"
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cyclingButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="58dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="352dp"
+        android:layout_width="49dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/back"
