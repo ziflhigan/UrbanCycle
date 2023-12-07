@@ -57,7 +57,7 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
             Uri selectedImageUri = data.getData();
-            // 处理选定的图像URI，例如显示或保存它
+
         }
     }
 }
