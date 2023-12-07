@@ -50,7 +50,7 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
         @Override
         protected String doInBackground(Void... params) {
             try {
-                MailUtil.sendMail(email, subject, content);
+                //MailUtil.sendMail(email, subject, content);
                 return "Success";
             } catch (Exception e) {
                 e.printStackTrace();
