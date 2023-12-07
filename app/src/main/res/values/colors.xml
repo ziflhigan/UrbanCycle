@@ -3,6 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#56DF5B</color>
-    <color name="light_green">#C1E6C2</color>
-    <color name="deep_green">#006400</color>
+    <color name="Rtheme1">#C1E6C2</color>
+    <color name="Rtheme2">#65a765</color>
 </resources>

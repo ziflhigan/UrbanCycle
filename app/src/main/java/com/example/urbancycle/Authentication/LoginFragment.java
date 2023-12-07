@@ -1,14 +1,9 @@
 package com.example.urbancycle.Authentication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -19,12 +14,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.urbancycle.Database.UserInfoManager;
-import com.example.urbancycle.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.urbancycle.Database.ConnectToDatabase;
+import com.example.urbancycle.Database.UserInfoManager;
 import com.example.urbancycle.MainActivity;
+import com.example.urbancycle.R;
 
 import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -86,7 +87,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        showToast("Database connection successful");
+//        showToast("Database connection successful");
     }
 
     @Override
@@ -139,7 +140,9 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     }
 
     private void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
+        }
     }
 
     /**

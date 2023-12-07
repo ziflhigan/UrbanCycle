@@ -19,13 +19,27 @@
         android:id="@+id/community"
         android:name="com.example.urbancycle.Community.CommunityFragment"
         android:label="Community"
-        tools:layout="@layout/fragment_community" />
+        tools:layout="@layout/fragment_community" >
+        <action
+            android:id="@+id/action_community_to_eventFragment"
+            app:destination="@id/DestEvent" />
+    </fragment>
 
     <fragment
         android:id="@+id/profile"
         android:name="com.example.urbancycle.Profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_to_history"
+            app:destination="@id/historyFragment" />
+        <action
+            android:id="@+id/action_profile_to_preference"
+            app:destination="@id/preferenceFragment" />
+        <action
+            android:id="@+id/action_profile_to_setting"
+            app:destination="@id/settingFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/support"
@@ -39,6 +53,9 @@
         <action
             android:id="@+id/action_supportFragment_to_faqFragment"
             app:destination="@id/DFAQ" />
+        <action
+            android:id="@+id/action_support_to_rating"
+            app:destination="@id/Drating" />
 
     </fragment>
 
@@ -64,6 +81,42 @@
         android:id="@+id/directionsFragment"
         android:name="com.example.urbancycle.Maps.DirectionsFragment"
         android:label="directions_fragment_label" />
+    <fragment
+        android:id="@+id/Drating"
+        android:name="com.example.urbancycle.SupportAndFeedback.Rating"
+        android:label="Rating"
+        tools:layout="@layout/fragment_rating" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.example.urbancycle.Profile.HistoryFragment"
+        android:label="HistoryFragment" />
+    <fragment
+        android:id="@+id/preferenceFragment"
+        android:name="com.example.urbancycle.Profile.PreferenceFragment"
+        android:label="fragment_preference"
+        tools:layout="@layout/fragment_preference" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.example.urbancycle.Profile.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_support"
+            app:destination="@id/support" />
+        <action
+            android:id="@+id/action_settingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.urbancycle.Authentication.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/DestEvent"
+        android:name="com.example.urbancycle.Community.EventFragment"
+        android:label="fragment_event"
+        tools:layout="@layout/fragment_event" />
 
 
 </navigation>

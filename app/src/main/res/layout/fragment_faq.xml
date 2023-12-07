@@ -8,33 +8,23 @@
     tools:context=".SupportAndFeedback.FAQ" >
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="30dp"
-        android:text="FAQ"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/FAQTV"
         android:layout_width="318dp"
         android:layout_height="360dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="125dp"
         android:text="FAQ"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/nextB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="280dp"
-        android:layout_marginTop="650dp"
+        android:layout_marginTop="600dp"
+        android:backgroundTint="#8BC34A"
         android:text="next"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="650dp"
+        android:layout_marginTop="600dp"
+        android:backgroundTint="#8BC34A"
         android:text="back"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"

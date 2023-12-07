@@ -11,15 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="420dp"
         android:background="@drawable/bg_waves"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/ETFirstName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="245dp"
+        android:layout_height="48dp"
         android:layout_marginTop="212dp"
         android:ems="10"
         android:hint="@string/First_Name"
@@ -91,8 +89,8 @@
 
     <EditText
         android:id="@+id/ETUserName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="245dp"
+        android:layout_height="48dp"
         android:layout_marginTop="124dp"
         android:ems="10"
         android:hint="@string/User_Name"
@@ -161,8 +159,8 @@
 
     <EditText
         android:id="@+id/ETLastName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="245dp"
+        android:layout_height="48dp"
         android:layout_marginTop="304dp"
         android:ems="10"
         android:hint="@string/Last_Name"
@@ -180,7 +178,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="680dp"
         android:backgroundTint="#4CAF50"
         android:text="Back"
         android:textColor="#ECE8E8"

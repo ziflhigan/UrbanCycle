@@ -27,6 +27,7 @@ public class SupportFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button feedbackButton = view.findViewById(R.id.feedbackB);
         Button faqButton = view.findViewById(R.id.FAQB);
+        Button ratingButton =view.findViewById(R.id.SubmitRatingB);
 
         feedbackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +42,14 @@ public class SupportFragment extends Fragment {
             public void onClick(View v) {
                 NavHostFragment.findNavController(SupportFragment.this)
                         .navigate(R.id.action_supportFragment_to_faqFragment);
+            }
+        });
+
+        ratingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(SupportFragment.this)
+                        .navigate(R.id.action_support_to_rating);
             }
         });
     }

@@ -3,18 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Community.CommunityFragment">
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="412dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="144dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/button_forum"
+            android:layout_width="78dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_square"
+            android:radius='50dp'
+            android:text="Forum Board" />
+
+        <Button
+            android:id="@+id/button_tips"
+            android:layout_width="78dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_square"
+            android:text="Eco Tips" />
+
+        <Button
+            android:id="@+id/button_events"
+            android:layout_width="78dp"
+            android:layout_height="90dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_square"
+            android:text="Events" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="165dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="208dp"
+        android:src="@drawable/green_sprout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/TVSupport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="296dp"
+        android:id="@+id/TVEcoTipsTitle"
+        android:layout_width="196dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="56dp"
+        android:fontFamily="cursive"
         android:text="Community"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#2196F3"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="413dp"
+        android:layout_height="358dp"
+        android:layout_marginTop="263dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tips 1"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
