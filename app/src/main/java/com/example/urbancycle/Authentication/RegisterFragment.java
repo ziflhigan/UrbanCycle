@@ -1,5 +1,6 @@
 package com.example.urbancycle.Authentication;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbancycle.R;
@@ -32,6 +34,7 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
     private EditText userNameEditText, firstNameEditText, lastNameEditText, emailEditText, passwordEditText;
     private Connection databaseConnection;
+    private TextView requirement1, requirement2, requirement3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +62,26 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         lastNameEditText = view.findViewById(R.id.ETLastName);
         emailEditText = view.findViewById(R.id.ETEmailAddress);
         passwordEditText = view.findViewById(R.id.ETPassword);
+        requirement1 = view.findViewById(R.id.passwordRequirement1);
+        requirement2 = view.findViewById(R.id.passwordRequirement2);
+        requirement3 = view.findViewById(R.id.passwordRequirement3);
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used here
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Check password strength on text change
+                checkPasswordStrength(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Not used here
+            }
+        });
 
         // Initialize SignUp Button
         Button signUpButton = view.findViewById(R.id.BtnSignUp);
@@ -78,33 +101,36 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
     @Override
     public void onConnectionSuccess(Connection connection) {
-        // Save the connection to use later
         this.databaseConnection = connection;
         showToast("Database connection successful");
     }
 
     @Override
     public void onConnectionFailure() {
-        // To Do: Handle the case when cannot connect database, either let user check Internet Connection, or saying the database server is under maintenance
         showToast("Failed to connect to database");
     }
 
     private void registerUser() {
         if (databaseConnection != null) {
-            // Retrieve user input
-            String userName = userNameEditText.getText().toString().trim();
-            String firstName = firstNameEditText.getText().toString().trim();
-            String lastName = lastNameEditText.getText().toString().trim();
-            String email = emailEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
+            // Checks whether typed password match the requirements or not
+            if (arePasswordRequirementsMet()){
+                // Retrieve user input
+                String userName = userNameEditText.getText().toString().trim();
+                String firstName = firstNameEditText.getText().toString().trim();
+                String lastName = lastNameEditText.getText().toString().trim();
+                String email = emailEditText.getText().toString().trim();
+                String password = passwordEditText.getText().toString().trim();
 
-            // Hash the password
-            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+                // Hash the password
+                String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-            // Insert user data into database
-            new InsertUserDataTask(databaseConnection, userName, firstName, lastName, email, hashedPassword, (InsertUserDataTask.OnRegistrationCompleteListener) this).execute();
+                // Insert user data into database
+                new InsertUserDataTask(databaseConnection, userName, firstName, lastName, email, hashedPassword, (InsertUserDataTask.OnRegistrationCompleteListener) this).execute();
+            }else{
+                passwordEditText.setError("Password Does Not Meet Requirements!");
+            }
         } else {
-            // Handle the case where the database connection is not established
+            showToast("Database connection is not established");
         }
     }
 
@@ -160,13 +186,35 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         passwordEditText.addTextChangedListener(textWatcher);
     }
 
+    private void checkPasswordStrength(String password) {
+        // Check for uppercase character
+        if (password.matches(".*[A-Z].*")) {
+            requirement1.setTextColor(Color.GREEN);
+        } else {
+            requirement1.setTextColor(Color.RED);
+        }
+
+        // Check for password length
+        if (password.length() >= 6) {
+            requirement2.setTextColor(Color.GREEN);
+        } else {
+            requirement2.setTextColor(Color.RED);
+        }
+
+        // Check for at least one number
+        if (password.matches(".*\\d.*")) {
+            requirement3.setTextColor(Color.GREEN);
+        } else {
+            requirement3.setTextColor(Color.RED);
+        }
+    }
+
     private boolean isValidEmailAddressPattern(EditText emailEditText){
 
         String emailInput = emailEditText.getText().toString();
 
         if (!emailInput.isEmpty()&& Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()){
-
-            showToast("Email Validated Successfully!");
+//            showToast("Email Validated Successfully!");
             return true;
         }
         emailEditText.setError("Invalid Email Input!");
@@ -177,6 +225,17 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
         return true;
     }
+
+    private boolean arePasswordRequirementsMet() {
+        String password = passwordEditText.getText().toString();
+
+        boolean hasUppercase = password.matches(".*[A-Z].*");
+        boolean hasMinimumLength = password.length() >= 6;
+        boolean hasNumber = password.matches(".*\\d.*");
+
+        return hasUppercase && hasMinimumLength && hasNumber;
+    }
+
 
 }
 
