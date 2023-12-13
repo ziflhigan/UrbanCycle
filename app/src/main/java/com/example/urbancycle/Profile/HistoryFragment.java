@@ -2,6 +2,8 @@ package com.example.urbancycle.Profile;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -28,6 +30,17 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
         return inflater.inflate(R.layout.fragment_history, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // This is important, to establish the connection
+        new ConnectToDatabase(this).execute();
+
+        // Retrieve the history information
+        new RetrieveSavingHistory(connection, this).execute();
+    }
+
     private void showToast(String message) {
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
@@ -38,7 +51,6 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
     public void onConnectionSuccess(Connection connection) {
         this.connection = connection;
         showToast("Database Connection Successful!");
-        new RetrieveSavingHistory(connection, this).execute();
     }
 
     @Override
