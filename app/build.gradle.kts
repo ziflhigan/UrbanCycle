@@ -41,6 +41,8 @@ android {
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.sun.mail:android-mail:1.6.2")
+    implementation ("com.sun.mail:android-activation:1.6.2")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.annotation:annotation:1.7.0")
@@ -56,14 +58,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("mysql:mysql-connector-java:5.1.49")
     implementation ("org.mindrot:jbcrypt:0.4")
-<<<<<<< HEAD
+
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
 
 }
-=======
-    implementation ("com.sun.mail:android-mail:1.6.2")
-    implementation ("com.sun.mail:android-activation:1.6.2")
-}
->>>>>>> 33721541c943993158b7bda9e1b80a060afb71d4
+
+
+

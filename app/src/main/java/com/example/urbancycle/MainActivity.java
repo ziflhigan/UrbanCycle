@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.urbancycle.Profile.PreferenceFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -27,6 +29,7 @@ public class   MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
