@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="guideline_horizontal" type="id" />
+    <item name="autocomplete_origin" type="id" />
+    <item name="autocomplete_destination" type="id" />
 </resources>

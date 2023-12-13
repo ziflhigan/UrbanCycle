@@ -31,6 +31,9 @@
     <string name="reset_button">Reset</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+
+    <string name="google_maps_key">AIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzw</string>
+
     <string name="constraint" />
     <string-array name="location">
         <item>Kuala Lumpur</item>
@@ -38,4 +41,5 @@
         <item>Penang</item>
     </string-array>
     <string name="please_enter_password">Please Enter Password...</string>
+
 </resources>
