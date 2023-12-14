@@ -9,6 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,7 @@ import java.util.Random;
 public class ForgotPasswordFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, RetrieveOTPInformation.onRetrievedListener {
     private Connection connection;
     private EditText ETEmail, ETOTP;
-    private Button BtnReset, back, BtnSendEmail;
+    private Button BtnReset, BtnSendEmail;
     private String userEnteredOtp;
 
     private class SendEmailTask extends AsyncTask<Void, Void, String> {
@@ -87,21 +89,11 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
 
         BtnSendEmail.setOnClickListener(v -> {
             String email = ETEmail.getText().toString();
-            if (!email.isEmpty()) {
-                String otp = generateOtp();
-                String expiryTime = getCurrentTimePlusMinutes(10);
 
-                /*
-                TO DO: Verify the Email address first from the Users table
-                 */
-                new InsertOTPInformation(connection, email, otp, expiryTime).execute();
-
-                String subject = "Your OTP for Password Reset";
-                String content = "Your OTP is: " + otp + ". It is valid for 10 minutes.";
-
-                new SendEmailTask(email, subject, content).execute(); // Use AsyncTask to send email
+            if (email.isEmpty()) {
+                ETEmail.setError("Email Address Cannot Be Empty!");
             } else {
-                showToast("Please enter your email");
+                verifyUserEmail(email);
             }
         });
 
@@ -119,8 +111,8 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
             // Navigate to reset password fragment
         });
 
+        setupTextWatchers();
     }
-
 
     @Override
     public void onConnectionSuccess(Connection connection) {
@@ -181,6 +173,56 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
                 .addToBackStack(null)
                 .commit();
     }
+
+    private void setupTextWatchers() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not needed for this implementation
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Clear the error when the user starts typing
+                ETEmail.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Not needed for this implementation
+            }
+        };
+
+        ETEmail.addTextChangedListener(textWatcher);
+    }
+
+    private void verifyUserEmail(String email) {
+        new VerifyUserEmail(email, connection, new VerifyUserEmail.onVerifyListener() {
+            @Override
+            public void onVerifiedSuccess() {
+                // Email is verified, continue with OTP generation and sending
+                proceedAfterVerification(email);
+            }
+
+            @Override
+            public void onVerifiedFailure() {
+                ETEmail.setError("Invalid Email Address!");
+            }
+        }).execute();
+    }
+
+    private void proceedAfterVerification(String email) {
+        String otp = generateOtp();
+        String expiryTime = getCurrentTimePlusMinutes(10);
+
+        new InsertOTPInformation(connection, email, otp, expiryTime).execute();
+
+        String subject = "Your OTP for Password Reset";
+        String content = "Your OTP is: " + otp + ". It is valid for 10 minutes.";
+
+        new SendEmailTask(email, subject, content).execute();
+    }
+
 }
 
 class InsertOTPInformation extends AsyncTask<Void, Void, Boolean>{
@@ -292,4 +334,45 @@ class RetrieveOTPInformation extends AsyncTask<String, Void, RetrieveOTPInformat
         listener.onRetrieved(otpDetails);
     }
 
+}
+
+class VerifyUserEmail extends AsyncTask<Void, Void, Boolean>{
+
+    private String userEmail;
+    private final Connection connection;
+    private final onVerifyListener listener;
+    public interface onVerifyListener{
+        void onVerifiedSuccess();
+        void onVerifiedFailure();
+    }
+    public VerifyUserEmail(String userEmail, Connection connection, onVerifyListener listener){
+        this.userEmail = userEmail;
+        this.connection = connection;
+        this.listener = listener;
+    }
+    @Override
+    protected Boolean doInBackground(Void... voids) {
+        try{
+            String query = "SELECT Email FROM Users WHERE Email = ?";
+            PreparedStatement verifyStmt = connection.prepareStatement(query);
+            verifyStmt.setString(1, userEmail);
+            ResultSet resultSet = verifyStmt.executeQuery();
+
+            return resultSet.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(Boolean aBoolean) {
+
+        if (aBoolean){
+            listener.onVerifiedSuccess();
+        }else{
+            listener.onVerifiedFailure();
+        }
+    }
 }

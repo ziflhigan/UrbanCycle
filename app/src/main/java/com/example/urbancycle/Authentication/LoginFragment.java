@@ -135,7 +135,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
 
     private void markAsError(EditText... editTexts) {
         for (EditText editText : editTexts) {
-            editText.setError("Incorrect");
+            editText.setError("Invalid Input");
         }
     }
 

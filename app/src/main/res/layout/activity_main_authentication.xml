@@ -22,12 +22,12 @@
         android:layout_width="146dp"
         android:layout_height="64dp"
         android:layout_marginTop="564dp"
-        android:layout_marginEnd="130dp"
         android:backgroundTint="#BA0288D1"
         android:text="@string/register"
         android:textSize="20sp"
         app:iconSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -35,11 +35,11 @@
         android:layout_width="146dp"
         android:layout_height="64dp"
         android:layout_marginTop="468dp"
-        android:layout_marginEnd="130dp"
         android:backgroundTint="#37FB7A"
         android:text="@string/login"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
