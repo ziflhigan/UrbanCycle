@@ -104,26 +104,24 @@
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
         <action
-            android:id="@+id/action_settingFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/profile"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_settingFragment_to_support"
             app:destination="@id/support"
             app:popUpTo="@id/profile"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_settingFragment_to_mainActivity_Authentication"
+            app:destination="@id/mainActivity_Authentication" />
     </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.urbancycle.Authentication.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/DestEvent"
         android:name="com.example.urbancycle.Community.EventFragment"
         android:label="fragment_event"
         tools:layout="@layout/fragment_event" />
+    <activity
+        android:id="@+id/mainActivity_Authentication"
+        android:name="com.example.urbancycle.MainActivity_Authentication"
+        android:label="activity_main_authentication"
+        tools:layout="@layout/activity_main_authentication" />
 
 
 </navigation>
