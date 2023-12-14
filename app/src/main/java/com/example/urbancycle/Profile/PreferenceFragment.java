@@ -54,7 +54,6 @@ public class PreferenceFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         avatarAdapter = new AvatarAdapter(avatarList);
         recyclerView.setAdapter(avatarAdapter);
-
         Button btnPickImage = view.findViewById(R.id.btnPickImage);
         btnPickImage.setOnClickListener(new View.OnClickListener() {
             @Override

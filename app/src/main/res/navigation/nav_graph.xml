@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_support_to_rating"
             app:destination="@id/Drating" />
+        <action
+            android:id="@+id/action_support_self"
+            app:destination="@id/support" />
 
     </fragment>
 
@@ -101,11 +104,15 @@
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
         <action
-            android:id="@+id/action_settingFragment_to_support"
-            app:destination="@id/support" />
-        <action
             android:id="@+id/action_settingFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_settingFragment_to_support"
+            app:destination="@id/support"
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
