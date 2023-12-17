@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 
 import com.example.urbancycle.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TipsFragment extends Fragment {
+    List<DailyTip> dailyTipsList=new ArrayList<>();
 
     public TipsFragment() {
         // Required empty public constructor
     }
-
 
 
 
@@ -25,4 +28,6 @@ public class TipsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tips, container, false);
     }
+
+    //use image loading library to retrieve imagepath stored from db (picasso/glide)
 }
