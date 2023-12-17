@@ -2,20 +2,29 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout2"
+    android:id="@+id/CLEvents"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Community.EventFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="411dp"
+        android:layout_height="405dp"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/bg_waves"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/IVSproutEvents"
         android:layout_width="165dp"
         android:layout_height="150dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="172dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="208dp"
         android:src="@drawable/green_sprout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,8 +33,8 @@
         android:id="@+id/TVEcoTipsTitle"
         android:layout_width="140dp"
         android:layout_height="71dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="84dp"
         android:fontFamily="cursive"
         android:text="Events"
         android:textColor="#2196F3"
@@ -37,9 +46,10 @@
         android:id="@+id/spinner_location"
         android:layout_width="410dp"
         android:layout_height="58dp"
-        android:layout_marginTop="146dp"
+        android:layout_marginTop="220dp"
+        android:spinnerMode="dropdown"
+        android:background="#fafafa"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:spinnerMode="dropdown"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_community_to_eventFragment"
             app:destination="@id/DestEvent" />
+        <action
+            android:id="@+id/action_community_to_tipsFragment"
+            app:destination="@id/DestTips" />
     </fragment>
 
     <fragment
@@ -115,13 +118,18 @@
     <fragment
         android:id="@+id/DestEvent"
         android:name="com.example.urbancycle.Community.EventFragment"
-        android:label="fragment_event"
+        android:label="Event"
         tools:layout="@layout/fragment_event" />
     <activity
         android:id="@+id/mainActivity_Authentication"
         android:name="com.example.urbancycle.MainActivity_Authentication"
         android:label="activity_main_authentication"
         tools:layout="@layout/activity_main_authentication" />
+    <fragment
+        android:id="@+id/DestTips"
+        android:name="com.example.urbancycle.Community.TipsFragment"
+        android:label="Eco Tips"
+        tools:layout="@layout/fragment_tips" />
 
 
 </navigation>

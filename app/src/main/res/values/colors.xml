@@ -5,4 +5,7 @@
     <color name="green">#56DF5B</color>
     <color name="Rtheme1">#C1E6C2</color>
     <color name="Rtheme2">#65a765</color>
+    <color name="rounded_square_background">#C9EEAC</color>
+    <color name="rounded_square_tint">#C8EDAB</color>
+    <color name="rounded_square_background_blue">#2196F3</color>
 </resources>
