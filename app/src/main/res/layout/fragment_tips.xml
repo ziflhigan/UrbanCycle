@@ -8,17 +8,12 @@
     tools:context=".Community.TipsFragment">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
-        android:layout_width="415dp"
-        android:layout_height="306dp"
+        android:layout_width="411dp"
+        android:layout_height="275dp"
         android:layout_marginTop="55dp"
         android:background="@drawable/bg_waves"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </RelativeLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/IVSproutTips"
@@ -32,8 +27,8 @@
 
     <TextView
         android:id="@+id/TVEcoTipsTitle"
-        android:layout_width="196dp"
-        android:layout_height="69dp"
+        android:layout_width="200dp"
+        android:layout_height="65dp"
         android:layout_marginTop="72dp"
         android:layout_marginEnd="56dp"
         android:fontFamily="cursive"
@@ -44,13 +39,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/IVTips"
-        android:layout_width="411dp"
-        android:layout_height="239dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/IVTipsDisplay"
+        android:layout_width="378dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426"
         tools:src="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/TVTipsDisplay"
+        android:layout_width="375dp"
+        android:layout_height="157dp"
+        android:layout_marginTop="476dp"
+        android:layout_marginEnd="16dp"
+        android:background="#C6EAAC"
+        android:text="Daily Tips populate here"
+        android:textAlignment="center"
+        android:textColor="#0B0A0A"
+        android:textSize="26sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

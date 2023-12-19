@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DailyTip {
-    private String tipText;
-    private String imageResources;
+    private static String tipText;
+    private static int imageResources;
 
 
-    public DailyTip(String tipText,String imageResources) {
+    public DailyTip(String tipText,int imageResources) {
         this.tipText = tipText;
         this.imageResources=imageResources;
     }
@@ -18,15 +18,15 @@ public class DailyTip {
     public void setTipText(String tipText) {
         this.tipText = tipText;
     }
-    public String getTipText() {
+    public static String getTipText() {
         return tipText;
     }
 
-    public String getImageResources() {
+    public static int getImageResources() {
         return imageResources;
     }
 
-    public void setImageResources(String imageResources) {
+    public void setImageResources(int imageResources) {
         this.imageResources = imageResources;
     }
 
