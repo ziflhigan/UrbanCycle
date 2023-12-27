@@ -1,9 +1,11 @@
 package com.example.urbancycle.Authentication;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -37,19 +39,10 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
     private Button loginButton, backButton;
     private Connection databaseConnection;
     private TextView forgotPassword;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        backButton = view.findViewById(R.id.BtnBackLogin);
-        backButton.setOnClickListener(v->{
-
-            if (getFragmentManager() != null) {
-                getFragmentManager().popBackStack();
-            }
-        });
-
         return view;
     }
 
@@ -80,19 +73,16 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
         // Establish a database connection
         new ConnectToDatabase(this).execute();
 
-        // Set up text watchers
         setupTextWatchers();
     }
 
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-//        showToast("Database connection successful");
     }
 
     @Override
     public void onConnectionFailure() {
-        // Handle connection failure
         showToast("Unable to connect to the database. Please try again later.");
     }
 
@@ -106,31 +96,24 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
             new VerifyUserCredentialsTask(databaseConnection, email, password, new VerifyUserCredentialsTask.LoginListener() {
                 @Override
                 public void onLoginSuccess(String userName, String userEmail) {
-                    // Handle login success: navigate to MainActivity
                     showToast("Login Successful, hold on...");
                     navigateToMainActivity();
                 }
 
                 @Override
                 public void onLoginFailure() {
-                    // Handle login failure: show error message and mark EditTexts
-                    showToast("Email or Password incorrect");
                     markAsError(emailEditText, passwordEditText);
                 }
             }).execute();
         } else {
-            // Handle the case where the database connection is not established
             showToast("Database connection is not established. Please try again.");
         }
     }
 
-
     private void navigateToMainActivity() {
-        // Logic to navigate to MainActivity
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
-        getActivity().finish(); // Finish the current activity
-
+        getActivity().finish(); // Finish the current activity, so the user cannot jump back
     }
 
     private void markAsError(EditText... editTexts) {
@@ -221,7 +204,6 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String fetchUserName(String email) throws SQLException {
         String userName = null;
-        // SQL query to fetch the user's name based on email
         String fetchNameQuery = "SELECT UserName FROM Users WHERE Email = ?";
         PreparedStatement nameStmt = connection.prepareStatement(fetchNameQuery);
         nameStmt.setString(1, email);

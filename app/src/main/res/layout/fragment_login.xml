@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-16dp" />
+        tools:layout_editor_absoluteX="116dp" />
 
     <EditText
         android:id="@+id/LoginEmail"
@@ -103,17 +103,17 @@
         app:layout_constraintTop_toBottomOf="@+id/SignIn"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/BtnBackLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Back"
-        android:textColor="#FAF2F2"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/BtnBackLogin"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:backgroundTint="#4CAF50"-->
+<!--        android:text="Back"-->
+<!--        android:textColor="#FAF2F2"-->
+<!--        android:textSize="20sp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

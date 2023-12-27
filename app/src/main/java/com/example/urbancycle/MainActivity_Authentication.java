@@ -44,8 +44,8 @@ public class MainActivity_Authentication extends AppCompatActivity{
 
         Register.setOnClickListener(view -> {
 
-            login.setVisibility(View.GONE); // Hide the login button
-            Register.setVisibility(View.GONE); // Hide the register button
+            login.setVisibility(View.GONE);
+            Register.setVisibility(View.GONE);
             background.setVisibility(View.GONE);
 
             getSupportFragmentManager()
@@ -66,7 +66,6 @@ public class MainActivity_Authentication extends AppCompatActivity{
 
     private void showButtons() {
         // Making things visible here
-
         login.setVisibility(View.VISIBLE);
         Register.setVisibility(View.VISIBLE);
         background.setVisibility(View.VISIBLE);
