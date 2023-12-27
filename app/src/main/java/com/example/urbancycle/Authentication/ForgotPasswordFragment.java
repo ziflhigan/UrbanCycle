@@ -1,5 +1,6 @@
 package com.example.urbancycle.Authentication;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
+import com.example.urbancycle.Database.UserInfoManager;
 import com.example.urbancycle.R;
 
 import java.sql.Connection;
@@ -37,6 +39,7 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
     private EditText ETEmail, ETOTP;
     private Button BtnReset, BtnSendEmail;
     private String userEnteredOtp;
+    private ProgressDialog progressDialog;
 
     private class SendEmailTask extends AsyncTask<Void, Void, String> {
         private String email;
@@ -52,7 +55,7 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
         @Override
         protected String doInBackground(Void... params) {
             try {
-                //MailUtil.sendMail(email, subject, content);
+                MailUtil.sendMail(email, subject, content);
                 return "Success";
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,8 +66,10 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
         @Override
         protected void onPostExecute(String result) {
             if (result.equals("Success")) {
+                progressDialog.dismiss();
                 Toast.makeText(getContext(), "OTP sent to " + email, Toast.LENGTH_SHORT).show();
             } else {
+                progressDialog.dismiss();
                 showToast("Error sending email: " + result);
             }
         }
@@ -85,14 +90,21 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
         BtnSendEmail = view.findViewById(R.id.btn_send_email);
         BtnReset = view.findViewById(R.id.btn_reset_password);
 
+        // Initialize the progress dialog
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Sending Email, please wait...");
+        progressDialog.setCancelable(false);
+
         new ConnectToDatabase(this).execute();
 
         BtnSendEmail.setOnClickListener(v -> {
-            String email = ETEmail.getText().toString();
+            String email = ETEmail.getText().toString().trim();
 
             if (email.isEmpty()) {
                 ETEmail.setError("Email Address Cannot Be Empty!");
             } else {
+                // save the Email Address to the local class, for updating password purpose
+                UserInfoManager.getInstance().setEmail(email);
                 verifyUserEmail(email);
             }
         });
@@ -105,10 +117,8 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
             if (!email.isEmpty() && !userEnteredOtp.isEmpty()){
                 new RetrieveOTPInformation(connection, this).execute(email);
             }else{
-             showToast("Please enter something!");
+             showToast("Email or OTP cannot be empty!");
             }
-            // If OTP is correct and not expired
-            // Navigate to reset password fragment
         });
 
         setupTextWatchers();
@@ -117,13 +127,19 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.connection = connection;
-        showToast("DB connected");
     }
 
     @Override
     public void onConnectionFailure() {
+        showToast("Database is not connected, try again later!");
     }
 
+    /**
+     *
+     * @param minutes the valid time duration for generated OTP
+     * @return the time with added time duration for OTP, to be compared letter with
+     * local time and the time stored in database
+     */
     public String getCurrentTimePlusMinutes(int minutes) {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime expiryTime = now.plusMinutes(minutes);
@@ -131,9 +147,12 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
         return expiryTime.format(formatter);
     }
 
+    /**
+     * @return Generate a random 5-digits number, used as OTP
+     */
     public String generateOtp() {
         Random random = new Random();
-        int otp = 10000 + random.nextInt(90000); // Generates a 5-digit number
+        int otp = 10000 + random.nextInt(90000);
         return String.valueOf(otp);
     }
 
@@ -151,6 +170,7 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
                 // OTP is valid
                 // validate the OTP entered by the user
                 if (otpDetails.getOtp().equals(userEnteredOtp)){
+                    // Once being used, delete the OTP
                     navigateToResetPasswordF();
                 }else{
                     showToast("Incorrect OTP!");
@@ -170,7 +190,6 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, new ResetPasswordFragment())
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -212,13 +231,14 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
     }
 
     private void proceedAfterVerification(String email) {
+        progressDialog.show();
         String otp = generateOtp();
-        String expiryTime = getCurrentTimePlusMinutes(10);
+        String expiryTime = getCurrentTimePlusMinutes(2);
 
         new InsertOTPInformation(connection, email, otp, expiryTime).execute();
 
-        String subject = "Your OTP for Password Reset";
-        String content = "Your OTP is: " + otp + ". It is valid for 10 minutes.";
+        String subject = "UrbanCycle App: Your OTP for Password Reset";
+        String content = "Your OTP is: " + otp + ". It is valid for 2 minutes.";
 
         new SendEmailTask(email, subject, content).execute();
     }

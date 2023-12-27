@@ -87,7 +87,7 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
         Button signUpButton = view.findViewById(R.id.BtnSignUp);
         signUpButton.setOnClickListener(View -> {
 
-            if (isValidEmailAddressPattern(emailEditText))
+            if (isValidEmailAddressPattern(emailEditText) && isValidUserName(userNameEditText))
                 registerUser();
             }
         );
@@ -102,7 +102,6 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        showToast("Database connection successful");
     }
 
     @Override
@@ -222,7 +221,10 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
     }
 
     private boolean isValidUserName (EditText userNameEditText){
-
+        if (userNameEditText.getText().toString().isEmpty()){
+            userNameEditText.setError("Username cannot be empty!");
+            return false;
+        }
         return true;
     }
 
@@ -235,7 +237,6 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
         return hasUppercase && hasMinimumLength && hasNumber;
     }
-
 
 }
 
