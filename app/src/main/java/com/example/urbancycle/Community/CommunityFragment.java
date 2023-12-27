@@ -5,47 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.urbancycle.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CommunityFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_community, container, false);
-
-////        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-//
-//        List<Topic> topicList = new ArrayList<>();
-//        topicList.add(new Topic("#00FF00")); // Green topic
-//        topicList.add(new Topic("#00FF00")); // Green topic
-//        topicList.add(new Topic("#00FF00")); // Green topic
-//
-//
-//
-//        TopicAdapter adapter = new TopicAdapter(topicList);
-////        recyclerView.setAdapter(adapter);
-//
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-////        recyclerView.setLayoutManager(layoutManager);
-
         return view;
     }
 
     @Override
-    public void onViewCreated (View view, @Nullable Bundle savedInstanceState){
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Button BtnEvent = view.findViewById(R.id.button_events);
+        Button BtnTips = view.findViewById(R.id.button_tips);
+        Button BtnForum = view.findViewById(R.id.button_forum);
         View.OnClickListener OCLEvent = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,5 +35,54 @@ public class CommunityFragment extends Fragment {
         };
         BtnEvent.setOnClickListener(OCLEvent);
 
+        View.OnClickListener OCLTips = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.DestTips);
+            }
+        };
+        BtnTips.setOnClickListener(OCLTips);
+
+        View.OnClickListener OCLForum = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.community);
+            }
+        };
+        BtnForum.setOnClickListener(OCLForum);
+
+
+        LinearLayout forumRoomButtonsLayout = view.findViewById(R.id.forumRoomButtons);
+        Button addButton = view.findViewById(R.id.button_add_room);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call a method to add a new room button
+                addRoomButton(forumRoomButtonsLayout);
+            }
+        });
+    }
+
+    // Method to dynamically add a new room button
+    private void addRoomButton(LinearLayout forumRoomButtonsLayout) {
+        // Create a new button
+        Button newRoomButton = new Button(requireContext());
+        newRoomButton.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        newRoomButton.setBackgroundResource(R.drawable.rounded_square); // Set background drawable
+        // You can add other styling attributes here
+        newRoomButton.setText("New Room " + (forumRoomButtonsLayout.getChildCount() + 1));
+        newRoomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle the click event for the new room button
+                // You can implement the logic to navigate to the selected room or perform other actions
+            }
+        });
+
+        // Add the new button to the LinearLayout
+        forumRoomButtonsLayout.addView(newRoomButton);
     }
 }

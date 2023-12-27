@@ -38,7 +38,7 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(SettingFragment.this)
-                        .navigate(R.id.action_settingFragment_to_loginFragment);
+                        .navigate(R.id.action_settingFragment_to_mainActivity_Authentication);
             }
         });
     } @Override

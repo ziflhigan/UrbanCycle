@@ -2,25 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/CLEvents"
+    android:id="@+id/CLTips"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Community.EventFragment">
-
+    tools:context=".Community.TipsFragment">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout2"
         android:layout_width="411dp"
-        android:layout_height="405dp"
+        android:layout_height="275dp"
         android:layout_marginTop="55dp"
         android:background="@drawable/bg_waves"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:id="@+id/IVSproutEvents"
+        android:id="@+id/IVSproutTips"
         android:layout_width="165dp"
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
@@ -31,24 +27,38 @@
 
     <TextView
         android:id="@+id/TVEcoTipsTitle"
-        android:layout_width="140dp"
-        android:layout_height="71dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginEnd="84dp"
+        android:layout_width="200dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="56dp"
         android:fontFamily="cursive"
-        android:text="Events"
+        android:text="Eco Tips"
         android:textColor="#2196F3"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinner_location"
-        android:layout_width="410dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="220dp"
-        android:spinnerMode="dropdown"
-        android:background="#fafafa"
+    <ImageView
+        android:id="@+id/IVTipsDisplay"
+        android:layout_width="378dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/TVTipsDisplay"
+        android:layout_width="375dp"
+        android:layout_height="157dp"
+        android:layout_marginTop="476dp"
+        android:layout_marginEnd="16dp"
+        android:background="#C6EAAC"
+        android:text="Daily Tips populate here"
+        android:textAlignment="center"
+        android:textColor="#0B0A0A"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

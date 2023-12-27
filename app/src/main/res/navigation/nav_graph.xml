@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_community_to_eventFragment"
             app:destination="@id/DestEvent" />
+        <action
+            android:id="@+id/action_community_to_tipsFragment"
+            app:destination="@id/DestTips" />
     </fragment>
 
     <fragment
@@ -56,6 +59,9 @@
         <action
             android:id="@+id/action_support_to_rating"
             app:destination="@id/Drating" />
+        <action
+            android:id="@+id/action_support_self"
+            app:destination="@id/support" />
 
     </fragment>
 
@@ -102,21 +108,28 @@
         tools:layout="@layout/fragment_setting" >
         <action
             android:id="@+id/action_settingFragment_to_support"
-            app:destination="@id/support" />
+            app:destination="@id/support"
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_settingFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_settingFragment_to_mainActivity_Authentication"
+            app:destination="@id/mainActivity_Authentication" />
     </fragment>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.urbancycle.Authentication.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/DestEvent"
         android:name="com.example.urbancycle.Community.EventFragment"
-        android:label="fragment_event"
+        android:label="Event"
         tools:layout="@layout/fragment_event" />
+    <activity
+        android:id="@+id/mainActivity_Authentication"
+        android:name="com.example.urbancycle.MainActivity_Authentication"
+        android:label="activity_main_authentication"
+        tools:layout="@layout/activity_main_authentication" />
+    <fragment
+        android:id="@+id/DestTips"
+        android:name="com.example.urbancycle.Community.TipsFragment"
+        android:label="Eco Tips"
+        tools:layout="@layout/fragment_tips" />
 
 
 </navigation>
