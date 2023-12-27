@@ -17,6 +17,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import android.net.Uri;
@@ -24,6 +29,9 @@ import android.widget.ImageButton;
 import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.pm.PackageManager;
+
+import com.example.urbancycle.Database.ConnectToDatabase;
+import com.example.urbancycle.Database.UserInfoManager;
 import com.example.urbancycle.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -51,8 +59,20 @@ import com.google.android.libraries.places.api.model.Place.Field;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
-public class DirectionsFragment extends Fragment {
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class DirectionsFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener {
+
+    private static final double EMISSION_FACTOR_WALKING = 0; // Assuming minimal emissions or same with cycling ?
+    private static final double EMISSION_FACTOR_CYCLING = 5; // 5 grams of CO2 per km
+    private static final double EMISSION_FACTOR_TRANSIT = 75; // An example value for buses
+    private static final double EMISSION_FACTOR_CAR = 150; // An example value for cars
+
+    private Connection connection;
+    private double carSavings = 0.0;
     private GoogleMap mMap;
     private EditText originInput, destinationInput;
     private Button walkingButton, cyclingButton, transportButton, startRouteButton;
@@ -104,6 +124,14 @@ public class DirectionsFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        new ConnectToDatabase(this).execute();
+    }
+
     private void fetchCurrentLocationAndSetOrigin() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
@@ -193,6 +221,16 @@ public class DirectionsFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onConnectionSuccess(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void onConnectionFailure() {
+
+    }
+
     // Inner class for AsyncTask to fetch directions
     private class FetchDirectionsTask extends AsyncTask<String, Void, String> {
 
@@ -212,27 +250,41 @@ public class DirectionsFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            // Parse the JSON result and update the map
-            // This is where you would implement parsing of the JSON result
-            // and update your map with the directions received
+            try {
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray routes = jsonObject.getJSONArray("routes");
+                // Iterate over routes and extract transit details
+                for (int i = 0; i < routes.length(); i++) {
+                    JSONObject route = routes.getJSONObject(i);
+                    JSONArray legs = route.getJSONArray("legs");
+                    // Process each leg for transit details
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     // Method to build the URL for the Google Directions API
     private String buildDirectionsUrl(String origin, String destination, String mode) {
-        // Properly encoded parameters
         String encodedOrigin = Uri.encode(origin);
         String encodedDestination = Uri.encode(destination);
-
-        // Corrected API key without newline and spaces
         String apiKey = "AIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzw";
 
-        // Build URL using the Directions API
-        return "https://maps.googleapis.com/maps/api/directions/json?" +
-                "origin=" + encodedOrigin +
-                "&destination=" + encodedDestination +
-                "&mode=" + mode +
-                "&key=" + apiKey;
+        StringBuilder urlBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/directions/json?");
+        urlBuilder.append("origin=").append(encodedOrigin);
+        urlBuilder.append("&destination=").append(encodedDestination);
+        urlBuilder.append("&mode=").append(mode);
+
+        if ("transit".equals(mode)) {
+            // For transit mode, you can add additional parameters like departure_time
+            urlBuilder.append("&departure_time=now");
+            urlBuilder.append("&transit_mode=bus");
+        }
+
+        urlBuilder.append("&key=").append(apiKey);
+        return urlBuilder.toString();
     }
 
     // Method to perform the HTTP request
@@ -332,6 +384,96 @@ public class DirectionsFragment extends Fragment {
     private void showDistanceAndInformation(String directionsJson) {
         // Parse JSON to extract information
         // Display this information to the user
+    }
+
+    private void displayTransitRoutes(JSONArray routes) {
+        for (int i = 0; i < routes.length(); i++) {
+            try {
+                JSONObject route = routes.getJSONObject(i);
+                JSONArray legs = route.getJSONArray("legs");
+                for (int j = 0; j < legs.length(); j++) {
+                    JSONObject leg = legs.getJSONObject(j);
+                    JSONArray steps = leg.getJSONArray("steps");
+
+                    for (int k = 0; k < steps.length(); k++) {
+                        JSONObject step = steps.getJSONObject(k);
+                        if (step.has("transit_details")) {
+                            // Extract transit details
+                            JSONObject transitDetails = step.getJSONObject("transit_details");
+                            JSONObject line = transitDetails.getJSONObject("line");
+                            String busNumber = line.getString("short_name");
+                            JSONObject departureStop = transitDetails.getJSONObject("departure_stop");
+                            String departureName = departureStop.getString("name");
+                            JSONObject arrivalStop = transitDetails.getJSONObject("arrival_stop");
+                            String arrivalName = arrivalStop.getString("name");
+
+                            // Display these details in your UI
+                            updateUIWithTransitDetails(busNumber, departureName, arrivalName);
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void updateUIWithTransitDetails(String busNumber, String departureName, String arrivalName) {
+        // Update UI here, e.g., adding this information to a list or view
+    }
+
+    private double calculateCarbonEmissions(double distance, double emissionFactor) {
+        return distance * emissionFactor;
+    }
+
+    private double calculateCarbonSavings(double distance, double emissionFactor) {
+        double emissionsForMode = calculateCarbonEmissions(distance, emissionFactor);
+        double baselineEmissions = calculateCarbonEmissions(distance, EMISSION_FACTOR_CAR);
+        return baselineEmissions - emissionsForMode;
+    }
+
+}
+
+/**
+ * Use this class to insert the information to the database
+ * You can call it like this: new InsertRouteInformationTask(...Parameters).execute
+ */
+class InsertRouteInformationTask extends AsyncTask<Void, Void, Boolean> {
+    private final Connection connection;
+    private final String startLocation, endLocation;
+    private final double carbonSavings;
+    private final String userEmail = UserInfoManager.getInstance().getEmail();
+
+    public InsertRouteInformationTask(Connection connection, String startLocation, String endLocation, double carbonSavings) {
+        this.connection = connection;
+        this.startLocation = startLocation;
+        this.endLocation = endLocation;
+        this.carbonSavings = carbonSavings;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... voids) {
+        try {
+            String insertQuery = "INSERT INTO Routes (Email, StartLocation, EndLocation, CarbonSavings, Date) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, userEmail);
+            preparedStatement.setString(2, startLocation);
+            preparedStatement.setString(3, endLocation);
+            preparedStatement.setDouble(4, carbonSavings);
+            preparedStatement.setString(5, getCurrentDateTime());
+
+            int result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String getCurrentDateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
     }
 
 }
