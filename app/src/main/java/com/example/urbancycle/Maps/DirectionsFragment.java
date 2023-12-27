@@ -39,17 +39,10 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
+
 import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.Place.Field;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+
 import com.google.android.gms.maps.model.LatLng;
 public class DirectionsFragment extends Fragment {
 
@@ -60,6 +53,8 @@ public class DirectionsFragment extends Fragment {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
     private static final int YOUR_REQUEST_CODE = 1;
     private String lastSelectedMode;
+    private AutocompleteSupportFragment autocompleteOriginFragment;
+    private AutocompleteSupportFragment autocompleteDestinationFragment;
     private final OnMapReadyCallback mapReadyCallback = googleMap -> {
         mMap = googleMap;
 
@@ -95,14 +90,45 @@ public class DirectionsFragment extends Fragment {
             Places.initialize(requireActivity().getApplicationContext(), getString(R.string.google_maps_key));
         }
         View view = inflater.inflate(R.layout.fragment_directions, container, false);
-        initializeUIComponents(view);
-        setupMapFragment();
+        setupMapFragment(view);
+        setupAutocompleteFragment(); // Adjusted method name
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-
-        // Request location updates
-        fetchCurrentLocationAndSetOrigin();
-
         return view;
+    }
+    private void setupAutocompleteFragment() {
+        // Initialize the AutocompleteSupportFragment for destination
+        autocompleteDestinationFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_destination_fragment);
+        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // Handle the selected Place for destination
+                // e.g., Set the place details to a TextView or variable
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Toast.makeText(getContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Initialize the AutocompleteSupportFragment for destination
+        autocompleteDestinationFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_destination_fragment);
+        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // Handle the selected Place for destination
+                // e.g., Set the place details to a TextView or variable
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Toast.makeText(getContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void fetchCurrentLocationAndSetOrigin() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -122,19 +148,20 @@ public class DirectionsFragment extends Fragment {
         }
     }
 
-    private void initializeUIComponents(View view) {
-        originInput = view.findViewById(R.id.originInput);
-        destinationInput = view.findViewById(R.id.destinationInput);
-        walkingButton = view.findViewById(R.id.walkingButton);
-        cyclingButton = view.findViewById(R.id.cyclingButton);
-        transportButton = view.findViewById(R.id.transportButton);
-        startRouteButton = view.findViewById(R.id.startRouteButton);
-        ImageButton backButton = view.findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
-        setupButtonListeners();
-    }
+//    private void initializeUIComponents(View view) {
+//        originInput = view.findViewById(R.id.originInput);
+//        destinationInput = view.findViewById(R.id.destinationInput);
+//        walkingButton = view.findViewById(R.id.walkingButton);
+//        cyclingButton = view.findViewById(R.id.cyclingButton);
+//        transportButton = view.findViewById(R.id.transportButton);
+//        startRouteButton = view.findViewById(R.id.startRouteButton);
+//        ImageButton backButton = view.findViewById(R.id.backButton);
+//        backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
+//        setupButtonListeners();
+//        setupAutocomplete();
+//    }
 
-    private void setupMapFragment() {
+    private void setupMapFragment(View view) {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -272,46 +299,6 @@ public class DirectionsFragment extends Fragment {
         return result.toString();
     }
 
-    private void setupAutocomplete() {
-        // Setup for origin autocomplete
-        AutocompleteSupportFragment autocompleteOriginFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_origin);
-        autocompleteOriginFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME));
-        autocompleteOriginFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-
-
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                LatLng originLatLng = place.getLatLng();
-                if (originLatLng != null) {
-                    originInput.setText(originLatLng.latitude + "," + originLatLng.longitude);
-                }
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Setup for destination autocomplete
-        AutocompleteSupportFragment autocompleteDestinationFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_destination);
-        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME));
-        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                LatLng destinationLatLng = place.getLatLng();
-                if (destinationLatLng != null) {
-                    destinationInput.setText(destinationLatLng.latitude + "," + destinationLatLng.longitude);
-                }
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void calculateDirections(String mode) {
         String originText = originInput.getText().toString();
         String destinationText = destinationInput.getText().toString();
@@ -333,5 +320,43 @@ public class DirectionsFragment extends Fragment {
         // Parse JSON to extract information
         // Display this information to the user
     }
+    private void setupAutocomplete() {
+        // Initialize Places
+        if (!Places.isInitialized()) {
+            Places.initialize(requireActivity().getApplicationContext(), getString(R.string.google_maps_key));
+        }
+        PlacesClient placesClient = Places.createClient(requireActivity());
 
+        // Setup for origin autocomplete
+        AutocompleteSupportFragment autocompleteOriginFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_origin);
+        autocompleteOriginFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteOriginFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                originInput.setText(place.getName());
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Setup for destination autocomplete
+        AutocompleteSupportFragment autocompleteDestinationFragment = (AutocompleteSupportFragment)
+                getChildFragmentManager().findFragmentById(R.id.autocomplete_destination);
+        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                destinationInput.setText(place.getName());
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -10,10 +10,9 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
+    <string name="welcome">Welcome!</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_authentication">AuthenticationActivity</string>
     <string name="login">Login</string>
@@ -31,15 +30,17 @@
     <string name="reset_button">Reset</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
-
+    <string name="walk">Walk</string>
+    <string name="cycle">Cycle</string>
+    <string name="transit">Transit</string>
+    <string name="start">Start</string>
+    <!-- Make sure to remove your API key before committing to public repositories -->
     <string name="google_maps_key">AIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzw</string>
-
-    <string name="constraint" />
+    <!-- Removed the empty 'constraint' string -->
     <string-array name="location">
         <item>Kuala Lumpur</item>
         <item>Johor Bahru</item>
         <item>Penang</item>
     </string-array>
     <string name="please_enter_password">Please Enter Password...</string>
-
 </resources>

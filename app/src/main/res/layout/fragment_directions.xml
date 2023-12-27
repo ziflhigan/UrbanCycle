@@ -1,124 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
+    <!-- Map FragmentContainerView -->
 
-    <!-- Map Fragment -->
+    <!-- Floating Destination Autocomplete FragmentContainerView -->
 
-
-    <!-- Horizontal guideline to define map height -->
-
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.59" /> <!-- Adjusted to 60% of the screen height -->
-
-    <!-- Origin Input Field -->
-
-    <!-- Destination Input Field -->
-
-    <!-- Transportation Mode Buttons -->
-    <!-- Walking Button -->
-
-    <!-- Cycling Button -->
-
-    <!-- Public Transport Button -->
-
-    <EditText
-        android:id="@+id/originInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:hint="Enter start location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_horizontal" />
-
-    <EditText
-        android:id="@+id/destinationInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Enter destination"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/originInput" />
-    <Button
-        android:id="@+id/walkingButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Walk"
-        app:layout_constraintEnd_toStartOf="@id/cyclingButton"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/destinationInput" />
-
-    <!-- Start Route Button -->
-
-    <Button
-        android:id="@+id/cyclingButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Cycle"
-        app:layout_constraintEnd_toStartOf="@id/transportButton"
-        app:layout_constraintStart_toEndOf="@id/walkingButton"
-        app:layout_constraintTop_toBottomOf="@id/destinationInput" />
-
-    <Button
-        android:id="@+id/transportButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Transit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cyclingButton"
-        app:layout_constraintTop_toBottomOf="@id/destinationInput" />
-
-    <Button
-        android:id="@+id/startRouteButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cyclingButton"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/autocomplete_destination_fragment"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:elevation="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Back Button -->
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="49dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="54dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/back"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Transportation Mode Buttons -->
+    <Button
+        android:id="@+id/walkingButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/walk"
+        app:layout_constraintBottom_toTopOf="@id/startRouteButton"
+        app:layout_constraintEnd_toStartOf="@id/cyclingButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <Button
+        android:id="@+id/cyclingButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/cycle"
+        app:layout_constraintBottom_toTopOf="@id/startRouteButton"
+        app:layout_constraintEnd_toStartOf="@id/transportButton"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/walkingButton" />
+
+    <Button
+        android:id="@+id/transportButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/transit"
+        app:layout_constraintBottom_toTopOf="@id/startRouteButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cyclingButton"
+        app:layout_constraintHorizontal_weight="1" />
+
+    <!-- Start Route Button -->
+    <Button
+        android:id="@+id/startRouteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
