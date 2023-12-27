@@ -61,6 +61,8 @@ public class CommunityFragment extends Fragment {
                 addRoomButton(forumRoomButtonsLayout);
             }
         });
+
+
     }
 
     // Method to dynamically add a new room button
