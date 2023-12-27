@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "277708874088",
+    "project_id": "urbancycle-32b1e",
+    "storage_bucket": "urbancycle-32b1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277708874088:android:388ad4e7d33bfeb540b6dd",
+        "android_client_info": {
+          "package_name": "com.example.urbancycle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-8cRilXxk86ZnZ51e9PSU2QH7GQI00co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

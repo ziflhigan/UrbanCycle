@@ -1,8 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
-
-
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -62,6 +61,10 @@ dependencies {
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    // TODO: Add the dependencies for Firebase products you want to use
+    implementation("com.google.firebase:firebase-analytics")
 
 }
 
