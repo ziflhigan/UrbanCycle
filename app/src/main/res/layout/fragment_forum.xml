@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- RecyclerView for displaying posts -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPosts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"/>
+
+    <!-- Layout for creating a new post -->
+    <RelativeLayout
+        android:id="@+id/layoutCreatePost"
+        android:layout_width="match_parent"
+        android:layout_height="164dp"
+        android:layout_alignParentBottom="true"
+        android:padding="16dp">
+
+        <!-- EditText for post content -->
+        <EditText
+            android:id="@+id/editTextPostContent"
+            android:layout_width="374dp"
+            android:layout_height="62dp"
+            android:hint="Write your post"
+            android:inputType="textMultiLine" />
+
+        <!-- Button to submit the post -->
+        <Button
+            android:id="@+id/buttonPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextPostContent"
+            android:layout_marginTop="13dp"
+            android:background="@color/rounded_square_background"
+            android:text="Post" />
+    </RelativeLayout>
+
+</RelativeLayout>
+

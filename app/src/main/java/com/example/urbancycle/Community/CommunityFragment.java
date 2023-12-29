@@ -51,6 +51,14 @@ public class CommunityFragment extends Fragment {
         };
         BtnForum.setOnClickListener(OCLForum);
 
+        View.OnClickListener OCLRoom1 = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.DestForum);
+            }
+        };
+        BtnForum.setOnClickListener(OCLRoom1);
+
 
         LinearLayout forumRoomButtonsLayout = view.findViewById(R.id.forumRoomButtons);
         Button addButton = view.findViewById(R.id.button_add_room);
