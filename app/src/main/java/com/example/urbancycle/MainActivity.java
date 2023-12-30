@@ -22,7 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.urbancycle.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
-public class   MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     ActivityMainBinding binding;
     private AppBarConfiguration appBarConfiguration;

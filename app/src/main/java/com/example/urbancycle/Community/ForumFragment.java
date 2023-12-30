@@ -10,13 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.navigation.Navigation;
 
-import com.example.urbancycle.Community.InsertUserPosts;
-import com.example.urbancycle.Community.RetrieveUserPosts;
 import com.example.urbancycle.Community.RetrieveUserPosts.UserPost;
 import com.example.urbancycle.Community.RetrieveUserPosts.onPostsRetrievedListener;
 import com.example.urbancycle.Database.ConnectToDatabase;
@@ -27,25 +26,28 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForumFragment extends Fragment {
+public class ForumFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener{
 
     private List<Post> posts;
     private PostAdapter postAdapter;
     private Connection databaseConnection;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
         initializeRecyclerView(view);
         initializeCreatePostButton(view);
-        new ConnectToDatabase((ConnectToDatabase.DatabaseConnectionListener) this).execute();
-        retrieveAndDisplayUserPosts(); // Retrieve and display posts when the fragment is created
+        // This one is causing crashing since nothing is there initially
+        // retrieveAndDisplayUserPosts(); // Retrieve and display posts when the fragment is created
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        new ConnectToDatabase(this).execute();
+    }
 
     private void initializeRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPosts);
@@ -83,5 +85,14 @@ public class ForumFragment extends Fragment {
         }).execute();
     }
 
+    @Override
+    public void onConnectionSuccess(Connection connection) {
+        this.databaseConnection = connection;
+    }
+
+    @Override
+    public void onConnectionFailure() {
+
+    }
 }
 

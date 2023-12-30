@@ -27,10 +27,12 @@ public class CommunityFragment extends Fragment {
         Button BtnEvent = view.findViewById(R.id.button_events);
         Button BtnTips = view.findViewById(R.id.button_tips);
         Button BtnForum = view.findViewById(R.id.button_forum);
+        // Button BtnRoom1 = view.findViewById(R.id.btn)
+
         View.OnClickListener OCLEvent = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.DestEvent);
+                Navigation.findNavController(view).navigate(R.id.action_community_to_eventFragment);
             }
         };
         BtnEvent.setOnClickListener(OCLEvent);
@@ -38,7 +40,7 @@ public class CommunityFragment extends Fragment {
         View.OnClickListener OCLTips = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.DestTips);
+                Navigation.findNavController(view).navigate(R.id.action_community_to_tipsFragment);
             }
         };
         BtnTips.setOnClickListener(OCLTips);
@@ -46,15 +48,16 @@ public class CommunityFragment extends Fragment {
         View.OnClickListener OCLForum = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.community);
+                Navigation.findNavController(view).navigate(R.id.action_community_self);
             }
         };
         BtnForum.setOnClickListener(OCLForum);
 
+        // To Do: This one is causing trouble
         View.OnClickListener OCLRoom1 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.DestForum);
+                Navigation.findNavController(view).navigate(R.id.action_community_to_DestForum);
             }
         };
         BtnForum.setOnClickListener(OCLRoom1);
@@ -69,7 +72,6 @@ public class CommunityFragment extends Fragment {
                 addRoomButton(forumRoomButtonsLayout);
             }
         });
-
 
     }
 
