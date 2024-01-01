@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -16,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
+import com.example.urbancycle.Database.UserInfoManager;
 import com.example.urbancycle.R;
 import com.example.urbancycle.databinding.FragmentProfileBinding;
 
@@ -29,14 +28,18 @@ import java.util.List;
 public class ProfileFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, RetrieveUserName.UserNameDataListener {
 
  FragmentProfileBinding binding;
-TextView UserName;
-     Connection connection;
+     String userName=UserInfoManager.getInstance().getUserName();
+
+
+
+    Connection connection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
+        TextView tv=view.findViewById(R.id.UsernameDisp);
+        tv.setText("username");
         binding.History.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,16 +65,6 @@ TextView UserName;
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //Link all TextView
-        UserName=view.findViewById(R.id.UsernameDisp);
-
-        // Initialize database connection
-        new ConnectToDatabase(this).execute();
-    }
 
     private void showToast(String message) {
         if (isAdded()) { // Check if Fragment is currently added to its Activity
@@ -99,7 +92,17 @@ TextView UserName;
     @Override
     public void onUserNameDataRetrieved(List<String> names) {
 
-    }
+            // Handle the retrieved list of names here
+            if (names != null && !names.isEmpty()) {
+                // Set the TextView with the first retrieved username
+                String username = names.get(0);
+                binding.UsernameDisp.setText(username);
+            } else {
+                showToast("No usernames retrieved from the database.");
+            }
+        }
+
+
 }
 class RetrieveUserName extends AsyncTask<Void, Void, Boolean> {
     private final Connection connection;
