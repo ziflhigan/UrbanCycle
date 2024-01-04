@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RewardFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener,
-        RetrieveRewardsInformation.RewardsDataListener, RetrieveUserPoints.UserPointsListener {
+        RetrieveRewardsInformation.RewardsDataListener, RetrieveUserPoints.UserPointsListener, RetrieveTopUsers.TopUsersListener {
 
     private double userPoints;
 
@@ -42,6 +42,8 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     ArrayList<TextView> RdescriptionList = new ArrayList<>();
     ArrayList<TextView> RnumberLeftList = new ArrayList<>();
     ArrayList<TextView> RpointRequiredList = new ArrayList<>();
+    ArrayList<TextView> LnameList = new ArrayList<>();
+    ArrayList<TextView> LpointList = new ArrayList<>();
     ArrayList<Button> RButton = new ArrayList<>();
     TextView RuserName;
     TextView RuserPoint;
@@ -69,6 +71,12 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
             RpointRequiredList.add(view.findViewById(getResources().getIdentifier("RPointsRequired" + i, "id", requireActivity().getPackageName())));
             RButton.add(view.findViewById(getResources().getIdentifier("RButton" + i, "id", requireActivity().getPackageName())));
         }
+
+        for (int i = 1; i <= 3; i++) {
+            LnameList.add(view.findViewById(getResources().getIdentifier("Lname" + i, "id", requireActivity().getPackageName())));
+            LpointList.add(view.findViewById(getResources().getIdentifier("Lpoint" + i, "id", requireActivity().getPackageName())));
+        }
+
         RuserName = view.findViewById(R.id.RUserName);
         RuserPoint = view.findViewById(R.id.RUserPoint);
 
@@ -93,6 +101,7 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
         this.connection = connection;
         //showToast("Database Connection Successful!");
         new RetrieveRewardsInformation(connection, this).execute();
+        new RetrieveTopUsers(connection, (RetrieveTopUsers.TopUsersListener) this).execute();
     }
 
     /**
@@ -152,10 +161,20 @@ public class RewardFragment extends Fragment implements ConnectToDatabase.Databa
     }
 
     @Override
+    public void onTopUsersRetrieved(List<String> fullNames, List<Double> points) {
+        for (int j=0;j<3;j++){
+            LnameList.get(j).setText(fullNames.get(j));
+            LpointList.get(j).setText(String.valueOf(points.get(j))+"Points");
+        }
+    }
+
+    @Override
     public void onRetrievalFailed() {
         // Handle the failure (e.g., show an error message)
     }
 }
+
+
 
 /**
  * This class is used to retrieve the information of the Reward, it should have:
@@ -208,6 +227,58 @@ class RetrieveRewardsInformation extends AsyncTask<Void, Void, Boolean> {
     protected void onPostExecute(Boolean success) {
         if (success) {
             listener.onRewardsDataRetrieved(IDs, names, descriptions, pointsRequired, numbersLeft);
+        } else {
+            // Handle failure
+        }
+    }
+}
+
+class RetrieveTopUsers extends AsyncTask<Void, Void, Boolean> {
+
+    private final Connection connection;
+    private final TopUsersListener listener;
+    List<String> fullNames = new ArrayList<>();
+    List<Double> points = new ArrayList<>();
+
+    public interface TopUsersListener {
+        void onTopUsersRetrieved(List<String> fullNames, List<Double> points);
+        void onRetrievalFailed();
+    }
+
+    public RetrieveTopUsers(Connection connection, TopUsersListener listener) {
+        this.connection = connection;
+        this.listener = listener;
+    }
+
+    @Override
+    protected Boolean doInBackground(Void... voids) {
+        try {
+            String query = "SELECT UserName, PointsEarned FROM Users ORDER BY PointsEarned DESC LIMIT 3";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String Name = resultSet.getString("UserName");
+                double userPoints = resultSet.getDouble("PointsEarned");
+
+                fullNames.add(Name);
+                points.add(userPoints);
+            }
+
+            listener.onTopUsersRetrieved(fullNames, points);
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    @Override
+    protected void onPostExecute(Boolean success) {
+        if (success) {
+            listener.onTopUsersRetrieved(fullNames, points);
         } else {
             // Handle failure
         }
