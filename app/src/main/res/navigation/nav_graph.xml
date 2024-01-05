@@ -139,8 +139,8 @@
     <fragment
         android:id="@+id/DestForum"
         android:name="com.example.urbancycle.Community.ForumFragment"
-        android:label="ForumFragment"
-        tools:layout="@layout/fragment_forum"/>
+        android:label="Forum "
+        tools:layout="@layout/fragment_forum" />
 
 
 </navigation>
