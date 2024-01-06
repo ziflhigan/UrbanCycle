@@ -28,9 +28,7 @@ import java.util.List;
 public class ProfileFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, RetrieveUserName.UserNameDataListener {
 
  FragmentProfileBinding binding;
-     String userName=UserInfoManager.getInstance().getUserName();
-
-
+     String userName = UserInfoManager.getInstance().getUserName();
 
     Connection connection;
 
@@ -39,7 +37,8 @@ public class ProfileFragment extends Fragment implements ConnectToDatabase.Datab
         binding = FragmentProfileBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         TextView tv=view.findViewById(R.id.UsernameDisp);
-        tv.setText("username");
+        tv.setText(userName);
+
         binding.History.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,10 +116,6 @@ class RetrieveUserName extends AsyncTask<Void, Void, Boolean> {
         this.connection = connection;
         this.listener = listener;
     }
-
-
-
-
 
     @Override
     protected Boolean doInBackground(Void... voids) {

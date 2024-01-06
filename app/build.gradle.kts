@@ -57,7 +57,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation ("mysql:mysql-connector-java:5.1.49")
     implementation ("org.mindrot:jbcrypt:0.4")
-
+    implementation ("com.android.volley:volley:1.2.0")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.libraries.places:places:3.3.0")

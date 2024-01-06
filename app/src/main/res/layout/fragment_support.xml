@@ -8,47 +8,57 @@
     tools:context=".SupportAndFeedback.SupportFragment" >
 
     <RelativeLayout
-        android:id="@+id/BgRegister"
-        android:layout_marginTop="55dp"
+        android:id="@+id/IVBackground"
         android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:background="@drawable/bg_waves"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="55dp"
+        android:layout_height="380dp"
+        android:background="@drawable/theme_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-16dp" />
 
     <Button
         android:id="@+id/feedbackB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="150dp"
-        android:backgroundTint="#00BCD4"
+        android:backgroundTint="#BA0288D1"
         android:text="Feedback"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.652" />
 
     <Button
         android:id="@+id/FAQB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="100dp"
-        android:backgroundTint="#00BCD4"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#45A6DB"
         android:text="FAQ"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/feedbackB" />
+        app:layout_constraintTop_toBottomOf="@+id/SubmitRatingB"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/SubmitRatingB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="125dp"
-        android:layout_marginTop="100dp"
-        android:backgroundTint="#00BCD4"
+        android:layout_marginTop="31dp"
+        android:layout_marginBottom="120dp"
+        android:backgroundTint="#45A6DB"
         android:text="Rating"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FAQB" />
+        app:layout_constraintTop_toBottomOf="@+id/feedbackB"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
