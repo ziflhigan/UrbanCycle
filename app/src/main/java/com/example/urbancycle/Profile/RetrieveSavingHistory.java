@@ -34,7 +34,8 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
         CarbonSavingHistory carbonSavingHistory = new CarbonSavingHistory();
 
         try {
-            String query = "SELECT CarbonSavings, Date FROM Routes WHERE Email = ?";
+            String query = "SELECT StartLocation, EndLocation, CarbonSavings, Date FROM Routes " +
+                    "WHERE Email = ? ORDER BY Date DESC";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, userEmail);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -42,7 +43,9 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
             while (resultSet.next()) {
                 double carbonSavings = resultSet.getDouble("CarbonSavings");
                 String date = resultSet.getString("Date");
-                carbonSavingHistory.addCarbonSaving(carbonSavings, date);
+                String startLocation = resultSet.getString("StartLocation");
+                String endLocation = resultSet.getString("EndLocation");
+                carbonSavingHistory.addCarbonSaving(carbonSavings, date, startLocation, endLocation);
             }
 
         } catch (SQLException e) {
@@ -59,15 +62,23 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
     public static class CarbonSavingHistory {
         private final List<Double> carbonSavingsList;
         private final List<LocalDateTime> routeDateList;
+        private final List<String> startLocation;
+        private final List<String> endLocation;
 
         public CarbonSavingHistory() {
             this.carbonSavingsList = new ArrayList<>();
             this.routeDateList = new ArrayList<>();
+            this.startLocation = new ArrayList<>();
+            this.endLocation = new ArrayList<>();
         }
 
-        public void addCarbonSaving(double carbonSavings, String dateString) {
+        public void addCarbonSaving(double carbonSavings, String dateString, String startLocation,
+                                    String endLocation) {
+
             this.carbonSavingsList.add(carbonSavings);
             this.routeDateList.add(parseDateStringToLocalDateTime(dateString));
+            this.startLocation.add(startLocation);
+            this.endLocation.add(endLocation);
         }
 
         private LocalDateTime parseDateStringToLocalDateTime(String dateString) {
@@ -92,6 +103,14 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
 
         public List<LocalDateTime> getRouteDateList() {
             return routeDateList;
+        }
+
+        public List<String> getStartLocation() {
+            return startLocation;
+        }
+
+        public List<String> getEndLocation() {
+            return endLocation;
         }
     }
 

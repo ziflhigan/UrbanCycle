@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Profile.ProfileFragment">
+
     <RelativeLayout
         android:id="@+id/BgRegister"
         android:layout_marginTop="55dp"
@@ -15,8 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:visibility="invisible"
@@ -34,34 +35,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="100dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="308dp"
-        android:layout_marginTop="772dp"
-        android:src="@drawable/brand"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/Welcom"
-        android:layout_width="195dp"
-        android:layout_height="97dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="cursive"
-        android:text="Welcom to UrbanCycle"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/UsernameDisp"
         android:layout_width="72dp"
         android:layout_height="36dp"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="188dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="224dp"
         android:fontFamily="casual"
         android:text="Name "
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
@@ -75,72 +54,87 @@
         android:id="@+id/History"
         android:layout_width="116dp"
         android:layout_height="117dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="380dp"
         android:background="@android:color/transparent"
         android:contentDescription="Saving history"
         android:src="@drawable/history"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.584" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginTop="16dp"
         android:text="History"
         android:textColor="@android:color/holo_purple"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/Setting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/History" />
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/History"
+        app:layout_constraintVertical_bias="0.028" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="66dp"
         android:layout_height="25dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="164dp"
         android:text="Setting"
         android:textColor="@android:color/holo_purple"
         android:textSize="20sp"
         android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Setting" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Setting"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/Setting"
         android:layout_width="120dp"
         android:layout_height="128dp"
-        android:layout_marginTop="420dp"
-        android:layout_marginEnd="140dp"
         android:background="@android:color/transparent"
         android:contentDescription="Setting"
         android:src="@drawable/set"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.882" />
 
     <ImageView
         android:id="@+id/Preference"
-        android:layout_width="319dp"
-        android:layout_height="297dp"
-        android:layout_marginEnd="168dp"
-        android:layout_marginBottom="292dp"
+        android:layout_width="243dp"
+        android:layout_height="219dp"
+        android:layout_marginBottom="372dp"
         android:src="@drawable/prefe"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginBottom="32dp"
         android:text="Your prefer"
         android:textColor="@android:color/holo_purple"
         android:textSize="20sp"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/History"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toTopOf="@+id/Preference"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
