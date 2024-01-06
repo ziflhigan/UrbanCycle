@@ -86,7 +86,11 @@
     <fragment
         android:id="@+id/directionsFragment"
         android:name="com.example.urbancycle.Maps.DirectionsFragment"
-        android:label="directions_fragment_label" />
+        android:label="directions_fragment_label" >
+        <action
+            android:id="@+id/action_directionsFragment_to_routes"
+            app:destination="@id/routes" />
+    </fragment>
     <fragment
         android:id="@+id/Drating"
         android:name="com.example.urbancycle.SupportAndFeedback.Rating"
@@ -130,6 +134,11 @@
         android:name="com.example.urbancycle.Community.TipsFragment"
         android:label="Eco Tips"
         tools:layout="@layout/fragment_tips" />
+    <fragment
+        android:id="@+id/routes"
+        android:name="com.example.urbancycle.Maps.Routes"
+        android:label="fragment_routes"
+        tools:layout="@layout/fragment_routes" />
 
 
 </navigation>
