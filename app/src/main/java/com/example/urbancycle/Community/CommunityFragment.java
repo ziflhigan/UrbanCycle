@@ -27,10 +27,12 @@ public class CommunityFragment extends Fragment {
         Button BtnEvent = view.findViewById(R.id.button_events);
         Button BtnTips = view.findViewById(R.id.button_tips);
         Button BtnForum = view.findViewById(R.id.button_forum);
+        // Button BtnRoom1 = view.findViewById(R.id.btn)
+
         View.OnClickListener OCLEvent = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.DestEvent);
+                Navigation.findNavController(view).navigate(R.id.action_community_to_eventFragment);
             }
         };
         BtnEvent.setOnClickListener(OCLEvent);
@@ -38,7 +40,7 @@ public class CommunityFragment extends Fragment {
         View.OnClickListener OCLTips = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.DestTips);
+                Navigation.findNavController(view).navigate(R.id.action_community_to_tipsFragment);
             }
         };
         BtnTips.setOnClickListener(OCLTips);
@@ -46,45 +48,10 @@ public class CommunityFragment extends Fragment {
         View.OnClickListener OCLForum = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.community);
+                Navigation.findNavController(view).navigate(R.id.action_community_to_DestForum);
             }
         };
         BtnForum.setOnClickListener(OCLForum);
 
-
-        LinearLayout forumRoomButtonsLayout = view.findViewById(R.id.forumRoomButtons);
-        Button addButton = view.findViewById(R.id.button_add_room);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Call a method to add a new room button
-                addRoomButton(forumRoomButtonsLayout);
-            }
-        });
-
-
-    }
-
-    // Method to dynamically add a new room button
-    private void addRoomButton(LinearLayout forumRoomButtonsLayout) {
-        // Create a new button
-        Button newRoomButton = new Button(requireContext());
-        newRoomButton.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-        ));
-        newRoomButton.setBackgroundResource(R.drawable.rounded_square); // Set background drawable
-        // You can add other styling attributes here
-        newRoomButton.setText("New Room " + (forumRoomButtonsLayout.getChildCount() + 1));
-        newRoomButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Handle the click event for the new room button
-                // You can implement the logic to navigate to the selected room or perform other actions
-            }
-        });
-
-        // Add the new button to the LinearLayout
-        forumRoomButtonsLayout.addView(newRoomButton);
     }
 }

@@ -2,19 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context=".Rewards.RewardFragment">
 
     <!-- I have modified this line: android:layout_marginTop="56dp" to leave space for the top action bar -->
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/greenRectangle"-->
-<!--        tools:src="@drawable/bg_waves" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/greenRectangle"-->
+    <!--        tools:src="@drawable/bg_waves" />-->
 
     <View
         android:id="@+id/greenRectangle"
@@ -68,7 +68,8 @@
 
     <ScrollView
         android:layout_width="410dp"
-        android:layout_height="500dp"
+        android:layout_height="380dp"
+        android:layout_marginTop="120dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/greenRectangle">
 
@@ -296,6 +297,94 @@
 
 
         </TableLayout>
+
     </ScrollView>
+
+    <TextView
+        android:id="@+id/Ltext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Leaderboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/greenRectangle" />
+
+    <TableLayout
+        android:layout_width="409dp"
+        android:layout_height="99dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Ltext">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Rtheme1">
+
+            <TextView
+                android:layout_width="150dp"
+                android:padding="3dip"
+                android:text="No1" />
+
+            <TextView
+                android:id="@+id/Lname1"
+                android:layout_width="150dp"
+                android:padding="3dip"
+                android:text="Lname1" />
+
+            <TextView
+                android:id="@+id/Lpoint1"
+                android:layout_width="100dp"
+                android:padding="3dip"
+                android:text="Lpoint1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Rtheme2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:padding="3dip"
+                android:text="No2" />
+
+            <TextView
+                android:id="@+id/Lname2"
+                android:layout_width="match_parent"
+                android:padding="3dip"
+                android:text="Lname2" />
+
+            <TextView
+                android:id="@+id/Lpoint2"
+                android:layout_width="match_parent"
+                android:padding="3dip"
+                android:text="Lpoint2" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Rtheme1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:padding="3dip"
+                android:text="No3" />
+
+            <TextView
+                android:id="@+id/Lname3"
+                android:layout_width="match_parent"
+                android:padding="3dip"
+                android:text="Lname3" />
+
+            <TextView
+                android:id="@+id/Lpoint3"
+                android:layout_width="match_parent"
+                android:padding="3dip"
+                android:text="Lpoint3" />
+        </TableRow>
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
