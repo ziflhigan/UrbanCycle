@@ -8,4 +8,7 @@
     <color name="rounded_square_background">#C9EEAC</color>
     <color name="rounded_square_tint">#C8EDAB</color>
     <color name="rounded_square_background_blue">#2196F3</color>
+    <color name="selected_mode_color">#4CAF50</color> <!-- A shade of green for selected mode -->
+    <color name="unselected_mode_color">#FFFFFF</color> <!-- White for unselected mode -->
+
 </resources>

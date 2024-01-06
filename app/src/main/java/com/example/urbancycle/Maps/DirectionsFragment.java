@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +65,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
     private static final double EMISSION_FACTOR_CYCLING = 5; // 5 grams of CO2 per km
     private static final double EMISSION_FACTOR_TRANSIT = 75; // An example value for buses
     private static final double EMISSION_FACTOR_CAR = 150; // An example value for cars
-
+    private Place selectedPlace; // To store the selected place
     private Connection connection;
     private double carSavings = 0.0;
     private GoogleMap mMap;
@@ -73,6 +75,10 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
     private static final int YOUR_REQUEST_CODE = 1;
     private String lastSelectedMode;
+    private static final String MODE_WALKING = "walking";
+    private static final String MODE_CYCLING = "cycling";
+    private static final String MODE_TRANSIT = "transit";
+
     private AutocompleteSupportFragment autocompleteOriginFragment;
     private AutocompleteSupportFragment autocompleteDestinationFragment;
     private final OnMapReadyCallback mapReadyCallback = googleMap -> {
@@ -110,78 +116,130 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
             Places.initialize(requireActivity().getApplicationContext(), getString(R.string.google_maps_key));
         }
         View view = inflater.inflate(R.layout.fragment_directions, container, false);
+
+        // Initialize destinationInput EditText
+//        destinationInput = view.findViewById(R.id.autocomplete_destination_fragment); // Make sure ID matches with your layout
+
+        startRouteButton = view.findViewById(R.id.startRouteButton);
+        startRouteButton.setOnClickListener(v -> {
+            if (selectedPlace != null) {
+                String destination = selectedPlace.getName(); // Use the selected place's name
+                String mode = lastSelectedMode; // Assuming lastSelectedMode holds the transport mode
+
+                Bundle bundle = new Bundle();
+                bundle.putString("destination", destination);
+                bundle.putString("mode", mode);
+
+                NavHostFragment.findNavController(DirectionsFragment.this)
+                        .navigate(R.id.action_directionsFragment_to_routes, bundle);
+            } else {
+                Toast.makeText(getContext(), "Please select a destination", Toast.LENGTH_SHORT).show();
+            }
+        });
+        setupModeButtons(view);
+
         setupMapFragment(view);
-        setupAutocompleteFragment(); // Adjusted method name
+        setupAutocompleteFragment();
+        setupStartRouteButton(view);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         return view;
+    }   private void setupStartRouteButton(View view) {
+        startRouteButton = view.findViewById(R.id.startRouteButton);
+        startRouteButton.setOnClickListener(v -> {
+            if (selectedPlace != null) {
+                navigateToRoutes();
+            } else {
+                Toast.makeText(getContext(), "Please select a destination", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void navigateToRoutes() {
+        String destination = selectedPlace.getName();
+        String mode = lastSelectedMode; // Make sure this is set somewhere
+
+        Bundle bundle = new Bundle();
+        bundle.putString("destination", destination);
+        bundle.putString("mode", mode);
+
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_directionsFragment_to_routes, bundle);
     }
 
     private void setupAutocompleteFragment() {
-        // Initialize the AutocompleteSupportFragment for destination
         autocompleteDestinationFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_destination_fragment);
-        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                // Handle the selected Place for destination
-                // e.g., Set the place details to a TextView or variable
-            }
 
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(getContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (autocompleteDestinationFragment != null) {
+            autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+            autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    selectedPlace = place; // Update the selected place
+                    Log.d("DirectionsFragment", "Place selected: " + place.getName());
+                }
 
-        // Initialize the AutocompleteSupportFragment for destination
-        autocompleteDestinationFragment = (AutocompleteSupportFragment)
-                getChildFragmentManager().findFragmentById(R.id.autocomplete_destination_fragment);
-        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                // Handle the selected Place for destination
-                // e.g., Set the place details to a TextView or variable
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(getContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void fetchCurrentLocationAndSetOrigin() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
-                if (location != null) {
-                    updateMapLocation(location);
+                @Override
+                public void onError(@NonNull Status status) {
+                    Toast.makeText(getContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
-        }
-    }
-    private void updateMapLocation(Location location) {
-        if (mMap != null) {
-            LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15)); // Adjust the zoom level as needed
         }
     }
 
-//    private void initializeUIComponents(View view) {
-//        originInput = view.findViewById(R.id.originInput);
-//        destinationInput = view.findViewById(R.id.destinationInput);
-//        walkingButton = view.findViewById(R.id.walkingButton);
-//        cyclingButton = view.findViewById(R.id.cyclingButton);
-//        transportButton = view.findViewById(R.id.transportButton);
-//        startRouteButton = view.findViewById(R.id.startRouteButton);
-//        ImageButton backButton = view.findViewById(R.id.backButton);
-//        backButton.setOnClickListener(v -> NavHostFragment.findNavController(this).navigateUp());
-//        setupButtonListeners();
-//        setupAutocomplete();
-//    }
+
+    private void setupModeButtons(View view) {
+        // Initialize buttons
+        walkingButton = view.findViewById(R.id.walkingButton);
+        cyclingButton = view.findViewById(R.id.cyclingButton);
+        transportButton = view.findViewById(R.id.transportButton);
+
+        // Setup listeners
+        walkingButton.setOnClickListener(v -> handleModeSelection(MODE_WALKING));
+        cyclingButton.setOnClickListener(v -> handleModeSelection(MODE_CYCLING));
+        transportButton.setOnClickListener(v -> handleModeSelection(MODE_TRANSIT));
+    }
+    private void handleModeSelection(String mode) {
+        // Update the last selected mode
+        lastSelectedMode = mode;
+
+        // Change the button appearance to show the selected mode
+        updateButtonStyles(mode);
+    }private void updateButtonStyles(String selectedMode) {
+        // Reset styles for all buttons to default
+        resetButtonStyles(walkingButton, MODE_WALKING, selectedMode);
+        resetButtonStyles(cyclingButton, MODE_CYCLING, selectedMode);
+        resetButtonStyles(transportButton, MODE_TRANSIT, selectedMode);
+
+        // Set the style for the selected button
+        Button selectedButton = getButtonForMode(selectedMode);
+        if (selectedButton != null) {
+            selectedButton.setAlpha(1.0f);
+            selectedButton.setTextColor(getResources().getColor(R.color.selected_mode_text));
+            selectedButton.setBackgroundResource(R.drawable.selected_mode_background);
+        }
+    }
+
+    private void resetButtonStyles(Button button, String mode, String selectedMode) {
+        button.setAlpha(mode.equals(selectedMode) ? 1.0f : 0.6f);
+        button.setTextColor(getResources().getColor(R.color.unselected_mode_text));
+        button.setBackgroundResource(R.drawable.unselected_mode_background);
+    }
+
+    private Button getButtonForMode(String mode) {
+        switch (mode) {
+            case MODE_WALKING:
+                return walkingButton;
+            case MODE_CYCLING:
+                return cyclingButton;
+            case MODE_TRANSIT:
+                return transportButton;
+            default:
+                return null;
+        }
+    }
+
+
+
 
     private void setupMapFragment(View view) {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -191,16 +249,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         }
     }
 
-    private void setupButtonListeners() {
-        walkingButton.setOnClickListener(v -> handleModeSelection("walking"));
-        cyclingButton.setOnClickListener(v -> handleModeSelection("bicycling"));
-        transportButton.setOnClickListener(v -> handleModeSelection("transit"));
-    }
 
-    private void handleModeSelection(String mode) {
-        lastSelectedMode = mode;
-        fetchDirectionsFromCurrentLocation(mode);
-    }
 
     private void fetchDirectionsFromCurrentLocation(String mode) {
         if (ContextCompat.checkSelfPermission(getActivity(),
@@ -366,46 +415,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         // Parse JSON to extract information
         // Display this information to the user
     }
-    private void setupAutocomplete() {
-        // Initialize Places
-        if (!Places.isInitialized()) {
-            Places.initialize(requireActivity().getApplicationContext(), getString(R.string.google_maps_key));
-        }
-        PlacesClient placesClient = Places.createClient(requireActivity());
 
-
-        // Setup for origin autocomplete
-        AutocompleteSupportFragment autocompleteOriginFragment = (AutocompleteSupportFragment)
-                getChildFragmentManager().findFragmentById(R.id.autocomplete_origin);
-        autocompleteOriginFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteOriginFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                originInput.setText(place.getName());
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Setup for destination autocomplete
-        AutocompleteSupportFragment autocompleteDestinationFragment = (AutocompleteSupportFragment)
-                getChildFragmentManager().findFragmentById(R.id.autocomplete_destination);
-        autocompleteDestinationFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteDestinationFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                destinationInput.setText(place.getName());
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     private void displayTransitRoutes(JSONArray routes) {
         for (int i = 0; i < routes.length(); i++) {

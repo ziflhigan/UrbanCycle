@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+android:layout_height="match_parent">
 
-    <!-- RecyclerView for displaying posts -->
+<!-- RecyclerView for displaying posts -->
+
+    <!-- Layout for creating a new post -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        app:srcCompat="@drawable/bg_waves" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPosts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"/>
+        android:layout_height="505dp"
+        android:layout_above="@+id/layoutCreatePost"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="-82dp"
+        android:padding="16dp" />
 
-    <!-- Layout for creating a new post -->
     <RelativeLayout
         android:id="@+id/layoutCreatePost"
         android:layout_width="match_parent"
-        android:layout_height="164dp"
+        android:layout_height="318dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
         android:padding="16dp">
 
         <!-- EditText for post content -->
+
+        <!-- Button to submit the post -->
+
         <EditText
             android:id="@+id/editTextPostContent"
-            android:layout_width="374dp"
-            android:layout_height="62dp"
+            android:layout_width="396dp"
+            android:layout_height="71dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="71dp"
+            android:layout_marginEnd="0dp"
             android:hint="Write your post"
             android:inputType="textMultiLine" />
 
-        <!-- Button to submit the post -->
         <Button
             android:id="@+id/buttonPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/editTextPostContent"
-            android:layout_marginTop="13dp"
+            android:layout_width="201dp"
+            android:layout_height="73dp"
+            android:layout_below="@id/editTextPostContent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="4dp"
             android:background="@color/rounded_square_background"
             android:text="Post" />
     </RelativeLayout>
 
 </RelativeLayout>
-

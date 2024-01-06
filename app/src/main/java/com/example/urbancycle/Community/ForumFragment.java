@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,8 @@ import com.example.urbancycle.R;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ForumFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener{
 
@@ -37,15 +40,12 @@ public class ForumFragment extends Fragment implements ConnectToDatabase.Databas
         View view = inflater.inflate(R.layout.fragment_forum, container, false);
         initializeRecyclerView(view);
         initializeCreatePostButton(view);
-        // This one is causing crashing since nothing is there initially
-        // retrieveAndDisplayUserPosts(); // Retrieve and display posts when the fragment is created
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         new ConnectToDatabase(this).execute();
     }
 
@@ -60,25 +60,29 @@ public class ForumFragment extends Fragment implements ConnectToDatabase.Databas
     private void initializeCreatePostButton(View view) {
         Button buttonPost = view.findViewById(R.id.buttonPost);
         EditText editTextPostContent = view.findViewById(R.id.editTextPostContent);
-
         buttonPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String userPost = editTextPostContent.getText().toString();
                 new InsertUserPosts(databaseConnection, userPost).execute();
-                retrieveAndDisplayUserPosts(); // Retrieve and display posts after a new post is inserted
+                retrieveAndDisplayUserPosts();
                 editTextPostContent.getText().clear();
+                Toast.makeText(requireContext(), "Posted succesfully!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void retrieveAndDisplayUserPosts() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter);
         new RetrieveUserPosts(databaseConnection, new onPostsRetrievedListener() {
             @Override
             public void onPostsRetrieved(List<UserPost> userPosts) {
-                posts.clear(); // Clear existing posts
+               // posts.clear(); // Clear existing posts
                 for (UserPost userPost : userPosts) {
-                    posts.add(new Post(userPost.getUsername(), userPost.getPost(), "CurrentTimestamp"));
+                    posts.add(new Post(userPost.getUsername(), userPost.getPost(), formattedDateTime));
                 }
                 postAdapter.notifyDataSetChanged(); // Notify the adapter that data has changed
             }
@@ -88,11 +92,12 @@ public class ForumFragment extends Fragment implements ConnectToDatabase.Databas
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
+        retrieveAndDisplayUserPosts();
     }
 
     @Override
     public void onConnectionFailure() {
-
+        Toast.makeText(requireContext(), "Cannot connect to the database", Toast.LENGTH_SHORT).show();
     }
 }
 

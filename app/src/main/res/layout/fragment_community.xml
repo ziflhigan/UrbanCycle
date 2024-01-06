@@ -23,16 +23,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <Button
-            android:id="@+id/button_add_room"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="780dp"
-            android:onClick="onAddRoomButtonClick"
-            android:text="Add Room" />
-    </RelativeLayout>
+        app:layout_constraintVertical_bias="0.0"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -105,57 +96,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <LinearLayout
-        android:id="@+id/forumRoomButtons"
-        android:layout_width="312dp"
-        android:layout_height="393dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout">
-
-        <Button
-            android:id="@+id/BtnRoom1"
-            android:layout_width="294dp"
-            android:layout_height="13dp"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/rounded_square_background_blue"
-            android:drawableTint="@color/rounded_square_background_blue"
-            android:foregroundTint="@color/rounded_square_background_blue"
-            android:onClick="onRoomButtonClick"
-            android:text="Room 1" />
-
-        <Button
-            android:id="@+id/BtnRoom2"
-            android:layout_width="294dp"
-            android:layout_height="5dp"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/rounded_square_background_blue"
-            android:drawableTint="@color/rounded_square_background_blue"
-            android:foregroundTint="@color/rounded_square_background_blue"
-            android:onClick="onRoomButtonClick"
-            android:text="Room 2" />
-
-        <Button
-            android:id="@+id/BtnRoom3"
-            android:layout_width="293dp"
-            android:layout_height="5dp"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/rounded_square_background_blue"
-            android:drawableTint="@color/rounded_square_background_blue"
-            android:foregroundTint="@color/rounded_square_background_blue"
-            android:onClick="onRoomButtonClick"
-            android:text="Room 3" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
