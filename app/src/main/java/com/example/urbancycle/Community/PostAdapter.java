@@ -1,7 +1,5 @@
 package com.example.urbancycle.Community;
 
-// PostAdapter.java
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

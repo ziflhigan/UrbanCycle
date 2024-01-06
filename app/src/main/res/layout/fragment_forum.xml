@@ -5,9 +5,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-<!-- RecyclerView for displaying posts -->
-
-    <!-- Layout for creating a new post -->
 
     <ImageView
         android:id="@+id/imageView"
@@ -35,9 +32,6 @@ android:layout_height="match_parent">
         android:layout_marginBottom="0dp"
         android:padding="16dp">
 
-        <!-- EditText for post content -->
-
-        <!-- Button to submit the post -->
 
         <EditText
             android:id="@+id/editTextPostContent"
@@ -58,7 +52,7 @@ android:layout_height="match_parent">
             android:layout_alignParentEnd="true"
             android:layout_marginTop="-5dp"
             android:layout_marginEnd="4dp"
-            android:background="@color/rounded_square_background"
+            android:backgroundTint="#2196F3"
             android:text="Post" />
     </RelativeLayout>
 
