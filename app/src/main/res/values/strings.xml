@@ -46,6 +46,13 @@
     <string name="cycle">Cycle</string>
     <string name="transit">Transit</string>
     <string name="start">Start</string>
+    <string name="Date">Choose Date</string>
+    <string name="Time">Choose Time\n</string>
+    <string name="submit">Submit</string>
+    <string name="upload">Upload</string>
+    <string name="enter_event_name">Enter event name</string>
+    <string name="enter_event_org">Enter event organizer\n</string>
+    <string name="choose_location">Choose location</string>
 
 
 </resources>

@@ -41,10 +41,8 @@
             android:layout_height="80dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/rounded_square_tint"
-            android:drawableTint="@color/rounded_square_tint"
-            android:foregroundTint="@color/rounded_square_tint"
+            android:backgroundTint="#2196F3"
+            android:foregroundTint="#2196F3"
             android:radius='15dp'
             android:text="Forum" />
 
@@ -54,10 +52,8 @@
             android:layout_height="80dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/rounded_square_tint"
-            android:drawableTint="@color/rounded_square_tint"
-            android:foregroundTint="@color/rounded_square_tint"
+            android:backgroundTint="#2196F3"
+            android:foregroundTint="#2196F3"
             android:text="Eco Tips" />
 
         <Button
@@ -66,10 +62,8 @@
             android:layout_height="80dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_square"
-            android:backgroundTint="@color/rounded_square_tint"
-            android:drawableTint="@color/rounded_square_tint"
-            android:foregroundTint="@color/rounded_square_tint"
+            android:backgroundTint="#2196F3"
+            android:foregroundTint="#2196F3"
             android:text="Events" />
     </LinearLayout>
 

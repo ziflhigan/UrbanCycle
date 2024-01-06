@@ -29,9 +29,6 @@
         <action
             android:id="@+id/action_community_to_DestForum"
             app:destination="@id/DestForum" />
-        <action
-            android:id="@+id/action_community_self"
-            app:destination="@id/community" />
     </fragment>
 
     <fragment
@@ -125,7 +122,11 @@
         android:id="@+id/DestEvent"
         android:name="com.example.urbancycle.Community.EventFragment"
         android:label="Event"
-        tools:layout="@layout/fragment_event" />
+        tools:layout="@layout/fragment_event" >
+        <action
+            android:id="@+id/action_DestEvent_to_DestSubmissionForm"
+            app:destination="@id/DestSubmissionForm" />
+    </fragment>
     <activity
         android:id="@+id/mainActivity_Authentication"
         android:name="com.example.urbancycle.MainActivity_Authentication"
@@ -141,6 +142,11 @@
         android:name="com.example.urbancycle.Community.ForumFragment"
         android:label="Forum "
         tools:layout="@layout/fragment_forum" />
+    <fragment
+        android:id="@+id/DestSubmissionForm"
+        android:name="com.example.urbancycle.Community.EventsSubmissionFragment"
+        android:label="Event Submission"
+        tools:layout="@layout/fragment_events_submission" />
 
 
 </navigation>

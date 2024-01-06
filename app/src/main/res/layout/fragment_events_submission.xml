@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CLEventsSubmisson"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="55dp"
+    android:fitsSystemWindows="true"
+    android:paddingBottom="80dp"
+    tools:context=".Community.EventsSubmissionFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/IVBg"
+            android:layout_width="417dp"
+            android:layout_height="441dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/bg_waves"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/ETEventName"
+            android:layout_width="251dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="124dp"
+            android:layout_marginEnd="96dp"
+            android:ems="10"
+            android:hint="@string/enter_event_name"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/ETEventOrg"
+            android:layout_width="249dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="104dp"
+            android:ems="10"
+            android:hint="@string/enter_event_org"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETEventName" />
+
+        <EditText
+            android:id="@+id/ETLocation"
+            android:layout_width="244dp"
+            android:layout_height="51dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="108dp"
+            android:ems="10"
+            android:hint="@string/choose_location"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BtnUpload" />
+
+        <EditText
+            android:id="@+id/ETDate"
+            android:layout_width="252dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginEnd="104dp"
+            android:ems="10"
+            android:hint="@string/Date"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETLocation" />
+
+        <TextView
+            android:id="@+id/TVTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="24dp"
+            android:text="Time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETDate" />
+
+        <TextView
+            android:id="@+id/TVUploadPoster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginBottom="8dp"
+            android:text="Upload any poster"
+            app:layout_constraintBottom_toTopOf="@+id/IVEventPoster"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/TVDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="24dp"
+            android:text="Date"
+            app:layout_constraintBottom_toTopOf="@+id/ETDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETLocation" />
+
+        <EditText
+            android:id="@+id/ETTime"
+            android:layout_width="257dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="96dp"
+            android:ems="10"
+            android:hint="@string/Time"
+            android:inputType="time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETDate" />
+
+        <ImageView
+            android:id="@+id/IVEventPoster"
+            android:layout_width="111dp"
+            android:layout_height="139dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="148dp"
+            android:src="@drawable/eventposterexample"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETEventOrg" />
+
+        <Button
+            android:id="@+id/BtnUpload"
+            android:layout_width="101dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="152dp"
+            android:backgroundTint="#2196F3"
+            android:text="@string/upload"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/IVEventPoster" />
+
+        <Button
+            android:id="@+id/BtnSubmission"
+            android:layout_width="125dp"
+            android:layout_height="59dp"
+            android:backgroundTint="#2196F3"
+            android:text="@string/submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETTime"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/TVEventDetailsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="124dp"
+            android:background="#00404040"
+            android:fontFamily="cursive"
+            android:text="Event Details"
+            android:textColor="#000000"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/TVEventName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="104dp"
+            android:text="Event Name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/TVOrganizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="24dp"
+            android:text="Organizer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ETEventName" />
+
+        <TextView
+            android:id="@+id/TVLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:text="Location"
+            app:layout_constraintBottom_toTopOf="@+id/ETLocation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/BtnUpload" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
