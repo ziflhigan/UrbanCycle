@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +41,26 @@ import java.util.ArrayList;
 import java.util.List;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.fragment.NavHostFragment;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
-
+import android.app.AlertDialog;
+import android.util.Log;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import android.graphics.Color;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -82,12 +96,14 @@ public class Routes extends Fragment {
                 // Now fetch directions from user's location to destination
                 String origin = location.getLatitude() + "," + location.getLongitude();
                 fetchDirections(origin, destination, mode);
+
+                // Call calculateDistanceMatrix here after ensuring userLatLng is not null
+                if (getArguments() != null) {
+                    destinationLatLng = getArguments().getString("destinationLatLng");
+                    calculateDistanceMatrix(userLatLng, destinationLatLng);
+                }
             }
         });
-        if (getArguments() != null) {
-            destinationLatLng = getArguments().getString("destinationLatLng");
-            calculateDistanceMatrix(userLatLng, destinationLatLng);
-        }
     }
 
     // The callback when Map is ready
@@ -120,6 +136,7 @@ public class Routes extends Fragment {
                                 String encodedPath = overviewPolyline.getString("points");
                                 List<LatLng> path = decodePoly(encodedPath);
                                 drawPolylineOnMap(path);
+                                calculateEmissionsFromPath(path); // Calculate emissions based on the path
                             }
                         }
                     } catch (JSONException e) {
@@ -209,6 +226,8 @@ public class Routes extends Fragment {
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+        ImageButton backButton = view.findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> goBackToDirectionsFragment());
 
         if (getArguments() != null) {
             double originLat = getArguments().getDouble("originLat");
@@ -238,36 +257,65 @@ public class Routes extends Fragment {
 
     private void calculateDistanceMatrix(LatLng origin, String destination) {
         if (origin == null) {
-            // Handle the case where origin is null
+            Log.e("RoutesFragment", "Origin is null, cannot calculate distance matrix");
             return;
         }
+
         String origins = origin.latitude + "," + origin.longitude;
         String destinations = destination;
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json"
+                + "?origins=" + origins
+                + "&destinations=" + destinations
+                + "&key=" + getString(R.string.google_maps_key);
 
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origins + "&destinations=" + destinations + "&key=" + getString(R.string.google_maps_key);
+        Log.d("RoutesFragment", "Request URL: " + url);
 
+        RequestQueue requestQueue = Volley.newRequestQueue(requireActivity());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
+                    Log.d("RoutesFragment", "Full Distance Matrix Response: " + response.toString());
+
                     try {
                         JSONArray rows = response.getJSONArray("rows");
                         if (rows.length() > 0) {
                             JSONObject elements = rows.getJSONObject(0).getJSONArray("elements").getJSONObject(0);
-                            double distance = elements.getJSONObject("distance").getDouble("value") / 1000.0; // Convert meters to kilometers
-                            double emissionFactor = getEmissionFactor(mode);
-                            double emissions = calculateCarbonEmissions(distance, emissionFactor);
-                            tvCarbonEstimator.setText("Emissions: " + String.format("%.2f", emissions) + " grams of CO2");
+                            String status = elements.getString("status");
+
+                            if ("OK".equals(status)) {
+                                JSONObject distanceObj = elements.getJSONObject("distance");
+                                double distance = distanceObj.getDouble("value") / 1000.0; // Convert meters to kilometers
+                                double emissionFactor = getEmissionFactor(mode);
+                                double emissions = calculateCarbonEmissions(distance, emissionFactor);
+
+                                Log.d("RoutesFragment", "Distance calculated: " + distance + " km, Emissions: " + emissions + " grams of CO2");
+
+                                getActivity().runOnUiThread(() -> {
+                                    View anchorView = getView().findViewById(R.id.carbonEstimator);
+                                    if (anchorView != null) {
+                                        Snackbar snackbar = Snackbar.make(anchorView, "Emissions: " + String.format("%.2f", emissions) + " grams of CO2", Snackbar.LENGTH_LONG);
+                                        snackbar.show();
+                                    } else {
+                                        Log.e("RoutesFragment", "Anchor view is null, cannot show Snackbar");
+                                    }
+                                });
+                            } else {
+                                Log.e("RoutesFragment", "Route not found or error in data: " + status);
+                            }
+                        } else {
+                            Log.e("RoutesFragment", "No rows data available in the response");
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.e("RoutesFragment", "JSON parsing error: " + e.getMessage());
                     }
                 },
                 error -> {
-                    // Handle the error
-                });
+                    Log.e("RoutesFragment", "Request error: " + error.toString());
+                }
+        );
 
-        RequestQueue requestQueue = Volley.newRequestQueue(requireActivity());
         requestQueue.add(jsonObjectRequest);
     }
+
     private double getEmissionFactor(String mode) {
         switch (mode) {
             case "walking":
@@ -282,8 +330,41 @@ public class Routes extends Fragment {
     }
 
 
-    private double calculateCarbonEmissions(double distance, double emissionFactor) {
-        return distance * emissionFactor;
+            private double calculateCarbonEmissions(double distance, double emissionFactor) {
+                return distance * emissionFactor;
+            }
+
+    private void calculateEmissionsFromPath(List<LatLng> path) {
+        double totalDistance = 0.0;
+        for (int i = 1; i < path.size(); i++) {
+            totalDistance += distanceBetween(path.get(i - 1), path.get(i));
+        }
+        double emissionFactor = getEmissionFactor(mode);
+        double emissions = calculateCarbonEmissions(totalDistance, emissionFactor);
+
+        getActivity().runOnUiThread(() -> {
+            String emissionText = "Emissions: " + String.format("%.2f", emissions) + " grams of CO2";
+            tvCarbonEstimator.setText(emissionText); // Update the TextView
+
+            View anchorView = getView().findViewById(R.id.carbonEstimator);
+            if (anchorView != null) {
+                Snackbar snackbar = Snackbar.make(anchorView, emissionText, Snackbar.LENGTH_LONG);
+                snackbar.show();
+            } else {
+                Log.e("RoutesFragment", "Anchor view is null, cannot show Snackbar");
+            }
+        });
     }
+    private double distanceBetween(LatLng latLng1, LatLng latLng2) {
+        float[] results = new float[1];
+        Location.distanceBetween(latLng1.latitude, latLng1.longitude, latLng2.latitude, latLng2.longitude, results);
+        return results[0] / 1000.0; // Convert to kilometers
     }
+    private void goBackToDirectionsFragment() {
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_routesFragment_to_directionsFragment);
+    }
+
+
+}
 

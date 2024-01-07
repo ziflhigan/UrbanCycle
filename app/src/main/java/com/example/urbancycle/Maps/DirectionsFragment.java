@@ -179,7 +179,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
             NavHostFragment.findNavController(this)
                     .navigate(R.id.action_directionsFragment_to_routes, bundle);
         } else {
-            Toast.makeText(getContext(), "Please select an origin and destination", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please select destination", Toast.LENGTH_SHORT).show();
         }
     }
 
