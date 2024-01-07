@@ -30,13 +30,14 @@ import java.util.List;
 
 public class HistoryFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, RetrieveSavingHistory.onRetrievedHistoryListener {
 
- Connection connection;
-    ArrayList<TextView> dailyamount = new ArrayList<>();
-    ArrayList<TextView> startLocation = new ArrayList<>();
-    ArrayList<TextView> EndLocation = new ArrayList<>();
-    ArrayList<TextView> Dates = new ArrayList<>();
- TableLayout tableLayout;
-    Button total;
+    private Connection connection;
+    private ArrayList<TextView> dailyamount = new ArrayList<>();
+    private ArrayList<TextView> startLocation = new ArrayList<>();
+    private ArrayList<TextView> EndLocation = new ArrayList<>();
+    private ArrayList<TextView> Dates = new ArrayList<>();
+    private TableLayout tableLayout;
+    private Button total;
+    private double totalCarbonSavings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,28 +67,10 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
             @Override
             public void onClick(View view) {
 
-                double totalAmount = calculateTotalAmountFromDatabase();
-                showToast("Your Total Saving Amount: " + totalAmount);
-                System.out.println( totalAmount);
+                showToast("Your Total Saving Amount: " + totalCarbonSavings);
             }
         });
         new ConnectToDatabase(this).execute();
-    }
-    double calculateTotalAmountFromDatabase() {
-        double totalAmount = 0;
-
-        // Loop through the dailyamount TextViews and sum up
-        for (TextView dailyAmountTextView : dailyamount) {
-            try {
-                // Parse the text from TextView to double
-                double dailyAmount = Double.parseDouble(dailyAmountTextView.getText().toString());
-                totalAmount += dailyAmount;
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return totalAmount;
     }
 
     private void showToast(String message) {
@@ -119,8 +102,7 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
         List<LocalDateTime> routeDateList = carbonSavingHistory.getRouteDateList();
         List<String> startLocationList = carbonSavingHistory.getStartLocation();
         List<String> endLocationList = carbonSavingHistory.getEndLocation();
-
-
+        totalCarbonSavings = carbonSavingHistory.getTotalCarbonSavings();
 
         for (int i = 0; i < carbonSavingsList.size(); i++) {
             double carbonSaving = carbonSavingsList.get(i);

@@ -77,7 +77,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="8dp"
                     android:text="Daily Amount"
@@ -93,14 +93,20 @@
                 <!-- Add TextViews for each column, you can customize the layout further -->
                 <TextView
                     android:id="@+id/usernameTextView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:padding="8dp" />
 
                 <TextView
                     android:id="@+id/dateTextView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:padding="8dp" />
 
                 <TextView
                     android:id="@+id/dailyAmountTextView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:padding="8dp" />
 
 
