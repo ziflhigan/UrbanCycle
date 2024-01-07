@@ -77,7 +77,7 @@ public class MainActivity_Authentication extends AppCompatActivity{
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
         } else {
-            super.onBackPressed(); // This will exit the app if the back stack is empty
+            super.onBackPressed(); // Exit the app if the back stack is empty
         }
     }
 

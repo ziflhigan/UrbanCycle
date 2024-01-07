@@ -35,6 +35,7 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
     ArrayList<TextView> startLocation = new ArrayList<>();
     ArrayList<TextView> EndLocation = new ArrayList<>();
     ArrayList<TextView> Dates = new ArrayList<>();
+    List<Double>carbonSavingList ;
  TableLayout tableLayout;
     Button total;
 
@@ -63,13 +64,29 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
         total.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double totalAmount = 0;
 
-
+                double totalAmount = calculateTotalAmountFromDatabase();
+                showToast("Your Total Saving Amount: " + totalAmount);
                 System.out.println( totalAmount);
             }
         });
         new ConnectToDatabase(this).execute();
+    }
+    double calculateTotalAmountFromDatabase() {
+        double totalAmount = 0;
+
+        // Loop through the dailyamount TextViews and sum up
+        for (TextView dailyAmountTextView : dailyamount) {
+            try {
+                // Parse the text from TextView to double
+                double dailyAmount = Double.parseDouble(dailyAmountTextView.getText().toString());
+                totalAmount += dailyAmount;
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return totalAmount;
     }
 
     private void showToast(String message) {
@@ -98,16 +115,16 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
 
         List<Double> carbonSavingsList = carbonSavingHistory.getCarbonSavingsList();
         List<LocalDateTime> routeDateList = carbonSavingHistory.getRouteDateList();
-        List<String> startLocationList = carbonSavingHistory.getStartLocation();  // Add this line
-        List<String> endLocationList = carbonSavingHistory.getEndLocation();  // Add this line
+        List<String> startLocationList = carbonSavingHistory.getStartLocation();
+        List<String> endLocationList = carbonSavingHistory.getEndLocation();
 
 
 
         for (int i = 0; i < carbonSavingsList.size(); i++) {
             double carbonSaving = carbonSavingsList.get(i);
             LocalDateTime routeDate = routeDateList.get(i);
-            String startLocation = startLocationList.get(i);  // Add this line
-            String endLocation = endLocationList.get(i);  // Add this line
+            String startLocation = startLocationList.get(i);
+            String endLocation = endLocationList.get(i);
             TableRow tableRow = new TableRow(getContext());
 
             TextView StartLo = new TextView(getContext());
@@ -129,4 +146,5 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
         }
 
     }
+
 }
