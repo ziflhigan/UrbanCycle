@@ -40,8 +40,8 @@
             android:id="@+id/ETEventOrg"
             android:layout_width="249dp"
             android:layout_height="57dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="104dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="96dp"
             android:ems="10"
             android:hint="@string/enter_event_org"
             android:inputType="text"
@@ -52,21 +52,21 @@
             android:id="@+id/ETLocation"
             android:layout_width="244dp"
             android:layout_height="51dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="108dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="100dp"
             android:ems="10"
             android:hint="@string/choose_location"
             android:importantForAutofill="no"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BtnUpload" />
+            app:layout_constraintTop_toBottomOf="@+id/ETEventOrg" />
 
         <EditText
             android:id="@+id/ETDate"
             android:layout_width="252dp"
             android:layout_height="48dp"
-            android:layout_marginTop="52dp"
-            android:layout_marginEnd="104dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="92dp"
             android:ems="10"
             android:hint="@string/Date"
             android:importantForAutofill="no"
@@ -85,16 +85,6 @@
             app:layout_constraintTop_toBottomOf="@+id/ETDate" />
 
         <TextView
-            android:id="@+id/TVUploadPoster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginBottom="8dp"
-            android:text="Upload any poster"
-            app:layout_constraintBottom_toTopOf="@+id/IVEventPoster"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
             android:id="@+id/TVDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,34 +99,13 @@
             android:id="@+id/ETTime"
             android:layout_width="257dp"
             android:layout_height="48dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="84dp"
             android:ems="10"
             android:hint="@string/Time"
             android:inputType="time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ETDate" />
-
-        <ImageView
-            android:id="@+id/IVEventPoster"
-            android:layout_width="111dp"
-            android:layout_height="139dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="148dp"
-            android:src="@drawable/eventposterexample"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ETEventOrg" />
-
-        <Button
-            android:id="@+id/BtnUpload"
-            android:layout_width="101dp"
-            android:layout_height="53dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="152dp"
-            android:backgroundTint="#2196F3"
-            android:text="@string/upload"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/IVEventPoster" />
 
         <Button
             android:id="@+id/BtnSubmission"
@@ -188,11 +157,11 @@
             android:id="@+id/TVLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginBottom="8dp"
             android:text="Location"
             app:layout_constraintBottom_toTopOf="@+id/ETLocation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/BtnUpload" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

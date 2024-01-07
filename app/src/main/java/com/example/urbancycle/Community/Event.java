@@ -1,12 +1,16 @@
 package com.example.urbancycle.Community;
 
-public class Event {
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
+public class Event implements Serializable {
     private String eventName;
     private String eventOrganizer;
     private String eventLocation;
     private String eventDate;
     private String eventTime;
-    private String imageUri;
+
 
     public Event(String s, String s1, String s2, String s3) {
     }
@@ -59,12 +63,6 @@ public class Event {
     public void setEventTime(String eventTime) {
         this.eventTime = eventTime;
     }
-    public String getImageUri() {
-        return imageUri;
-    }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
-    }
 
 }

@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventFragment extends Fragment {
-    private List<Event> eventList;
+    private List<Event> eventList = new ArrayList<>();
+
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     public EventFragment() {
@@ -58,16 +59,22 @@ public class EventFragment extends Fragment {
         };
         BtnSubmitEvent.setOnClickListener(OCLEventSubmissionForm);
         initializeRecyclerView(view);
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey("event")) {
+            Event event = (Event) bundle.getSerializable("event");
+            addEventToList(event);
+        }
     }
     private void initializeRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.RVEvent);
+        recyclerView = view.findViewById(R.id.RVEvent);  // Corrected line
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         eventList = new ArrayList<>();
         eventAdapter = new EventAdapter(eventList);
         recyclerView.setAdapter(eventAdapter);
     }
 
-    public void addEventToList(Event event) {
+
+    public  void addEventToList(Event event) {
         eventList.add(event);
         eventAdapter.notifyDataSetChanged();
     }
