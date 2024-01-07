@@ -7,20 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".Profile.ProfileFragment">
 
-    <RelativeLayout
-        android:id="@+id/BgRegister"
-        android:layout_marginTop="55dp"
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:background="@drawable/bg_waves"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:id="@+id/BgRegister"
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:background="@drawable/bg_waves"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,12 +37,12 @@
 
     <TextView
         android:id="@+id/UsernameDisp"
-        android:layout_width="72dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="224dp"
+        android:layout_width="77dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="208dp"
         android:fontFamily="casual"
-        android:text="Name "
+        android:text="@string/User_Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="30sp"
         android:textStyle="bold|italic"
