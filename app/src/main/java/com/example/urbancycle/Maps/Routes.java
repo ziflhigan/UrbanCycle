@@ -47,6 +47,7 @@ import android.location.Location;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import android.graphics.Color;
+import android.widget.TextView;
 
 
 public class Routes extends Fragment {
@@ -55,14 +56,22 @@ public class Routes extends Fragment {
     private String mode = "walking"; // Default to walking
     private FusedLocationProviderClient locationClient;
     private LatLng userLatLng; // Store user's location
+    private static final double EMISSION_FACTOR_WALKING = 0;
+    private static final double EMISSION_FACTOR_CYCLING = 5;
+    private static final double EMISSION_FACTOR_TRANSIT = 75;
+    private static final double EMISSION_FACTOR_CAR = 150;
+    private TextView tvCarbonEstimator;
+
+    private String destinationLatLng; // Destination in "lat,lng" format
+
 
 
     private void fetchCurrentLocation() {
         locationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return; // Handle lack of permissions
+            // Request permissions or handle the lack of permissions
+            return;
         }
-
         locationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 // Update map location and add marker for user's location
@@ -75,17 +84,12 @@ public class Routes extends Fragment {
                 fetchDirections(origin, destination, mode);
             }
         });
-    }
-
-    private void updateMapLocation(Location location) {
-        if (mMap != null) {
-            LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(userLatLng).title("Your Location"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15)); // Adjust the zoom level as needed
+        if (getArguments() != null) {
+            destinationLatLng = getArguments().getString("destinationLatLng");
+            calculateDistanceMatrix(userLatLng, destinationLatLng);
         }
     }
 
-    private String origin;
     // The callback when Map is ready
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -98,15 +102,13 @@ public class Routes extends Fragment {
     // Add the fetchDirections method
     private void fetchDirections(String origin, String destination, String mode) {
         RequestQueue requestQueue = Volley.newRequestQueue(requireActivity());
-
         String url = Uri.parse("https://maps.googleapis.com/maps/api/directions/json")
                 .buildUpon()
-                .appendQueryParameter("destination", destination)
                 .appendQueryParameter("origin", origin)
+                .appendQueryParameter("destination", destination)
                 .appendQueryParameter("mode", mode)
-                .appendQueryParameter("key", "AIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzwAIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzw")
+                .appendQueryParameter("key", getString(R.string.google_maps_key)) // Use your API key
                 .toString();
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
@@ -139,22 +141,24 @@ public class Routes extends Fragment {
     // Method to draw polyline on the map
     private void drawPolylineOnMap(List<LatLng> path) {
         if (mMap != null && path != null && !path.isEmpty()) {
+            mMap.clear(); // Clear previous routes and markers
+
             PolylineOptions polylineOptions = new PolylineOptions().addAll(path)
                     .width(12f)
-                    .color(Color.BLUE);
+                    .color(Color.BLUE); // Change color if needed
             mMap.addPolyline(polylineOptions);
 
-            // Add marker at the origin
+            // Add markers at the origin and destination
             LatLng origin = path.get(0);
-            mMap.addMarker(new MarkerOptions().position(origin).title("Origin"));
-
-            // Add marker at the destination
             LatLng destinationLatLng = path.get(path.size() - 1);
+            mMap.addMarker(new MarkerOptions().position(origin).title("Origin"));
             mMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Destination"));
 
+            // Adjust the camera to show the entire route
             setMapBounds(origin, destinationLatLng);
         }
     }
+
     // Add the decodePoly method
     private List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<>();
@@ -193,25 +197,33 @@ public class Routes extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_routes, container, false);
+        View view = inflater.inflate(R.layout.fragment_routes, container, false);
+        tvCarbonEstimator = view.findViewById(R.id.carbonEstimator);
+        return view;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        fetchDestinationCoordinates(destination);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
 
         if (getArguments() != null) {
-            destination = getArguments().getString("destination", "default_destination");
+            double originLat = getArguments().getDouble("originLat");
+            double originLng = getArguments().getDouble("originLng");
+            double destinationLat = getArguments().getDouble("destinationLat");
+            double destinationLng = getArguments().getDouble("destinationLng");
             mode = getArguments().getString("mode", "default_mode");
 
+            String origin = originLat + "," + originLng;
+            String destination = destinationLat + "," + destinationLng;
 
-
+            fetchDirections(origin, destination, mode);
         }
     }
+
     private void setMapBounds(LatLng origin, LatLng destination) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(origin);
@@ -223,42 +235,27 @@ public class Routes extends Fragment {
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         mMap.animateCamera(cu);
     }
-    public void onResponse(JSONObject response) {
-        try {
-            String status = response.getString("status");
-            if ("OK".equals(status)) {
-                JSONArray routes = response.getJSONArray("routes");
-                for (int i = 0; i < routes.length(); i++) {
-                    JSONObject route = routes.getJSONObject(i);
-                    JSONObject overviewPolyline = route.getJSONObject("overview_polyline");
-                    String encodedPath = overviewPolyline.getString("points");
-                    List<LatLng> path = decodePoly(encodedPath);
-                    drawPolylineOnMap(path);
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+    private void calculateDistanceMatrix(LatLng origin, String destination) {
+        if (origin == null) {
+            // Handle the case where origin is null
+            return;
         }
-    }
-    private void fetchDestinationCoordinates(String destinationName) {
-        RequestQueue requestQueue = Volley.newRequestQueue(requireActivity());
-        String apiKey = "AIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzw"; // Replace with your actual API key
-        String url = Uri.parse("https://maps.googleapis.com/maps/api/geocode/json")
-                .buildUpon()
-                .appendQueryParameter("address", destinationName)
-                .appendQueryParameter("key", apiKey)
-                .toString();
+        String origins = origin.latitude + "," + origin.longitude;
+        String destinations = destination;
+
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" + origins + "&destinations=" + destinations + "&key=" + getString(R.string.google_maps_key);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        JSONArray results = response.getJSONArray("results");
-                        if (results.length() > 0) {
-                            JSONObject location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
-                            double lat = location.getDouble("lat");
-                            double lng = location.getDouble("lng");
-                            String destinationCoords = lat + "," + lng;
-                            fetchDirections(origin, destinationCoords, mode);
+                        JSONArray rows = response.getJSONArray("rows");
+                        if (rows.length() > 0) {
+                            JSONObject elements = rows.getJSONObject(0).getJSONArray("elements").getJSONObject(0);
+                            double distance = elements.getJSONObject("distance").getDouble("value") / 1000.0; // Convert meters to kilometers
+                            double emissionFactor = getEmissionFactor(mode);
+                            double emissions = calculateCarbonEmissions(distance, emissionFactor);
+                            tvCarbonEstimator.setText("Emissions: " + String.format("%.2f", emissions) + " grams of CO2");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -268,7 +265,25 @@ public class Routes extends Fragment {
                     // Handle the error
                 });
 
+        RequestQueue requestQueue = Volley.newRequestQueue(requireActivity());
         requestQueue.add(jsonObjectRequest);
     }
+    private double getEmissionFactor(String mode) {
+        switch (mode) {
+            case "walking":
+                return EMISSION_FACTOR_WALKING;
+            case "cycling":
+                return EMISSION_FACTOR_CYCLING;
+            case "transit":
+                return EMISSION_FACTOR_TRANSIT;
+            default:
+                return EMISSION_FACTOR_CAR; // Assuming car as the default mode
+        }
+    }
 
-}
+
+    private double calculateCarbonEmissions(double distance, double emissionFactor) {
+        return distance * emissionFactor;
+    }
+    }
+

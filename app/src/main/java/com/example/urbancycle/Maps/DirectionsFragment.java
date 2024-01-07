@@ -79,10 +79,11 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
     private static final String MODE_CYCLING = "cycling";
     private static final String MODE_TRANSIT = "transit";
 
-    private AutocompleteSupportFragment autocompleteOriginFragment;
+    LatLng userOrigin;      // User's starting location
     private AutocompleteSupportFragment autocompleteDestinationFragment;
     private final OnMapReadyCallback mapReadyCallback = googleMap -> {
         mMap = googleMap;
+        fetchUserLocation();
 
         // Check if location permission is granted
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -106,6 +107,19 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         }
         // Set up any additional map configurations here
     };
+    private void fetchUserLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+                if (location != null) {
+                    userOrigin = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userOrigin, 15)); // Adjust zoom level as needed
+                }
+            });
+        } else {
+            // Request location permission
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
 
     @Nullable
     @Override
@@ -154,15 +168,19 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         });
     }
     private void navigateToRoutes() {
-        String destination = selectedPlace.getName();
-        String mode = lastSelectedMode; // Make sure this is set somewhere
+        if (selectedPlace != null && userOrigin != null) {
+            Bundle bundle = new Bundle();
+            bundle.putDouble("originLat", userOrigin.latitude);
+            bundle.putDouble("originLng", userOrigin.longitude);
+            bundle.putDouble("destinationLat", selectedPlace.getLatLng().latitude);
+            bundle.putDouble("destinationLng", selectedPlace.getLatLng().longitude);
+            bundle.putString("mode", lastSelectedMode);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("destination", destination);
-        bundle.putString("mode", mode);
-
-        NavHostFragment.findNavController(this)
-                .navigate(R.id.action_directionsFragment_to_routes, bundle);
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_directionsFragment_to_routes, bundle);
+        } else {
+            Toast.makeText(getContext(), "Please select an origin and destination", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setupAutocompleteFragment() {
@@ -406,15 +424,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         new FetchDirectionsTask().execute(originText, destinationText, mode);
     }
 
-    private void displayDirectionsOnMap(String directionsJson) {
-        // Parse the JSON response
-        // Draw the route using PolylineOptions
-    }
 
-    private void showDistanceAndInformation(String directionsJson) {
-        // Parse JSON to extract information
-        // Display this information to the user
-    }
 
 
     private void displayTransitRoutes(JSONArray routes) {
