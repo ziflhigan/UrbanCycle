@@ -52,30 +52,40 @@
             android:layout_height="match_parent">
 
             <!-- Table Header -->
-            <TableRow>
+
+            <!-- Table Rows (Populated Dynamically) -->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_width="139dp"
+                    android:layout_width="99dp"
                     android:padding="8dp"
-                    android:text="Username"
+                    android:text="StartPlace"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="108dp"
+                    android:layout_width="93dp"
+                    android:padding="8dp"
+                    android:text="EndPlace "
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="67dp"
                     android:padding="8dp"
                     android:text="Date"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="146dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:padding="8dp"
-                    android:text="  Daily Amount"
+                    android:text="Daily Amount"
                     android:textStyle="bold" />
 
 
             </TableRow>
 
-            <!-- Table Rows (Populated Dynamically) -->
             <TableRow
                 android:id="@+id/tableRow1"
                 android:layout_width="match_parent"

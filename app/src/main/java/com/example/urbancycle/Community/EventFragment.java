@@ -67,5 +67,9 @@ public class EventFragment extends Fragment {
         recyclerView.setAdapter(eventAdapter);
     }
 
+    public void addEventToList(Event event) {
+        eventList.add(event);
+        eventAdapter.notifyDataSetChanged();
+    }
 }
 

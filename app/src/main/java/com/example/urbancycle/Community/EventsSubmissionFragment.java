@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.urbancycle.R;
 
@@ -97,5 +98,26 @@ public class EventsSubmissionFragment extends Fragment {
 
         Event event = new Event(eventName, eventOrganizer, eventLocation, eventDate, eventTime);
         event.setImageUri(imageUri != null ? imageUri.toString() : null);
+
+        Fragment navHostFragment = getParentFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (navHostFragment != null) {
+            Fragment eventFragment = navHostFragment.getChildFragmentManager().getPrimaryNavigationFragment();
+
+            if (eventFragment instanceof EventFragment) {
+                ((EventFragment) eventFragment).addEventToList(event);
+                showToast("Submission received!");
+                Navigation.findNavController(requireView()).popBackStack();
+            } else {
+                showToast("Failed to submit event. Please try again.");
+            }
+        } else {
+            showToast("Failed to submit event. Please try again.");
+        }
+
+
     }
-}
+
+    private void showToast(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+    }
+    }
