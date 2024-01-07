@@ -3,6 +3,7 @@ package com.example.urbancycle.Community;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvEventLocation.setText(event.getEventLocation());
         holder.tvEventDate.setText(event.getEventDate());
         holder.tvEventTime.setText(event.getEventTime());
+
     }
 
     @Override
@@ -49,13 +51,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         TextView tvEventLocation;
         TextView tvEventDate;
         TextView tvEventTime;
+
+
         EventViewHolder(View itemView) {
             super(itemView);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             tvEventOrganizer = itemView.findViewById(R.id.tvEventOrganizer);
             tvEventLocation = itemView.findViewById(R.id.tvEventLocation);
             tvEventDate = itemView.findViewById(R.id.tvEventDate);
-            tvEventTime = itemView.findViewById(R.id.tvEventTime);        }
+            tvEventTime = itemView.findViewById(R.id.tvEventTime);
+        }
     }
 }
-

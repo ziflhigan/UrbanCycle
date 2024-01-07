@@ -40,11 +40,11 @@
             android:id="@+id/action_profile_to_history"
             app:destination="@id/historyFragment" />
         <action
-            android:id="@+id/action_profile_to_preference"
-            app:destination="@id/preferenceFragment" />
-        <action
             android:id="@+id/action_profile_to_setting"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_profile_to_galleryActivity"
+            app:destination="@id/galleryActivity" />
     </fragment>
 
     <fragment
@@ -104,11 +104,6 @@
         android:name="com.example.urbancycle.Profile.HistoryFragment"
         android:label="HistoryFragment" />
     <fragment
-        android:id="@+id/preferenceFragment"
-        android:name="com.example.urbancycle.Profile.PreferenceFragment"
-        android:label="fragment_preference"
-        tools:layout="@layout/fragment_preference" />
-    <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.urbancycle.Profile.SettingFragment"
         android:label="fragment_setting"
@@ -157,6 +152,10 @@
         android:name="com.example.urbancycle.Community.EventsSubmissionFragment"
         android:label="Event Submission"
         tools:layout="@layout/fragment_events_submission" />
+    <activity
+        android:id="@+id/galleryActivity"
+        android:name="com.example.urbancycle.Profile.GalleryActivity"
+        android:label="GalleryActivity" />
 
 
 </navigation>

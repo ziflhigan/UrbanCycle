@@ -1,8 +1,8 @@
 package com.example.urbancycle.Profile;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Size;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +24,9 @@ import java.util.List;
 
 public class GalleryActivity extends AppCompatActivity {
 
-    private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private final int MY_PERMISSIONS_REQUEST_READ_MEDIA_IMAGES = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,38 +36,69 @@ public class GalleryActivity extends AppCompatActivity {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is the app-defined int constant
+                        MY_PERMISSIONS_REQUEST_READ_MEDIA_IMAGES);
                 return;
             }
         }
 
-        List<Image> ImageList = getPhotos();
+        List<Image> imageList = getPhotos();
         ImageView IVThumb1 = findViewById(R.id.IVThumb1);
         ImageView IVThumb2 = findViewById(R.id.IVThumb2);
         ImageView IVThumb3 = findViewById(R.id.IVThumb3);
 
+        if (imageList.size() >= 3) {
+            loadImageThumbnail(imageList.get(0).uri, IVThumb1);
+            loadImageThumbnail(imageList.get(1).uri, IVThumb2);
+            loadImageThumbnail(imageList.get(2).uri, IVThumb3);
+        }
+
+        IVThumb1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleImageClick(imageList.get(0).uri);
+            }
+        });
+
+        IVThumb2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleImageClick(imageList.get(1).uri);
+            }
+        });
+
+        IVThumb3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleImageClick(imageList.get(2).uri);
+            }
+        });
+    }
+
+    private void handleImageClick(Uri selectedImageUri) {
+        Intent intent = new Intent();
+        intent.putExtra("selectedImageUri", selectedImageUri.toString());
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private void loadImageThumbnail(Uri imageUri, ImageView imageView) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
             try {
-                Bitmap thumbnail1 =getApplicationContext().getContentResolver().loadThumbnail(
-                        ImageList.get(0).uri, new Size(640, 480), null);
-                IVThumb1.setImageBitmap(thumbnail1);
-                Bitmap thumbnail2 =getApplicationContext().getContentResolver().loadThumbnail(
-                        ImageList.get(1).uri, new Size(640, 480), null);
-                IVThumb2.setImageBitmap(thumbnail2);
-                Bitmap thumbnail3 =getApplicationContext().getContentResolver().loadThumbnail(
-                        ImageList.get(2).uri, new Size(640, 480), null);
-                IVThumb3.setImageBitmap(thumbnail3);
+                Bitmap thumbnail = getApplicationContext().getContentResolver().loadThumbnail(
+                        imageUri, new Size(640, 480), null);
+                imageView.setImageBitmap(thumbnail);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
+
+
     public static final Uri IMAGE_URI = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
     class Image {
-        private final Uri uri;
+        final Uri uri;
         private final String name;
         private final String date_taken;
 
@@ -114,5 +148,4 @@ public class GalleryActivity extends AppCompatActivity {
         }
         return ImageList;
     }
-
-    }
+}

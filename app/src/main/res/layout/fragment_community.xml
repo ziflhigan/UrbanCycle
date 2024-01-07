@@ -27,19 +27,24 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="410dp"
-        android:layout_height="119dp"
-        android:layout_marginTop="150dp"
-        android:orientation="horizontal"
+        android:layout_width="323dp"
+        android:layout_height="504dp"
+        android:layout_marginTop="188dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.602"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/button_forum"
-            android:layout_width="78dp"
-            android:layout_height="80dp"
+            android:layout_width="313dp"
+            android:layout_height="71dp"
             android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:backgroundTint="#2196F3"
             android:foregroundTint="#2196F3"
@@ -48,8 +53,8 @@
 
         <Button
             android:id="@+id/button_tips"
-            android:layout_width="78dp"
-            android:layout_height="80dp"
+            android:layout_width="313dp"
+            android:layout_height="63dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:backgroundTint="#2196F3"
@@ -58,8 +63,8 @@
 
         <Button
             android:id="@+id/button_events"
-            android:layout_width="78dp"
-            android:layout_height="80dp"
+            android:layout_width="309dp"
+            android:layout_height="63dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:backgroundTint="#2196F3"
