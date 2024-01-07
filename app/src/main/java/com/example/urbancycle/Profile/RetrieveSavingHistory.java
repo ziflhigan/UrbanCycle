@@ -48,6 +48,16 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
                 carbonSavingHistory.addCarbonSaving(carbonSavings, date, startLocation, endLocation);
             }
 
+            String totalQuery = "SELECT SUM(CarbonSavings) AS TotalSavings FROM Routes WHERE Email = ?";
+            preparedStatement = connection.prepareStatement(totalQuery);
+            preparedStatement.setString(1, userEmail);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                double totalSavings = resultSet.getDouble("TotalSavings");
+                carbonSavingHistory.setTotalCarbonSavings(totalSavings);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +74,7 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
         private final List<LocalDateTime> routeDateList;
         private final List<String> startLocation;
         private final List<String> endLocation;
+        private double totalCarbonSavings;
 
         public CarbonSavingHistory() {
             this.carbonSavingsList = new ArrayList<>();
@@ -79,6 +90,14 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
             this.routeDateList.add(parseDateStringToLocalDateTime(dateString));
             this.startLocation.add(startLocation);
             this.endLocation.add(endLocation);
+        }
+
+        public void setTotalCarbonSavings(double totalSavings) {
+            this.totalCarbonSavings = totalSavings;
+        }
+
+        public double getTotalCarbonSavings() {
+            return totalCarbonSavings;
         }
 
         private LocalDateTime parseDateStringToLocalDateTime(String dateString) {
@@ -115,3 +134,4 @@ public class RetrieveSavingHistory extends AsyncTask<Void, Void, RetrieveSavingH
     }
 
 }
+

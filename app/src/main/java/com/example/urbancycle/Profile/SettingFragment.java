@@ -3,6 +3,7 @@ package com.example.urbancycle.Profile;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -37,8 +38,13 @@ public class SettingFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavHostFragment.findNavController(SettingFragment.this)
-                        .navigate(R.id.action_settingFragment_to_mainActivity_Authentication);
+                NavController navController = NavHostFragment.findNavController(SettingFragment.this);
+
+                // Navigate to the mainActivity_Authentication fragment
+                navController.navigate(R.id.action_settingFragment_to_mainActivity_Authentication);
+
+                // Remove the SettingFragment from the back stack
+                navController.popBackStack(null, false);
             }
         });
     } @Override

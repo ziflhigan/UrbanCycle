@@ -65,6 +65,9 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     // TODO: Add the dependencies for Firebase products you want to use
     implementation("com.google.firebase:firebase-analytics")
+    implementation ("com.github.bumptech.glide:glide:4.12.0") // Use the latest version available
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
 
 }
 
