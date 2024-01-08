@@ -70,7 +70,7 @@ public class Routes extends Fragment {
     private String mode = "walking"; // Default to walking
     private FusedLocationProviderClient locationClient;
     private LatLng userLatLng; // Store user's location
-    private static final double EMISSION_FACTOR_WALKING = 0;
+    private static final double EMISSION_FACTOR_WALKING = 1;
     private static final double EMISSION_FACTOR_CYCLING = 5;
     private static final double EMISSION_FACTOR_TRANSIT = 75;
     private static final double EMISSION_FACTOR_CAR = 150;

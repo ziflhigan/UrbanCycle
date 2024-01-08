@@ -61,7 +61,7 @@ import org.json.JSONObject;
 
 public class DirectionsFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener {
 
-    private static final double EMISSION_FACTOR_WALKING = 0; // Assuming minimal emissions or same with cycling ?
+    private static final double EMISSION_FACTOR_WALKING = 1; // Assuming minimal emissions or same with cycling ?
     private static final double EMISSION_FACTOR_CYCLING = 5; // 5 grams of CO2 per km
     private static final double EMISSION_FACTOR_TRANSIT = 75; // An example value for buses
     private static final double EMISSION_FACTOR_CAR = 150; // An example value for cars
