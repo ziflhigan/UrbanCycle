@@ -43,7 +43,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
-
+import android.widget.Button;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -75,8 +75,12 @@ public class Routes extends Fragment {
     private static final double EMISSION_FACTOR_TRANSIT = 75;
     private static final double EMISSION_FACTOR_CAR = 150;
     private TextView tvCarbonEstimator;
-
+    private FusedLocationProviderClient fusedLocationClient; // Add this
+    private LatLng userOrigin; // Declare this if not already declared
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 100; // Declare this if not already declared
     private String destinationLatLng; // Destination in "lat,lng" format
+    private boolean isRouteActive = false; // Field to track route state
+
 
 
 
@@ -229,10 +233,28 @@ public class Routes extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+        Button startRouteButton = view.findViewById(R.id.startRouteButton);
+        startRouteButton.setOnClickListener(v -> {
+            if (isRouteActive) {
+                // Logic for ending the route
+                endRoute();
+                startRouteButton.setText(R.string.start); // Change button text to "Start"
+                isRouteActive = false;
+            } else {
+                // Logic for starting the route
+                startRoute();
+                startRouteButton.setText(R.string.end_route); // Change button text to "End Route"
+                isRouteActive = true;
+            }
+        });
         ImageButton backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> goBackToDirectionsFragment());
 
@@ -381,7 +403,68 @@ public class Routes extends Fragment {
             }
         });
     }
+    private void enableMyLocation() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            if (mMap != null) {
+                try {
+                    mMap.setMyLocationEnabled(true);
+                    focusOnUserLocation();
+                } catch (SecurityException e) {
+                    Log.e("RoutesFragment", "Security exception: " + e.getMessage());
+                }
+            }
+        }
+    }
 
 
+    private void focusOnUserLocation() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null) {
+                    LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 30));
+                }
+            });
+        } else {
+            Log.e("RoutesFragment", "Location permission not granted");
+            // Optionally, you can handle the case where permission is not granted, such as showing a message to the user.
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableMyLocation();
+            } else {
+                // Handle the case where permission is denied
+                Log.e("RoutesFragment", "Location permission denied");
+            }
+        }
+    }
+    private void enableMyLocationLayer() {
+        if (mMap != null) {
+            try {
+                mMap.setMyLocationEnabled(true);
+                focusOnUserLocation();
+            } catch (SecurityException e) {
+                Log.e("RoutesFragment", "Security exception: " + e.getMessage());
+            }
+        }
+    }
+    private void startRoute() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            enableMyLocationLayer();
+        }
+    }
+
+    private void endRoute() {
+        // Add logic to handle the end of the route
+        // For example, you might want to stop tracking the user's location, save the route data, etc.
+    }
 }
 
