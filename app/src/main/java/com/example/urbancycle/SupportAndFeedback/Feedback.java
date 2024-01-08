@@ -3,15 +3,14 @@ package com.example.urbancycle.SupportAndFeedback;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.Database.UserInfoManager;
@@ -71,7 +70,6 @@ public class Feedback extends Fragment implements ConnectToDatabase.DatabaseConn
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.databaseConnection = connection;
-        showToast("Database Connected");
     }
 
     private void showToast(String message) {

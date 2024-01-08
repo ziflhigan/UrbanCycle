@@ -2,16 +2,14 @@ package com.example.urbancycle.SupportAndFeedback;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.Database.UserInfoManager;
@@ -75,7 +73,7 @@ public class Rating extends Fragment implements ConnectToDatabase.DatabaseConnec
 
     @Override
     public void onConnectionFailure() {
-        Toast.makeText(getContext(),"database disconnected 3",Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"database disconnected ",Toast.LENGTH_LONG).show();
     }
 
     @Override
