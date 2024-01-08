@@ -1,11 +1,8 @@
 package com.example.urbancycle.Authentication;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -159,7 +156,7 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
 
 class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
     private Connection connection;
-    private String email, password;
+    private String email, password, fullName;
     private LoginListener listener;
 
     public interface LoginListener {
@@ -192,6 +189,7 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
                     // User authenticated successfully
                     UserInfoManager.getInstance().setEmail(email);
                     UserInfoManager.getInstance().setUserName(fetchUserName(email)); // Implement fetchUserName to get the username
+                    UserInfoManager.getInstance().setFullName(fullName);
                     return true;
                 }
             }
@@ -204,7 +202,7 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
 
     private String fetchUserName(String email) throws SQLException {
         String userName = null;
-        String fetchNameQuery = "SELECT UserName FROM Users WHERE Email = ?";
+        String fetchNameQuery = "SELECT UserName, FirstName, LastName FROM Users WHERE Email = ?";
         PreparedStatement nameStmt = connection.prepareStatement(fetchNameQuery);
         nameStmt.setString(1, email);
         ResultSet nameResultSet = nameStmt.executeQuery();
@@ -212,6 +210,7 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
         // Check if a record was found
         if (nameResultSet.next()) {
             userName = nameResultSet.getString("UserName");
+            fullName = nameResultSet.getString("FirstName") + " " + nameResultSet.getString("LastName");
         }
 
         nameStmt.close();

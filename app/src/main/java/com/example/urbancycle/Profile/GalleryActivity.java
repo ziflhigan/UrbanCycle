@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Size;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +26,6 @@ import java.util.List;
 public class GalleryActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_READ_MEDIA_IMAGES = 1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +75,13 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
     private void handleImageClick(Uri selectedImageUri) {
+        Log.d("GalleryActivity", "Selected Image URI: " + selectedImageUri.toString());
         Intent intent = new Intent();
         intent.putExtra("selectedImageUri", selectedImageUri.toString());
         setResult(RESULT_OK, intent);
         finish();
     }
+
 
     private void loadImageThumbnail(Uri imageUri, ImageView imageView) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {

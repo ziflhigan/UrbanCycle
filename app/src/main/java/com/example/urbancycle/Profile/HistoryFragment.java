@@ -1,11 +1,6 @@
 package com.example.urbancycle.Profile;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +10,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.R;
 
-
 import java.sql.Connection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class HistoryFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, RetrieveSavingHistory.onRetrievedHistoryListener {
@@ -91,7 +86,6 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
     public void onConnectionFailure() {
 
     }
-
 
     //The method returns a list of CarbonSavings and a list of Date retrieved from the database
 

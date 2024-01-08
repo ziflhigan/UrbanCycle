@@ -4,6 +4,7 @@ public class UserInfoManager {
     private static UserInfoManager instance;
     private String email;
     private String userName;
+    private String fullName;
 
     private UserInfoManager() {
         // Private constructor to prevent direct instantiation
@@ -14,6 +15,14 @@ public class UserInfoManager {
             instance = new UserInfoManager();
         }
         return instance;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public void setEmail(String email) {
