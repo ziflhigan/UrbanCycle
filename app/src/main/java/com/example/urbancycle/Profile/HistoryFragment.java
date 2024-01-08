@@ -77,14 +77,13 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
     @Override
     public void onConnectionSuccess(Connection connection) {
         this.connection = connection;
-        showToast("Database Connection Successful!");
 
         new RetrieveSavingHistory(connection, this).execute();
     }
 
     @Override
     public void onConnectionFailure() {
-
+        showToast("Database disconnected");
     }
 
     //The method returns a list of CarbonSavings and a list of Date retrieved from the database
