@@ -1,16 +1,7 @@
 package com.example.urbancycle.Community;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.urbancycle.R;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.Serializable;
+import com.example.urbancycle.R;
 
 public class EventsSubmissionFragment extends Fragment {
 
@@ -85,6 +75,6 @@ public class EventsSubmissionFragment extends Fragment {
         // Use navigation to send the data to EventFragment
         Bundle bundle = new Bundle();
         bundle.putSerializable("event", event);
-        Navigation.findNavController(requireView()).navigate(R.id.action_DestSubmissionForm_to_DestEvent, bundle);
+        //Navigation.findNavController(requireView()).navigate(R.id.action_DestSubmissionForm_to_DestEvent, bundle);
     }
 }
