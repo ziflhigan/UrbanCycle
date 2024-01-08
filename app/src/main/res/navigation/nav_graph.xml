@@ -166,7 +166,11 @@
         android:id="@+id/DestSubmissionForm"
         android:name="com.example.urbancycle.Community.EventsSubmissionFragment"
         android:label="Event Submission"
-        tools:layout="@layout/fragment_events_submission" />
+        tools:layout="@layout/fragment_events_submission" >
+        <action
+            android:id="@+id/action_DestSubmissionForm_to_DestEvent"
+            app:destination="@id/DestEvent" />
+    </fragment>
     <activity
         android:id="@+id/galleryActivity"
         android:name="com.example.urbancycle.Profile.GalleryActivity"

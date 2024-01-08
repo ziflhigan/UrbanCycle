@@ -23,7 +23,6 @@ import java.util.List;
 
 public class EventFragment extends Fragment {
     private List<Event> eventList = new ArrayList<>();
-
     private RecyclerView recyclerView;
     private EventAdapter eventAdapter;
     public EventFragment() {
@@ -32,19 +31,8 @@ public class EventFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                getActivity(),
-                R.array.location,
-                android.R.layout.simple_spinner_item
-        );
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        Spinner spinnerLanguages = view.findViewById(R.id.spinner_location);
-        spinnerLanguages.setAdapter(adapter);
         return view;
     }
 
@@ -66,7 +54,7 @@ public class EventFragment extends Fragment {
         }
     }
     private void initializeRecyclerView(View view) {
-        recyclerView = view.findViewById(R.id.RVEvent);  // Corrected line
+        recyclerView = view.findViewById(R.id.RVEvent);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         eventList = new ArrayList<>();
         eventAdapter = new EventAdapter(eventList);
