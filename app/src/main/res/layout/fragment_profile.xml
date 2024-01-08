@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Profile.ProfileFragment">
+
     <RelativeLayout
         android:id="@+id/BgRegister"
         android:layout_marginTop="55dp"
@@ -14,7 +15,6 @@
         android:background="@drawable/bg_waves"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <View
         android:id="@+id/view"
@@ -26,114 +26,167 @@
 
     <ImageView
         android:id="@+id/Avatar"
-        android:layout_width="113dp"
-        android:layout_height="106dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="296dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/profi"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/UsernameDisp"
-        android:layout_width="211dp"
-        android:layout_height="87dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="84dp"
-        android:fontFamily="casual"
-        android:text="Name "
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textSize="30sp"
-        android:textStyle="bold|italic"
-        android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/HistoryImage"
-        android:layout_width="116dp"
-        android:layout_height="117dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Saving history"
-        android:src="@drawable/history"
-        app:layout_constraintBottom_toTopOf="@+id/Setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.261"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.926" />
-
-    <Button
-        android:id="@+id/History"
-        android:layout_width="123dp"
-        android:layout_height="67dp"
-        android:layout_marginBottom="48dp"
-        android:text="History"
-        android:textColor="@android:color/holo_purple"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/Setting"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toEndOf="@+id/HistoryImage" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="66dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="8dp"
-        android:text="Setting"
-        android:textColor="@android:color/holo_purple"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Setting"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/Setting"
         android:layout_width="120dp"
-        android:layout_height="128dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Setting"
-        android:src="@drawable/set"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/avatar2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.86" />
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/PreferenceImage"
-
-        android:layout_width="254dp"
-        android:layout_height="200dp"
-
-        android:src="@drawable/prefe"
-        app:layout_constraintBottom_toTopOf="@+id/History"
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="390dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginBottom="272dp"
+        android:elevation="5dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="15dp"
+        android:textColorHint="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UsernameDisp"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/Avatar"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextFullName"
+        android:layout_width="390dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="134dp"
+        android:elevation="5dp"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="Full Name"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:padding="15dp"
+        android:textColorHint="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Avatar" />
 
     <Button
-        android:id="@+id/Preference"
-        android:layout_width="wrap_content"
+        android:id="@+id/BtnUpdateProfile"
+        android:layout_width="390dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
-        android:text="gallery"
-        android:textColor="@android:color/holo_purple"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/History"
+        android:layout_marginTop="23dp"
+        android:text="Update Profile"
+        android:backgroundTint="#BA0288D1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFullName" />
 
-        app:layout_constraintStart_toEndOf="@+id/PreferenceImage" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:indeterminateTint="#BA0288D1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BtnUpdateProfile" />
+
+    <Button
+        android:id="@+id/History"
+        android:layout_width="390dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#BA0288D1"
+        android:text="Journey History"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+
+    <!--    <TextView-->
+<!--        android:id="@+id/UsernameDisp"-->
+<!--        android:layout_width="127dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginStart="13dp"-->
+<!--        android:layout_marginTop="76dp"-->
+<!--        android:layout_marginEnd="4dp"-->
+<!--        android:fontFamily="casual"-->
+<!--        android:text="Name "-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--        android:textSize="30sp"-->
+<!--        android:textStyle="bold|italic"-->
+<!--        android:typeface="sans"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/usernameDisp"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/usernameDisp"-->
+<!--        android:layout_width="139dp"-->
+<!--        android:layout_height="52dp"-->
+<!--        android:layout_marginStart="13dp"-->
+<!--        android:layout_marginTop="76dp"-->
+<!--        android:layout_marginEnd="144dp"-->
+<!--        android:fontFamily="casual"-->
+<!--        android:text="Welcome! "-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--        android:textSize="30sp"-->
+<!--        android:textStyle="bold|italic"-->
+<!--        android:typeface="sans"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/Avatar"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/Preference"-->
+<!--        android:layout_width="292dp"-->
+<!--        android:layout_height="66dp"-->
+<!--        android:layout_marginTop="148dp"-->
+<!--        android:backgroundTint="#BA0288D1"-->
+<!--        android:text="Change Profile Picture"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="20sp"-->
+
+<!--        android:textStyle="italic"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.495"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/usernameDisp"-->
+<!--        app:layout_constraintVertical_bias="0.303" />-->
+
+    <Button
+        android:id="@+id/BtnLogout"
+        android:layout_width="390dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="64dp"
+        android:text="LOGOUT"
+        android:backgroundTint="#BA0288D1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/History" />
+
+    <Button
+        android:id="@+id/BtnChangeProfilePicture"
+        android:layout_width="wrap_content"
+        android:backgroundTint="#BA0288D1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="7dp"
+        android:text="Change Picture"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUserName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Avatar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
