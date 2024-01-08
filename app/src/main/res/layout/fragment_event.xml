@@ -23,11 +23,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RVEvent"
-        android:layout_width="414dp"
-        android:layout_height="467dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="412dp"
+        android:layout_height="515dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_location" />
+        app:layout_constraintTop_toBottomOf="@+id/TVEcoTipsTitle" />
 
     <ImageView
         android:id="@+id/IVSproutEvents"
@@ -50,17 +50,6 @@
         android:textColor="#2196F3"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/spinner_location"
-        android:layout_width="410dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="180dp"
-        android:background="#fafafa"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button

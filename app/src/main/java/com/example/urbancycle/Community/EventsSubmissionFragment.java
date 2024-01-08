@@ -23,9 +23,7 @@ public class EventsSubmissionFragment extends Fragment {
     private EditText ETEventLocation;
     private EditText ETEventDate;
     private EditText ETEventTime;
-    private ImageView IVEventPoster;
-    private Bitmap eventBitmap; // Added for storing the image as a Bitmap
-    private static final int PICK_IMAGE_REQUEST = 1;
+
 
     public EventsSubmissionFragment() {
         // Required empty public constructor

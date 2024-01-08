@@ -11,10 +11,6 @@ public class Event implements Serializable {
     private String eventDate;
     private String eventTime;
 
-
-    public Event(String s, String s1, String s2, String s3) {
-    }
-
     public Event(String eventName, String eventOrganizer, String eventLocation, String eventDate, String eventTime) {
         this.eventName = eventName;
         this.eventOrganizer = eventOrganizer;
