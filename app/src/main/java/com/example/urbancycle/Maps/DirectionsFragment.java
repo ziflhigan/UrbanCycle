@@ -54,6 +54,7 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,6 +79,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
     private static final String MODE_WALKING = "walking";
     private static final String MODE_CYCLING = "cycling";
     private static final String MODE_TRANSIT = "transit";
+
 
     LatLng userOrigin;      // User's starting location
     private AutocompleteSupportFragment autocompleteDestinationFragment;
@@ -135,6 +137,12 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 //        destinationInput = view.findViewById(R.id.autocomplete_destination_fragment); // Make sure ID matches with your layout
         ImageButton backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> navigateBackToMapFragment());
+        if (getArguments() != null && getArguments().containsKey("pointsEarned")) {
+            view.post(() -> {
+                int pointsEarned = getArguments().getInt("pointsEarned");
+                Snackbar.make(view, "Points earned: " + pointsEarned, Snackbar.LENGTH_LONG).show();
+            });
+        }
         
         startRouteButton = view.findViewById(R.id.startRouteButton);
         startRouteButton.setOnClickListener(v -> {
@@ -224,19 +232,17 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
         // Change the button appearance to show the selected mode
         updateButtonStyles(mode);
-    }private void updateButtonStyles(String selectedMode) {
-        // Reset styles for all buttons to default
-        resetButtonStyles(walkingButton, MODE_WALKING, selectedMode);
-        resetButtonStyles(cyclingButton, MODE_CYCLING, selectedMode);
-        resetButtonStyles(transportButton, MODE_TRANSIT, selectedMode);
+    }
 
-        // Set the style for the selected button
-        Button selectedButton = getButtonForMode(selectedMode);
-        if (selectedButton != null) {
-            selectedButton.setAlpha(1.0f);
-            selectedButton.setTextColor(getResources().getColor(R.color.selected_mode_text));
-            selectedButton.setBackgroundResource(R.drawable.selected_mode_background);
-        }
+    private void updateButtonStyles(String selectedMode) {
+        // Set the alpha for the selected button to full opacity
+        // and for unselected buttons to a lower value for transparency
+        setButtonAlpha(walkingButton, MODE_WALKING.equals(selectedMode) ? 1.0f : 0.6f);
+        setButtonAlpha(cyclingButton, MODE_CYCLING.equals(selectedMode) ? 1.0f : 0.6f);
+        setButtonAlpha(transportButton, MODE_TRANSIT.equals(selectedMode) ? 1.0f : 0.6f);
+    }
+    private void setButtonAlpha(Button button, float alpha) {
+        button.setAlpha(alpha);
     }
 
     private void resetButtonStyles(Button button, String mode, String selectedMode) {

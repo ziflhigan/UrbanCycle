@@ -80,6 +80,7 @@ public class Routes extends Fragment {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100; // Declare this if not already declared
     private String destinationLatLng; // Destination in "lat,lng" format
     private boolean isRouteActive = false; // Field to track route state
+    private LatLng initialLocation;
 
 
 
@@ -459,12 +460,34 @@ public class Routes extends Fragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
             enableMyLocationLayer();
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null) {
+                    // Store the initial location when the route starts
+                    initialLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                }
+            });
         }
     }
 
     private void endRoute() {
-        // Add logic to handle the end of the route
-        // For example, you might want to stop tracking the user's location, save the route data, etc.
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                if (location != null && initialLocation != null) {
+                    LatLng finalLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                    double distance = distanceBetween(initialLocation, finalLocation);
+                    int pointsEarned = (int) distance; // Assuming 1 point per km
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("pointsEarned", pointsEarned);
+                    NavHostFragment.findNavController(Routes.this)
+                            .navigate(R.id.action_routesFragment_to_directionsFragment, bundle);
+                }
+            });
+        } else {
+            // Handle the case where permission is not granted
+            Log.e("RoutesFragment", "Location permission not granted");
+            goBackToDirectionsFragment();
+        }
     }
 }
 
