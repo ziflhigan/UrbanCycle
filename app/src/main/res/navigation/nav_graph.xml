@@ -147,7 +147,12 @@
         android:id="@+id/routes"
         android:name="com.example.urbancycle.Maps.Routes"
         android:label="fragment_routes"
-        tools:layout="@layout/fragment_routes" />
+        tools:layout="@layout/fragment_routes" >
+
+    <action
+        android:id="@+id/action_routesFragment_to_directionsFragment"
+        app:destination="@id/directionsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/DestForum"
