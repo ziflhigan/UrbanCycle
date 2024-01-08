@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.urbancycle.R;
 
@@ -75,6 +76,6 @@ public class EventsSubmissionFragment extends Fragment {
         // Use navigation to send the data to EventFragment
         Bundle bundle = new Bundle();
         bundle.putSerializable("event", event);
-        //Navigation.findNavController(requireView()).navigate(R.id.action_DestSubmissionForm_to_DestEvent, bundle);
+        Navigation.findNavController(requireView()).navigate(R.id.action_DestSubmissionForm_to_DestEvent, bundle);
     }
 }
