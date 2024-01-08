@@ -41,7 +41,7 @@
         <item>Penang</item>
     </string-array>
     <string name="please_enter_password">Please Enter Password...</string>
-
+    <string name="end_route">End Route</string>
     <string name="walk">Walk</string>
     <string name="cycle">Cycle</string>
     <string name="transit">Transit</string>
