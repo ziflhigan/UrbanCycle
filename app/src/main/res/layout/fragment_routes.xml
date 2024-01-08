@@ -28,7 +28,7 @@
         android:id="@+id/backButton"
         android:layout_width="49dp"
         android:layout_height="32dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="-4dp"
         android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/back"
@@ -48,4 +48,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/backButton" />
 
+    <Button
+        android:id="@+id/startRouteButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:text="@string/start"
+        android:background="@drawable/white_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

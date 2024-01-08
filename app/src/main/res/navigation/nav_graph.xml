@@ -100,6 +100,9 @@
         <action
             android:id="@+id/action_directionsFragment_to_routes"
             app:destination="@id/routes" />
+        <action
+            android:id="@+id/action_directionsFragment_to_map"
+            app:destination="@id/map" />
     </fragment>
     <fragment
         android:id="@+id/Drating"

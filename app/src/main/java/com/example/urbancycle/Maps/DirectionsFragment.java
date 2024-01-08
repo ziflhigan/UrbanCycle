@@ -133,7 +133,9 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
         // Initialize destinationInput EditText
 //        destinationInput = view.findViewById(R.id.autocomplete_destination_fragment); // Make sure ID matches with your layout
-
+        ImageButton backButton = view.findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> navigateBackToMapFragment());
+        
         startRouteButton = view.findViewById(R.id.startRouteButton);
         startRouteButton.setOnClickListener(v -> {
             if (selectedPlace != null) {
@@ -307,6 +309,10 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
                 // Handle the case where the user denies the permission
             }
         }
+    }
+    private void navigateBackToMapFragment() {
+        NavHostFragment.findNavController(this)
+                .navigate(R.id.action_directionsFragment_to_map);
     }
 
     @Override

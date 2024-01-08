@@ -10,7 +10,6 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,8 +30,10 @@
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="36dp"
-        android:layout_height="39dp"
+        android:layout_width="49dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="-4dp"
+        android:layout_marginTop="4dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/back"
         android:src="@drawable/ic_back"
@@ -45,37 +46,48 @@
         android:id="@+id/walkingButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/quantum_grey400"
         android:text="@string/walk"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/startRouteButton"
         app:layout_constraintEnd_toStartOf="@+id/cyclingButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_chainStyle="spread" />
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/cyclingButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/quantum_grey400"
         android:text="@string/cycle"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/startRouteButton"
         app:layout_constraintEnd_toStartOf="@+id/transportButton"
         app:layout_constraintStart_toEndOf="@+id/walkingButton" />
+
 
     <Button
         android:id="@+id/transportButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/quantum_grey400"
         android:text="@string/transit"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/startRouteButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cyclingButton" />
-
 
     <Button
         android:id="@+id/startRouteButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="80dp"
         android:text="@string/start"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

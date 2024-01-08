@@ -136,6 +136,13 @@ public class Routes extends Fragment {
                                 String encodedPath = overviewPolyline.getString("points");
                                 List<LatLng> path = decodePoly(encodedPath);
                                 drawPolylineOnMap(path);
+
+                                // Extract duration and update UI
+                                JSONObject leg = route.getJSONArray("legs").getJSONObject(0);
+                                JSONObject duration = leg.getJSONObject("duration");
+                                String durationText = duration.getString("text");
+                                updateTrafficUpdatesTextView(durationText); // Update the traffic updates TextView
+
                                 calculateEmissionsFromPath(path); // Calculate emissions based on the path
                             }
                         }
@@ -363,6 +370,16 @@ public class Routes extends Fragment {
     private void goBackToDirectionsFragment() {
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_routesFragment_to_directionsFragment);
+    }
+
+    private void updateTrafficUpdatesTextView(String durationText) {
+        getActivity().runOnUiThread(() -> {
+            TextView trafficUpdatesTextView = getView().findViewById(R.id.trafficUpdates);
+            if (trafficUpdatesTextView != null) {
+                String updatedText = "ETA: " + durationText;
+                trafficUpdatesTextView.setText(updatedText);
+            }
+        });
     }
 
 
