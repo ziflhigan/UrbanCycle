@@ -61,7 +61,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DirectionsFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener {
-    
+
     private Place selectedPlace; // To store the selected place
     private Connection connection;
     private double carSavings = 0.0;
@@ -79,6 +79,8 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
     LatLng userOrigin;      // User's starting location
     private AutocompleteSupportFragment autocompleteDestinationFragment;
+
+    // Callback for map readiness
     private final OnMapReadyCallback mapReadyCallback = googleMap -> {
         mMap = googleMap;
         fetchUserLocation();
@@ -105,6 +107,8 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         }
         // Set up any additional map configurations here
     };
+
+    // Method to fetch user's current location
     private void fetchUserLocation() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
@@ -121,25 +125,22 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (!Places.isInitialized()) {
             Places.initialize(requireActivity().getApplicationContext(), getString(R.string.google_maps_key));
         }
         View view = inflater.inflate(R.layout.fragment_directions, container, false);
 
-        // Initialize destinationInput EditText
-//        destinationInput = view.findViewById(R.id.autocomplete_destination_fragment); // Make sure ID matches with your layout
         ImageButton backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> navigateBackToMapFragment());
+
         if (getArguments() != null && getArguments().containsKey("pointsEarned")) {
             view.post(() -> {
                 int pointsEarned = getArguments().getInt("pointsEarned");
                 Snackbar.make(view, "Points earned: " + pointsEarned, Snackbar.LENGTH_LONG).show();
             });
         }
-        
+
         startRouteButton = view.findViewById(R.id.startRouteButton);
         startRouteButton.setOnClickListener(v -> {
             if (selectedPlace != null) {
@@ -156,14 +157,16 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
                 Toast.makeText(getContext(), "Please select a destination", Toast.LENGTH_SHORT).show();
             }
         });
-        setupModeButtons(view);
 
+        setupModeButtons(view);
         setupMapFragment(view);
         setupAutocompleteFragment();
         setupStartRouteButton(view);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         return view;
-    }   private void setupStartRouteButton(View view) {
+    }
+    private void setupStartRouteButton(View view) {
+        // Method to set up the Start Route button
         startRouteButton = view.findViewById(R.id.startRouteButton);
         startRouteButton.setOnClickListener(v -> {
             if (selectedPlace != null) {
@@ -174,6 +177,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         });
     }
     private void navigateToRoutes() {
+        // Method to navigate to the Routes fragment
         if (selectedPlace != null && userOrigin != null) {
             Bundle bundle = new Bundle();
             bundle.putDouble("originLat", userOrigin.latitude);
@@ -190,6 +194,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
     }
 
     private void setupAutocompleteFragment() {
+        // Method to set up the AutocompleteFragment for destination input
         autocompleteDestinationFragment = (AutocompleteSupportFragment)
                 getChildFragmentManager().findFragmentById(R.id.autocomplete_destination_fragment);
 
@@ -229,20 +234,22 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         // Change the button appearance to show the selected mode
         updateButtonStyles(mode);
     }
-
     private void updateButtonStyles(String selectedMode) {
-        // Set the alpha for the selected button to full opacity
-        // and for unselected buttons to a lower value for transparency
+        // Method to update button styles based on selected mode
         setButtonAlpha(walkingButton, MODE_WALKING.equals(selectedMode) ? 1.0f : 0.6f);
         setButtonAlpha(cyclingButton, MODE_CYCLING.equals(selectedMode) ? 1.0f : 0.6f);
         setButtonAlpha(transportButton, MODE_TRANSIT.equals(selectedMode) ? 1.0f : 0.6f);
+        // Set the alpha for the selected button to full opacity
+        // and for unselected buttons to a lower value for transparency
     }
+    // Method to set the alpha of a button
     private void setButtonAlpha(Button button, float alpha) {
         button.setAlpha(alpha);
     }
 
 
     private void setupMapFragment(View view) {
+        // Method to set up the map fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -253,6 +260,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
 
     private void fetchDirectionsFromCurrentLocation(String mode) {
+        // Method to fetch directions from the user's current location
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation()
@@ -287,11 +295,14 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
                 fetchDirectionsFromCurrentLocation(lastSelectedMode); // lastSelectedMode should be stored when the user clicks any mode button
             } else {
                 // Permission was denied
-                // Handle the case where the user denies the permission
+
             }
         }
     }
+
     private void navigateBackToMapFragment() {
+        // Method to navigate back to the Map fragment
+
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_directionsFragment_to_map);
     }
@@ -303,7 +314,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
     @Override
     public void onConnectionFailure() {
-
+        // Handle connection failure
     }
 
     // Inner class for AsyncTask to fetch directions
@@ -311,6 +322,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
         @Override
         protected String doInBackground(String... params) {
+            // Background task to fetch directions
             String origin = params[0];
             String destination = params[1];
             String mode = params[2]; // e.g., "driving", "walking", etc.
@@ -324,6 +336,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
         @Override
         protected void onPostExecute(String result) {
+            // Process the fetched directions
             super.onPostExecute(result);
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -343,6 +356,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
     // Method to build the URL for the Google Directions API
     private String buildDirectionsUrl(String origin, String destination, String mode) {
+        // Build the URL for directions
         String encodedOrigin = Uri.encode(origin);
         String encodedDestination = Uri.encode(destination);
         String apiKey = "AIzaSyDjkjvP2QaWCdRqh7-AWw1vKcXNbGHNXzw";
@@ -364,6 +378,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
 
     // Method to perform the HTTP request
     private String performHttpRequest(String urlString) {
+        // Perform the HTTP request and return the response
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         StringBuilder result = new StringBuilder();
