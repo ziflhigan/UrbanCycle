@@ -61,11 +61,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DirectionsFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener {
-
-    private static final double EMISSION_FACTOR_WALKING = 1; // Assuming minimal emissions or same with cycling ?
-    private static final double EMISSION_FACTOR_CYCLING = 5; // 5 grams of CO2 per km
-    private static final double EMISSION_FACTOR_TRANSIT = 75; // An example value for buses
-    private static final double EMISSION_FACTOR_CAR = 150; // An example value for cars
+    
     private Place selectedPlace; // To store the selected place
     private Connection connection;
     private double carSavings = 0.0;
@@ -245,27 +241,6 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         button.setAlpha(alpha);
     }
 
-    private void resetButtonStyles(Button button, String mode, String selectedMode) {
-        button.setAlpha(mode.equals(selectedMode) ? 1.0f : 0.6f);
-        button.setTextColor(getResources().getColor(R.color.unselected_mode_text));
-        button.setBackgroundResource(R.drawable.unselected_mode_background);
-    }
-
-    private Button getButtonForMode(String mode) {
-        switch (mode) {
-            case MODE_WALKING:
-                return walkingButton;
-            case MODE_CYCLING:
-                return cyclingButton;
-            case MODE_TRANSIT:
-                return transportButton;
-            default:
-                return null;
-        }
-    }
-
-
-
 
     private void setupMapFragment(View view) {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
@@ -424,17 +399,6 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         return result.toString();
     }
 
-    private void calculateDirections(String mode) {
-        String originText = originInput.getText().toString();
-        String destinationText = destinationInput.getText().toString();
-
-        if (originText.isEmpty() || destinationText.isEmpty()) {
-            Toast.makeText(requireContext(), "Please enter origin and destination", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        new FetchDirectionsTask().execute(originText, destinationText, mode);
-    }
 
 
 
@@ -479,11 +443,6 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         return distance * emissionFactor;
     }
 
-    private double calculateCarbonSavings(double distance, double emissionFactor) {
-        double emissionsForMode = calculateCarbonEmissions(distance, emissionFactor);
-        double baselineEmissions = calculateCarbonEmissions(distance, EMISSION_FACTOR_CAR);
-        return baselineEmissions - emissionsForMode;
-    }
 
 
 }
