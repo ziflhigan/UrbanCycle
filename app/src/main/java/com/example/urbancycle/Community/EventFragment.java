@@ -46,11 +46,11 @@ public class EventFragment extends Fragment {
             }
         };
         BtnSubmitEvent.setOnClickListener(OCLEventSubmissionForm);
-        initializeRecyclerView(view);
-        Bundle bundle = getArguments();
+        initializeRecyclerView(view); //initialize recyclerview for scrolling
+        Bundle bundle = getArguments(); //checking for data that been passed via navigation
         if (bundle != null && bundle.containsKey("event")) {
             Event event = (Event) bundle.getSerializable("event");
-            addEventToList(event);
+            addEventToList(event); //adding event received to list and update in recyclerview to display
         }
     }
     private void initializeRecyclerView(View view) {

@@ -6,30 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DailyTip {
-    private static String tipText;
-    private static int imageResources;
+    private String tipText;
+    private int imageResources;
 
-
-    public DailyTip(String tipText,int imageResources) {
+    public DailyTip(String tipText, int imageResources) {
         this.tipText = tipText;
-        this.imageResources=imageResources;
+        this.imageResources = imageResources;
+    }
+
+    public String getTipText() {
+        return tipText;
+    }
+
+    public int getImageResources() {
+        return imageResources;
     }
 
     public void setTipText(String tipText) {
         this.tipText = tipText;
     }
-    public static String getTipText() {
-        return tipText;
-    }
-
-    public static int getImageResources() {
-        return imageResources;
-    }
 
     public void setImageResources(int imageResources) {
         this.imageResources = imageResources;
     }
-
 }
-
-
