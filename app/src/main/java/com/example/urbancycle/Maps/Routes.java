@@ -483,6 +483,7 @@ public class Routes extends Fragment {
     }
     private double calculateCarbonSavings(double distance, String mode) {
         double emissionsForMode = calculateCarbonEmissions(distance, getEmissionFactor(mode));
+        double baselineEmissions = calculateCarbonEmissions(distance, EMISSION_FACTOR_CAR);
         return baselineEmissions - emissionsForMode;
     }
 
