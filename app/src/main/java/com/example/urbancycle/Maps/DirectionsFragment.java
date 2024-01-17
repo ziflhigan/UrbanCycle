@@ -99,13 +99,11 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
                     }
                 });
             } catch (SecurityException e) {
-                // Handle the exception if the permission is not granted
             }
         } else {
             // Request location permission
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
-        // Set up any additional map configurations here
     };
 
     // Method to fetch user's current location
@@ -282,7 +280,7 @@ public class DirectionsFragment extends Fragment implements ConnectToDatabase.Da
         } else {
             // Request the permission
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    YOUR_REQUEST_CODE); // Replace YOUR_REQUEST_CODE with an int constant
+                    YOUR_REQUEST_CODE);
         }
     }
 

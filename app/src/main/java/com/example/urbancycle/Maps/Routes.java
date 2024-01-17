@@ -186,7 +186,7 @@ public class Routes extends Fragment {
         }
     }
 
-    // Decode the polyline points from Google Maps API response
+    // Decode the polyline points from Google Maps API response to show different route
     private List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
@@ -355,7 +355,7 @@ public class Routes extends Fragment {
             case "transit":
                 return EMISSION_FACTOR_TRANSIT;
             default:
-                return EMISSION_FACTOR_CAR; // Assuming car as the default mode
+                return EMISSION_FACTOR_WALKING; // Assuming walk as the default mode
         }
     }
 
@@ -438,7 +438,7 @@ public class Routes extends Fragment {
             });
         } else {
             Log.e("RoutesFragment", "Location permission not granted");
-            // Optionally, you can handle the case where permission is not granted, such as showing a message to the user.
+
         }
     }
 
@@ -481,6 +481,10 @@ public class Routes extends Fragment {
             });
         }
     }
+    private double calculateCarbonSavings(double distance, String mode) {
+        double emissionsForMode = calculateCarbonEmissions(distance, getEmissionFactor(mode));
+        return baselineEmissions - emissionsForMode;
+    }
 
     // End a route by calculating distance and points earned
     private void endRoute() {
@@ -489,7 +493,10 @@ public class Routes extends Fragment {
                 if (location != null && initialLocation != null) {
                     LatLng finalLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     double distance = distanceBetween(initialLocation, finalLocation);
-                    int pointsEarned = (int) distance; // Assuming 1 point per km
+                    double carbonSavings = calculateCarbonSavings(distance, mode);
+
+                    // Calculate points based on carbon savings (1 point for every 10 units of carbon saved)
+                    int pointsEarned = (int) (carbonSavings / 10);
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("pointsEarned", pointsEarned);
