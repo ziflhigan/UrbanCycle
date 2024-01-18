@@ -85,7 +85,8 @@ public class ProfileFragment extends Fragment implements ConnectToDatabase.Datab
         // Logout Button
         BtnLogout = binding.BtnLogout;
         BtnLogout.setOnClickListener(view1 -> {
-            NavController navController = NavHostFragment.findNavController(ProfileFragment.this);
+            NavController navController = NavHostFragment.findNavController
+                    (ProfileFragment.this);
 
             // Navigate to the mainActivity_Authentication fragment
             navController.navigate(R.id.action_profile_to_mainActivity_Authentication);
@@ -121,7 +122,8 @@ public class ProfileFragment extends Fragment implements ConnectToDatabase.Datab
         ETFullName.setText(UserInfoManager.getInstance().getFullName());
 
         // History Button
-        binding.History.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_profile_to_history));
+        binding.History.setOnClickListener(v -> Navigation.findNavController(view).
+                navigate(R.id.action_profile_to_history));
 
         // Change Profile Picture button
         binding.BtnChangeProfilePicture.setOnClickListener(v -> startGalleryActivity());
@@ -155,7 +157,8 @@ public class ProfileFragment extends Fragment implements ConnectToDatabase.Datab
             Uri selectedImageUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver()
+                        , selectedImageUri);
                 String imagePath = saveImageLocally(bitmap);
                 if (imagePath != null) {
                     saveImagePath(imagePath);
@@ -257,7 +260,8 @@ class UpdateUserNameTask extends AsyncTask<Void, Void, Boolean>{
     public interface onUsernameUpdatedListener{
         void onUpdateSuccess();
     }
-    public UpdateUserNameTask(Connection connection, String newUsername, onUsernameUpdatedListener listener){
+    public UpdateUserNameTask(Connection connection, String newUsername,
+                              onUsernameUpdatedListener listener){
 
         this.connection = connection;
         this.newUsername = newUsername;

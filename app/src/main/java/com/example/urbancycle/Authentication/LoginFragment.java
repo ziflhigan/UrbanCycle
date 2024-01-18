@@ -90,7 +90,8 @@ public class LoginFragment extends Fragment implements ConnectToDatabase.Databas
             String password = passwordEditText.getText().toString().trim();
 
             // Verify user credentials
-            new VerifyUserCredentialsTask(databaseConnection, email, password, new VerifyUserCredentialsTask.LoginListener() {
+            new VerifyUserCredentialsTask(databaseConnection, email, password,
+                    new VerifyUserCredentialsTask.LoginListener() {
                 @Override
                 public void onLoginSuccess(String userName, String userEmail) {
                     showToast("Login Successful, hold on...");
@@ -164,7 +165,8 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
         void onLoginFailure();
     }
 
-    public VerifyUserCredentialsTask(Connection connection, String email, String password, LoginListener listener) {
+    public VerifyUserCredentialsTask(Connection connection, String email, String password,
+                                     LoginListener listener) {
         this.connection = connection;
         this.email = email;
         this.password = password;
@@ -210,7 +212,8 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
         // Check if a record was found
         if (nameResultSet.next()) {
             userName = nameResultSet.getString("UserName");
-            fullName = nameResultSet.getString("FirstName") + " " + nameResultSet.getString("LastName");
+            fullName = nameResultSet.getString("FirstName") + " " +
+                    nameResultSet.getString("LastName");
         }
 
         nameStmt.close();
@@ -221,7 +224,8 @@ class VerifyUserCredentialsTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean success) {
         if (success) {
-            listener.onLoginSuccess(UserInfoManager.getInstance().getUserName(), UserInfoManager.getInstance().getEmail());
+            listener.onLoginSuccess(UserInfoManager.getInstance().getUserName(),
+                    UserInfoManager.getInstance().getEmail());
         } else {
             listener.onLoginFailure();
         }

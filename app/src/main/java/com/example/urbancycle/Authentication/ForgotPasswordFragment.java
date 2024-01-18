@@ -1,15 +1,8 @@
 package com.example.urbancycle.Authentication;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.Database.UserInfoManager;
@@ -34,7 +32,8 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.util.Random;
 
-public class ForgotPasswordFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, RetrieveOTPInformation.onRetrievedListener {
+public class ForgotPasswordFragment extends Fragment implements
+        ConnectToDatabase.DatabaseConnectionListener, RetrieveOTPInformation.onRetrievedListener {
     private Connection connection;
     private EditText ETEmail, ETOTP;
     private Button BtnReset, BtnSendEmail;
@@ -158,7 +157,8 @@ public class ForgotPasswordFragment extends Fragment implements ConnectToDatabas
 
     private void showToast(String message) {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message,
+                    Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -295,7 +295,8 @@ class RetrieveOTPInformation extends AsyncTask<String, Void, RetrieveOTPInformat
 
         String email = params[0];
         try {
-            String query = "SELECT OTP, ExpiryTime FROM ResetOTP WHERE Email = ? ORDER BY ExpiryTime DESC LIMIT 1";
+            String query = "SELECT OTP, ExpiryTime FROM ResetOTP WHERE Email = ? ORDER " +
+                    "BY ExpiryTime DESC LIMIT 1";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);
 
@@ -327,7 +328,8 @@ class RetrieveOTPInformation extends AsyncTask<String, Void, RetrieveOTPInformat
                 DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                         .appendPattern("yyyy-MM-dd HH:mm:ss")
                         .optionalStart()
-                        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
+                        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9,
+                                true)
                         .optionalEnd()
                         .toFormatter();
 

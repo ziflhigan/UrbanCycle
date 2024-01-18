@@ -156,7 +156,7 @@
                     android:id="@+id/RButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RButton2" />
+                    android:text="REDEEM2" />
 
                 <TextView
                     android:id="@+id/RNumbersLeft2"
@@ -200,7 +200,7 @@
                     android:id="@+id/RButton3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RButton3" />
+                    android:text="REDEEM3" />
 
                 <TextView
                     android:id="@+id/RNumbersLeft3"
@@ -244,7 +244,7 @@
                     android:id="@+id/RButton4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RButton4" />
+                    android:text="REDEEM4" />
 
                 <TextView
                     android:id="@+id/RNumbersLeft4"
@@ -287,7 +287,7 @@
                     android:id="@+id/RButton5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RButton5" />
+                    android:text="REDEEM5" />
 
                 <TextView
                     android:id="@+id/RNumbersLeft5"

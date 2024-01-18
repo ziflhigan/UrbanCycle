@@ -3,12 +3,6 @@ package com.example.urbancycle.Authentication;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -20,14 +14,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.urbancycle.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.example.urbancycle.Database.ConnectToDatabase;
+import com.example.urbancycle.R;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RegisterFragment extends Fragment implements ConnectToDatabase.DatabaseConnectionListener, InsertUserDataTask.OnRegistrationCompleteListener {
@@ -124,7 +122,9 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
                 String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
                 // Insert user data into database
-                new InsertUserDataTask(databaseConnection, userName, firstName, lastName, email, hashedPassword, (InsertUserDataTask.OnRegistrationCompleteListener) this).execute();
+                new InsertUserDataTask(databaseConnection, userName, firstName, lastName, email,
+                        hashedPassword, (InsertUserDataTask.OnRegistrationCompleteListener) this)
+                        .execute();
             }else{
                 passwordEditText.setError("Password Does Not Meet Requirements!");
             }
@@ -157,7 +157,8 @@ public class RegisterFragment extends Fragment implements ConnectToDatabase.Data
 
     private void showToast(String message) {
         if (getActivity() != null) {
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show());
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), message,
+                    Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -249,7 +250,9 @@ class InsertUserDataTask extends AsyncTask<Void, Void, Boolean> {
     }
     private OnRegistrationCompleteListener listener;
 
-    public InsertUserDataTask(Connection connection, String userName, String firstName, String lastName, String email, String password, OnRegistrationCompleteListener listener) {
+    public InsertUserDataTask(Connection connection, String userName, String firstName,
+                              String lastName, String email, String password,
+                              OnRegistrationCompleteListener listener) {
         this.connection = connection;
         this.userName = userName;
         this.firstName = firstName;
@@ -262,7 +265,8 @@ class InsertUserDataTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
         try {
-            String insertQuery = "INSERT INTO Users (UserName, FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO Users (UserName, FirstName, LastName, Email, " +
+                    "Password) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, firstName);

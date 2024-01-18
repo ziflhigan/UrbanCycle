@@ -4,12 +4,6 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,6 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.urbancycle.Database.ConnectToDatabase;
 import com.example.urbancycle.Database.UserInfoManager;
@@ -215,7 +214,8 @@ class UpdateUserPassword extends AsyncTask<Void, Void, Boolean> {
         void onUpdateFailed(String message); // New method to handle update failure
     }
 
-    public UpdateUserPassword(Connection connection, String hashedPassword, onUpdatedSuccessfulListener listener){
+    public UpdateUserPassword(Connection connection, String hashedPassword,
+                              onUpdatedSuccessfulListener listener){
         this.connection = connection;
         this.hashedPassword = hashedPassword;
         this.listener = listener;
@@ -261,7 +261,8 @@ class DeleteOTPInfo extends AsyncTask<Void, Void, Boolean> {
         void onDeleteFailure(String message);
     }
 
-    public DeleteOTPInfo(Connection connection, String userEmail, onDeleteSuccessListener listener) {
+    public DeleteOTPInfo(Connection connection, String userEmail,
+                         onDeleteSuccessListener listener) {
         this.connection = connection;
         this.userEmail = userEmail;
         this.listener = listener;

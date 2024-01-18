@@ -51,10 +51,14 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
       total = view.findViewById(R.id.btnCalculateTotalAmount);
 
       for(int i = 1; i <= 6; i++) {
-          Dates.add(view.findViewById(getResources().getIdentifier("Date" + i, "id", requireActivity().getPackageName())));
-          startLocation.add(view.findViewById(getResources().getIdentifier("StartLocation" + i, "id", requireActivity().getPackageName())));
-          EndLocation.add(view.findViewById(getResources().getIdentifier("EndLocation" + i, "id", requireActivity().getPackageName())));
-          dailyamount.add(view.findViewById(getResources().getIdentifier("Dailyamount" + i, "id", requireActivity().getPackageName())));
+          Dates.add(view.findViewById(getResources().getIdentifier("Date" + i, "id",
+                  requireActivity().getPackageName())));
+          startLocation.add(view.findViewById(getResources().getIdentifier("StartLocation"
+                  + i, "id", requireActivity().getPackageName())));
+          EndLocation.add(view.findViewById(getResources().getIdentifier("EndLocation"
+                  + i, "id", requireActivity().getPackageName())));
+          dailyamount.add(view.findViewById(getResources().getIdentifier("Dailyamount"
+                  + i, "id", requireActivity().getPackageName())));
       }
 
         total = view.findViewById(R.id.btnCalculateTotalAmount);
@@ -112,7 +116,8 @@ public class HistoryFragment extends Fragment implements ConnectToDatabase.Datab
             // Set text for each TextView (replace with actual username retrieval logic)
             StartLo.setText(startLocation);  // Set startLocation
             EndLo.setText(endLocation);;  // Set endLocation
-            dateTextView.setText(routeDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            dateTextView.setText(routeDate.format(DateTimeFormatter.ofPattern
+                    ("yyyy-MM-dd HH:mm:ss")));
             dailyAmountTextView.setText(String.valueOf(carbonSaving));
 
             tableRow.addView(StartLo);
