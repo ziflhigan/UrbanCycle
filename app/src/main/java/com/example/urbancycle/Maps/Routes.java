@@ -66,8 +66,8 @@ import android.widget.TextView;
 
 public class Routes extends Fragment {
     private GoogleMap mMap;
-    private String destination = "default_destination"; // Set a default or get from arguments
-    private String mode = "walking"; // Default to walking
+    private String destination = "default_destination"; // Default destination or from arguments
+    private String mode = "walking"; // Default mode is walking
     private FusedLocationProviderClient locationClient;
     private LatLng userLatLng; // Store user's location
     private static final double EMISSION_FACTOR_WALKING = 1;
@@ -75,34 +75,32 @@ public class Routes extends Fragment {
     private static final double EMISSION_FACTOR_TRANSIT = 75;
     private static final double EMISSION_FACTOR_CAR = 150;
     private TextView tvCarbonEstimator;
-    private FusedLocationProviderClient fusedLocationClient; // Add this
-    private LatLng userOrigin; // Declare this if not already declared
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 100; // Declare this if not already declared
-    private String destinationLatLng; // Destination in "lat,lng" format
-    private boolean isRouteActive = false; // Field to track route state
+    private FusedLocationProviderClient fusedLocationClient;
+    private LatLng userOrigin;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
+    private String destinationLatLng;
+    private boolean isRouteActive = false;
     private LatLng initialLocation;
 
-
-
-
+    // Fetch the current location of the user
     private void fetchCurrentLocation() {
         locationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Request permissions or handle the lack of permissions
+            // Request permissions if not granted
             return;
         }
         locationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
-                // Update map location and add marker for user's location
+                // Update map location and add a marker for the user's location
                 userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15));
                 mMap.addMarker(new MarkerOptions().position(userLatLng).title("Your Location"));
 
-                // Now fetch directions from user's location to destination
+                // Fetch directions from user's location to the destination
                 String origin = location.getLatitude() + "," + location.getLongitude();
                 fetchDirections(origin, destination, mode);
 
-                // Call calculateDistanceMatrix here after ensuring userLatLng is not null
+                // Calculate distance matrix after ensuring userLatLng is not null
                 if (getArguments() != null) {
                     destinationLatLng = getArguments().getString("destinationLatLng");
                     calculateDistanceMatrix(userLatLng, destinationLatLng);
@@ -111,16 +109,16 @@ public class Routes extends Fragment {
         });
     }
 
-    // The callback when Map is ready
+    // Callback when Map is ready
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             mMap = googleMap;
-            fetchCurrentLocation(); // Fetch current location when map is ready
+            fetchCurrentLocation(); // Fetch current location when the map is ready
         }
     };
 
-    // Add the fetchDirections method
+    // Fetch directions from origin to destination using Google Maps API
     private void fetchDirections(String origin, String destination, String mode) {
         RequestQueue requestQueue = Volley.newRequestQueue(requireActivity());
         String url = Uri.parse("https://maps.googleapis.com/maps/api/directions/json")
@@ -128,7 +126,7 @@ public class Routes extends Fragment {
                 .appendQueryParameter("origin", origin)
                 .appendQueryParameter("destination", destination)
                 .appendQueryParameter("mode", mode)
-                .appendQueryParameter("key", getString(R.string.google_maps_key)) // Use your API key
+                .appendQueryParameter("key", getString(R.string.google_maps_key))
                 .toString();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -146,9 +144,9 @@ public class Routes extends Fragment {
                                 JSONObject leg = route.getJSONArray("legs").getJSONObject(0);
                                 JSONObject duration = leg.getJSONObject("duration");
                                 String durationText = duration.getString("text");
-                                updateTrafficUpdatesTextView(durationText); // Update the traffic updates TextView
+                                updateTrafficUpdatesTextView(durationText);
 
-                                calculateEmissionsFromPath(path); // Calculate emissions based on the path
+                                calculateEmissionsFromPath(path);
                             }
                         }
                     } catch (JSONException e) {
@@ -167,7 +165,7 @@ public class Routes extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
-    // Method to draw polyline on the map
+    // Draw a polyline on the map
     private void drawPolylineOnMap(List<LatLng> path) {
         if (mMap != null && path != null && !path.isEmpty()) {
             mMap.clear(); // Clear previous routes and markers
@@ -188,7 +186,7 @@ public class Routes extends Fragment {
         }
     }
 
-    // Add the decodePoly method
+    // Decode the polyline points from Google Maps API response to show different route
     private List<LatLng> decodePoly(String encoded) {
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
@@ -237,7 +235,6 @@ public class Routes extends Fragment {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
@@ -273,18 +270,20 @@ public class Routes extends Fragment {
         }
     }
 
+    // Adjust the map camera bounds to include both origin and destination
     private void setMapBounds(LatLng origin, LatLng destination) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         builder.include(origin);
         builder.include(destination);
 
-        int padding = 200; // offset from edges of the map in pixels
+        int padding = 200; // Offset from edges of the map in pixels
         LatLngBounds bounds = builder.build();
 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         mMap.animateCamera(cu);
     }
 
+    // Calculate distance matrix using Google Maps API
     private void calculateDistanceMatrix(LatLng origin, String destination) {
         if (origin == null) {
             Log.e("RoutesFragment", "Origin is null, cannot calculate distance matrix");
@@ -346,6 +345,7 @@ public class Routes extends Fragment {
         requestQueue.add(jsonObjectRequest);
     }
 
+    // Get emission factor based on the selected mode of transportation
     private double getEmissionFactor(String mode) {
         switch (mode) {
             case "walking":
@@ -355,15 +355,16 @@ public class Routes extends Fragment {
             case "transit":
                 return EMISSION_FACTOR_TRANSIT;
             default:
-                return EMISSION_FACTOR_CAR; // Assuming car as the default mode
+                return EMISSION_FACTOR_WALKING; // Assuming walk as the default mode
         }
     }
 
+    // Calculate carbon emissions based on distance and emission factor
+    private double calculateCarbonEmissions(double distance, double emissionFactor) {
+        return distance * emissionFactor;
+    }
 
-            private double calculateCarbonEmissions(double distance, double emissionFactor) {
-                return distance * emissionFactor;
-            }
-
+    // Calculate emissions from the path of coordinates
     private void calculateEmissionsFromPath(List<LatLng> path) {
         double totalDistance = 0.0;
         for (int i = 1; i < path.size(); i++) {
@@ -385,16 +386,21 @@ public class Routes extends Fragment {
             }
         });
     }
+
+    // Calculate distance between two LatLng points
     private double distanceBetween(LatLng latLng1, LatLng latLng2) {
         float[] results = new float[1];
         Location.distanceBetween(latLng1.latitude, latLng1.longitude, latLng2.latitude, latLng2.longitude, results);
         return results[0] / 1000.0; // Convert to kilometers
     }
+
+    // Navigate back to the DirectionsFragment
     private void goBackToDirectionsFragment() {
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_routesFragment_to_directionsFragment);
     }
 
+    // Update the traffic updates TextView with ETA
     private void updateTrafficUpdatesTextView(String durationText) {
         getActivity().runOnUiThread(() -> {
             TextView trafficUpdatesTextView = getView().findViewById(R.id.trafficUpdates);
@@ -404,6 +410,8 @@ public class Routes extends Fragment {
             }
         });
     }
+
+    // Enable user's location on the map
     private void enableMyLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
@@ -419,7 +427,7 @@ public class Routes extends Fragment {
         }
     }
 
-
+    // Focus on the user's current location on the map
     private void focusOnUserLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
@@ -430,10 +438,11 @@ public class Routes extends Fragment {
             });
         } else {
             Log.e("RoutesFragment", "Location permission not granted");
-            // Optionally, you can handle the case where permission is not granted, such as showing a message to the user.
+
         }
     }
 
+    // Handle permission request results for location access
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
@@ -445,6 +454,8 @@ public class Routes extends Fragment {
             }
         }
     }
+
+    // Enable the My Location layer on the map for starting a route
     private void enableMyLocationLayer() {
         if (mMap != null) {
             try {
@@ -455,6 +466,8 @@ public class Routes extends Fragment {
             }
         }
     }
+
+    // Start a route by enabling My Location layer
     private void startRoute() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
@@ -468,14 +481,23 @@ public class Routes extends Fragment {
             });
         }
     }
+    private double calculateCarbonSavings(double distance, String mode) {
+        double emissionsForMode = calculateCarbonEmissions(distance, getEmissionFactor(mode));
+        double baselineEmissions = calculateCarbonEmissions(distance, EMISSION_FACTOR_CAR);
+        return baselineEmissions - emissionsForMode;
+    }
 
+    // End a route by calculating distance and points earned
     private void endRoute() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
                 if (location != null && initialLocation != null) {
                     LatLng finalLocation = new LatLng(location.getLatitude(), location.getLongitude());
                     double distance = distanceBetween(initialLocation, finalLocation);
-                    int pointsEarned = (int) distance; // Assuming 1 point per km
+                    double carbonSavings = calculateCarbonSavings(distance, mode);
+
+                    // Calculate points based on carbon savings (1 point for every 10 units of carbon saved)
+                    int pointsEarned = (int) (carbonSavings / 10);
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("pointsEarned", pointsEarned);

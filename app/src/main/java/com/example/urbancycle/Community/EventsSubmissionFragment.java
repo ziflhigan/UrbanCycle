@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,7 +27,6 @@ public class EventsSubmissionFragment extends Fragment {
 
 
     public EventsSubmissionFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -44,13 +44,14 @@ public class EventsSubmissionFragment extends Fragment {
         ETEventDate = view.findViewById(R.id.ETDate);
         ETEventTime = view.findViewById(R.id.ETTime);
 
+        //listener for submit button
         Button BtnSubmission = view.findViewById(R.id.BtnSubmission);
 
         BtnSubmission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 receiveEventData();
-            }
+            } //when button is click, data inputted will send to EventFragment for display purpose
         });
 
     }
@@ -63,17 +64,12 @@ public class EventsSubmissionFragment extends Fragment {
         String eventDate = ETEventDate.getText().toString();
         String eventTime = ETEventTime.getText().toString();
 
-        Log.d("EventsSubmission", "Event Name: " + eventName);
-        Log.d("EventsSubmission", "Event Organizer: " + eventOrganizer);
-        Log.d("EventsSubmission", "Event Location: " + eventLocation);
-        Log.d("EventsSubmission", "Event Date: " + eventDate);
-        Log.d("EventsSubmission", "Event Time: " + eventTime);
-
-        Event event = new Event(eventName, eventOrganizer, eventLocation, eventDate, eventTime);
+        Event event = new Event(eventName, eventOrganizer, eventLocation, eventDate, eventTime); //create event object for the received data
 
         // Use navigation to send the data to EventFragment
         Bundle bundle = new Bundle();
         bundle.putSerializable("event", event);
-        Navigation.findNavController(requireView()).navigate(R.id.action_DestSubmissionForm_to_DestEvent, bundle);
+
+Navigation.findNavController(requireView()).navigate(R.id.action_DestSubmissionForm_to_DestEvent, bundle);
     }
 }

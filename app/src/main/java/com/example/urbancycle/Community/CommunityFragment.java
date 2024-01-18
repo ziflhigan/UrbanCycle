@@ -28,6 +28,7 @@ public class CommunityFragment extends Fragment {
         Button BtnTips = view.findViewById(R.id.button_tips);
         Button BtnForum = view.findViewById(R.id.button_forum);
 
+        //Button listener for Event
         View.OnClickListener OCLEvent = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +37,7 @@ public class CommunityFragment extends Fragment {
         };
         BtnEvent.setOnClickListener(OCLEvent);
 
+        //Button listener for Tips
         View.OnClickListener OCLTips = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +46,7 @@ public class CommunityFragment extends Fragment {
         };
         BtnTips.setOnClickListener(OCLTips);
 
+        //Button listener for Forum
         View.OnClickListener OCLForum = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
